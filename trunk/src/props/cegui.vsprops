@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="ceguiConfig"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		PreprocessorDefinitions=""
+		AdditionalIncludeDirectories="&quot;$(CEGUI_PATH)/include&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="CEGUIBase.lib OpenGLGUIRenderer.lib"
+		AdditionalLibraryDirectories="&quot;$(CEGUI_PATH)/lib&quot;"
+	/>
+</VisualStudioPropertySheet>
