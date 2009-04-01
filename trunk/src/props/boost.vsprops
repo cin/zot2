@@ -6,8 +6,8 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
+		AdditionalIncludeDirectories="&quot;$(BOOST_PATH)&quot;"
 		PreprocessorDefinitions=""
-		AdditionalIncludeDirectories="&quot;$(BOOST_PATH)/boost&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"

@@ -62,10 +62,10 @@ void repaint()
    glLoadIdentity();
    glTranslatef(0, 0, -20);
    glBegin(GL_POLYGON);
-   glVertex3f(5, 5, 0);
-   glVertex3f(-5, 5, 0);
-   glVertex3f(-5, -5, 0);
-   glVertex3f(5, -5, 0);
+   glVertex3i(5, 5, 0);
+   glVertex3i(-5, 5, 0);
+   glVertex3i(-5, -5, 0);
+   glVertex3i(5, -5, 0);
    glEnd();
 
    SDL_GL_SwapBuffers();
@@ -101,7 +101,7 @@ void main_loop()
    }
 }
 
-int _tmain(int argc, _TCHAR* argv[])
+int main(int argc, char *argv[])
 {
    if (!init_sdl())
    {

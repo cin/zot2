@@ -6,3 +6,7 @@
 
 // TODO: reference any additional headers you need in STDAFX.H
 // and not in this file
+
+#ifdef WIN32
+#pragma comment(linker, "/SUBSYSTEM:windows /ENTRY:mainCRTStartup")
+#endif
