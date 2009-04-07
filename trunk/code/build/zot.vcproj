@@ -64,6 +64,7 @@
 				Name="VCLinkerTool"
 				OutputFile="..\bin\$(ProjectName).exe"
 				LinkIncremental="2"
+				IgnoreDefaultLibraryNames="msvcrt.lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
 				TargetMachine="1"
@@ -211,7 +212,7 @@
 				>
 			</File>
 			<File
-				RelativePath="..\includ\targetver.h"
+				RelativePath="..\include\targetver.h"
 				>
 			</File>
 		</Filter>
