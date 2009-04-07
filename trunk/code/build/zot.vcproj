@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include"
+				AdditionalIncludeDirectories="../include;../src;../src/console"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -119,7 +119,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../include"
+				AdditionalIncludeDirectories="../include;../src;../src/console"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="2"
 				EnableFunctionLevelLinking="true"
@@ -201,6 +201,26 @@
 				RelativePath="..\src\zot.cpp"
 				>
 			</File>
+			<Filter
+				Name="Console"
+				>
+				<File
+					RelativePath="..\src\console\convar.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\console\convar.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\console\iconsole.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\console\iconsole.h"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -213,6 +233,10 @@
 			</File>
 			<File
 				RelativePath="..\include\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\zot.h"
 				>
 			</File>
 		</Filter>

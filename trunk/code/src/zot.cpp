@@ -11,6 +11,10 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 
+#include "iconsole.h"
+
+using namespace Zot;
+
 static int width = 800, height = 600;
 
 bool init_sdl()
@@ -109,6 +113,9 @@ int main(int argc, char *argv[])
    }
    
    init_gl();
+
+   // force the singleton console to be created
+   IConsole::get();
 
    main_loop();
 
