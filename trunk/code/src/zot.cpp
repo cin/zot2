@@ -11,7 +11,7 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 
-#include "iconsole.h"
+#include "zonsole.h"
 
 using namespace Zot;
 
@@ -115,7 +115,11 @@ int main(int argc, char *argv[])
    init_gl();
 
    // force the singleton console to be created
-   IConsole::get();
+   //IConsole::get();
+
+   Zonsole *Z = (Zonsole *)Zonsole::get();
+   if (!Z->init())
+      return -1;
 
    main_loop();
 

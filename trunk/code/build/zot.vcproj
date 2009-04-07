@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include;../src;../src/console"
+				AdditionalIncludeDirectories="../include;../src;../src/console;&quot;$(CEGUI)/RendererModules&quot;"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -64,6 +64,7 @@
 				Name="VCLinkerTool"
 				OutputFile="..\bin\$(ProjectName).exe"
 				LinkIncremental="2"
+				AdditionalLibraryDirectories=""
 				IgnoreDefaultLibraryNames="msvcrt.lib"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -218,6 +219,14 @@
 				</File>
 				<File
 					RelativePath="..\src\console\iconsole.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\console\zonsole.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\console\zonsole.h"
 					>
 				</File>
 			</Filter>
