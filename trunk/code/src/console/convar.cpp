@@ -8,6 +8,7 @@ using namespace Zot;
 ConVar::ConVar()
    : m_flags(0)
    , m_changePfn(NULL)
+   , m_pfn(NULL)
 {
 }
 
@@ -22,7 +23,8 @@ ConVar::ConVar(
    , m_defaultValue(value)
    , m_flags(flags)
    , m_description(description)
-   , m_pfn(pfn)
+   , m_changePfn(pfn)
+   , m_pfn(NULL)
 {
 }
 
@@ -74,9 +76,10 @@ void ConVar::setString(const string &value)
    // may just want to invoke the cb handler in some cases
    //if (value == m_value)
    //   return;
+   string oldValue(m_value);
    m_value = value;
    if (m_changePfn)
-      m_changePfn();
+      m_changePfn(this, oldValue);
 }
 
 void ConVar::setUint32(uint32 value)

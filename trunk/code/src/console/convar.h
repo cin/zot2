@@ -25,7 +25,7 @@ public:
    };
 
 	typedef void (__stdcall *ConVarPfn)();
-	typedef void (__stdcall *ChangePfn)();
+   typedef void (__stdcall *ChangePfn)(ConVar *pVar, const std::string &oldValue);
 
 public:
 
