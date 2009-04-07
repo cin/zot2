@@ -17,6 +17,8 @@ using namespace Zot;
 
 static int width = 800, height = 600;
 
+static Zonsole *Z;
+
 bool init_sdl()
 {
    const SDL_VideoInfo *video;
@@ -72,6 +74,8 @@ void repaint()
    glVertex3i(5, -5, 0);
    glEnd();
 
+   Z->draw();
+
    SDL_GL_SwapBuffers();
 }
 
@@ -117,7 +121,7 @@ int main(int argc, char *argv[])
    // force the singleton console to be created
    //IConsole::get();
 
-   Zonsole *Z = (Zonsole *)Zonsole::get();
+   Z = (Zonsole *)Zonsole::get();
    if (!Z->init())
       return -1;
 

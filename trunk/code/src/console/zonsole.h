@@ -15,6 +15,7 @@ public:
    virtual ~Zonsole();
 
    bool init();
+   void draw();
 
 protected:
    CEGUI::Window *wnd;
