@@ -34,8 +34,7 @@ bool Zonsole::init()
    try
    {
       // initialize CEGUI
-      new System(new OpenGLRenderer(0));
-      Logger::getSingleton().setLogFilename("../log/zot.CEGUI.log");
+      new System(new OpenGLRenderer(0), NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
 
       // set default directories for GUI elements
       DefaultResourceProvider *rp = static_cast<DefaultResourceProvider *>(System::getSingleton().getResourceProvider());
