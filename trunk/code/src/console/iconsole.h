@@ -31,8 +31,6 @@ public:
 
    virtual ~IConsole() {}
 
-   static IConsole *create();
-
    static IConsole *get();
 
    int getArgc() const;
@@ -43,6 +41,8 @@ public:
    // handling input from cegui
 
 protected:
+
+   static IConsole *create();
 
    static IConsole  *m_spConsole;
 

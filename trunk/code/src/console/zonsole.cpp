@@ -18,6 +18,12 @@ Zonsole::~Zonsole()
 {
 }
 
+IConsole *IConsole::create()
+{
+   m_spConsole = new Zonsole();
+   return m_spConsole;
+}
+
 void Zonsole::draw()
 {
    System::getSingleton().renderGUI();

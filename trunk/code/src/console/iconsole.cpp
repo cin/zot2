@@ -22,25 +22,3 @@ const char *IConsole::getArgv(int i) const
 {
    return 0;
 }
-
-/////////////////////////////////////////////////////////
-// just a little test console that uses the interface
-
-class TestConsole : public IConsole
-{
-
-public:
-
-   TestConsole();
-
-};
-
-TestConsole::TestConsole()
-{
-}
-
-IConsole *IConsole::create()
-{
-   m_spConsole = new TestConsole();
-   return m_spConsole;
-}
