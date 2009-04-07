@@ -38,6 +38,10 @@ public:
    int getArgc() const;
    const char *getArgv(int i) const;
 
+   // output level
+   // destination (error, stdout, console logfile, console)
+   // handling input from cegui
+
 protected:
 
    static IConsole  *m_spConsole;

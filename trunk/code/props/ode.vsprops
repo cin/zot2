@@ -11,7 +11,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="ode.lib"
-		AdditionalLibraryDirectories="&quot;$(ODE_PATH)/lib/ReleaseDLL&quot;"
+		AdditionalDependencies="ode_double.lib"
+		AdditionalLibraryDirectories="&quot;$(ODE_PATH)/lib/ReleaseDoubleDLL&quot;"
 	/>
 </VisualStudioPropertySheet>
