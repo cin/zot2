@@ -47,6 +47,9 @@ bool init_sdl()
       fprintf(stderr, "SDL_SetVideoMode() failed\n");
       return false;
    }
+   SDL_ShowCursor(0);
+   SDL_EnableUNICODE(1);
+   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
    return true;
 }
 
@@ -81,21 +84,62 @@ void repaint()
 
 void main_loop()
 {
-   SDL_Event event;
+   SDL_Event e;
+   CEGUI::System &S = CEGUI::System::getSingleton();
 
    while (1)
    {
-      while (SDL_PollEvent(&event))
+      while (SDL_PollEvent(&e))
       {
-         switch (event.type)
+         switch (e.type)
          {
          case SDL_KEYDOWN:
-            switch (event.key.keysym.sym)
+            switch (e.key.keysym.sym)
             {
             case SDLK_ESCAPE:
                exit(0);
                break;
+            case SDLK_BACKQUOTE:
+               Z->isVisible() ? Z->hide() : Z->show();
+               break;
             default:
+               S.injectKeyDown(e.key.keysym.scancode);
+               if (e.key.keysym.unicode != 0 && e.key.keysym.sym != SDLK_RETURN)
+                  S.injectChar(static_cast<CEGUI::utf32>(e.key.keysym.unicode));
+               break;
+            }
+            break;
+         case SDL_KEYUP:
+            S.injectKeyUp(e.key.keysym.scancode);
+            break;
+         case SDL_MOUSEMOTION:
+            S.injectMousePosition((float)e.motion.x, (float)e.motion.y);
+            break;
+         case SDL_MOUSEBUTTONDOWN:
+            switch (e.button.button)
+            {
+            case SDL_BUTTON_LEFT:
+               S.injectMouseButtonDown(CEGUI::LeftButton);
+               break;
+            case SDL_BUTTON_MIDDLE:
+               S.injectMouseButtonDown(CEGUI::MiddleButton);
+               break;
+            case SDL_BUTTON_RIGHT:
+               S.injectMouseButtonDown(CEGUI::RightButton);
+               break;
+            }
+            break;
+         case SDL_MOUSEBUTTONUP:
+            switch (e.button.button)
+            {
+            case SDL_BUTTON_LEFT:
+               S.injectMouseButtonUp(CEGUI::LeftButton);
+               break;
+            case SDL_BUTTON_MIDDLE:
+               S.injectMouseButtonUp(CEGUI::MiddleButton);
+               break;
+            case SDL_BUTTON_RIGHT:
+               S.injectMouseButtonUp(CEGUI::RightButton);
                break;
             }
             break;

@@ -17,8 +17,16 @@ public:
    bool init();
    void draw();
 
+   void show();
+   void hide();
+   bool isVisible();
+
+   bool handleInput(const CEGUI::EventArgs &e);
+
 protected:
    CEGUI::Window *wnd;
+   CEGUI::Window *input;
+   CEGUI::Window *buffer;
 };
 
 }

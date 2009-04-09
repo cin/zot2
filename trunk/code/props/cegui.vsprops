@@ -7,7 +7,7 @@
 	<Tool
 		Name="VCCLCompilerTool"
 		PreprocessorDefinitions=""
-		AdditionalIncludeDirectories="&quot;$(CEGUI)/include&quot;"
+		AdditionalIncludeDirectories="&quot;$(CEGUI)/include&quot;;&quot;$(CEGUI)/RendererModules&quot;"
 	/>
 	<Tool
 		Name="VCLinkerTool"

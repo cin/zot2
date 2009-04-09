@@ -1,4 +1,17 @@
-<?xml version="1.0"?>
-<GUILayout>
-   
+<?xml version="1.0" encoding="utf-8"?>
+
+<GUILayout >
+   <Window Type="TaharezLook/FrameWindow" Name="Zonsole" >
+      <Property Name="Text" Value="Zonsole" />
+      <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.02,0},{0.98,0},{0.5,0}}" />
+      <Window Type="TaharezLook/MultiLineEditbox" Name="Zonsole/Buffer" >
+         <Property Name="Text" Value=""/>
+         <Property Name="ReadOnly" Value="True" />
+         <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.12,0},{0.98,0},{0.88,0}}" />
+      </Window>
+      <Window Type="TaharezLook/Editbox" Name="Zonsole/Input" >
+         <Property Name="MaxTextLength" Value="1073741823" />
+         <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.9,0},{0.98,0},{0.98,0}}" />
+      </Window>
+   </Window>
 </GUILayout>

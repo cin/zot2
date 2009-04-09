@@ -29,6 +29,25 @@ void Zonsole::draw()
    System::getSingleton().renderGUI();
 }
 
+bool Zonsole::handleInput(const EventArgs &e)
+{
+   String s = input->getText();
+   if (s.length() > 0)
+   {
+      buffer->appendText(s);
+      Scrollbar *scroll = (Scrollbar *)buffer->getChild("Zonsole/Buffer__auto_vscrollbar__");
+      scroll->setScrollPosition(scroll->getDocumentSize());
+      input->setText("");
+   }
+   return true;
+}
+
+void Zonsole::hide()
+{
+   if (wnd->isVisible())
+      wnd->hide();
+}
+
 bool Zonsole::init()
 {
    try
@@ -53,9 +72,15 @@ bool Zonsole::init()
 
       // the zonsole actually starts here.  everything above
       // this should be in another file
-      SchemeManager::getSingleton().loadScheme("zot.scheme");
+      SchemeManager::getSingleton().loadScheme("TaharezLook.scheme");
+      System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
       wnd = WindowManager::getSingleton().loadWindowLayout("zotconsole.layout");
       System::getSingleton().setGUISheet(wnd);
+      wnd->activate();
+
+      input = WindowManager::getSingleton().getWindow("Zonsole/Input");
+      buffer = WindowManager::getSingleton().getWindow("Zonsole/Buffer");
+      input->subscribeEvent(Editbox::EventTextAccepted, Event::Subscriber(&Zonsole::handleInput, this));
       return true;
    }
    catch (CEGUI::InvalidRequestException e)
@@ -72,4 +97,15 @@ bool Zonsole::init()
    }
 
    return false;
+}
+
+bool Zonsole::isVisible()
+{
+   return wnd->isVisible();
+}
+
+void Zonsole::show()
+{
+   if (!wnd->isVisible())
+      wnd->show();
 }
