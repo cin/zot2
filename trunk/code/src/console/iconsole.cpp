@@ -22,3 +22,4 @@ const char *IConsole::getArgv(int i) const
 {
    return 0;
 }
+

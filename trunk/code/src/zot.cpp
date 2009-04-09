@@ -17,8 +17,6 @@ using namespace Zot;
 
 static int width = 800, height = 600;
 
-static Zonsole *Z;
-
 bool init_sdl()
 {
    const SDL_VideoInfo *video;
@@ -162,12 +160,16 @@ int main(int argc, char *argv[])
    
    init_gl();
 
-   // force the singleton console to be created
-   //IConsole::get();
-
-   Z = (Zonsole *)Zonsole::get();
    if (!Z->init())
       return -1;
+
+   Z->debug("zonsole initialized");
+
+   Z->debug("This is a debug message");
+   Z->info("This is a info message");
+   Z->warn("This is a warn message");
+   Z->error("This is a error message");
+   Z->fatal("This is a fatal message");
 
    main_loop();
 

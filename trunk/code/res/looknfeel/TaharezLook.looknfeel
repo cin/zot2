@@ -2952,7 +2952,13 @@
         <NamedArea name="TextArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" /></Dim>
+                <Dim type="TopEdge" >
+                   <AbsoluteDim value="-3">
+                      <DimOperator op="Subtract">
+                         <ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" />
+                      </DimOperator>
+                   </AbsoluteDim>
+                </Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">

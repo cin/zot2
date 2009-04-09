@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\props\cegui.vsprops;..\props\sdl.vsprops;..\props\ode.vsprops;..\props\boost.vsprops;..\props\opengl.vsprops"
+			InheritedPropertySheets="..\props\sdl.vsprops;..\props\ode.vsprops;..\props\boost.vsprops;..\props\opengl.vsprops;..\props\cegui-debug.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -211,14 +211,6 @@
 				</File>
 				<File
 					RelativePath="..\src\console\convar.h"
-					>
-				</File>
-				<File
-					RelativePath="..\src\console\iconsole.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\src\console\iconsole.h"
 					>
 				</File>
 				<File
