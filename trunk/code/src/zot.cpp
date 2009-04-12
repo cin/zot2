@@ -17,6 +17,33 @@ using namespace Zot;
 
 static int width = 800, height = 600;
 
+CEGUI::utf32 sKeyMap[SDLK_LAST];
+
+void constructKeyMap()
+{
+   memset(sKeyMap, 0, sizeof(sKeyMap));
+
+   sKeyMap[SDLK_RSHIFT] = CEGUI::Key::RightShift;
+   sKeyMap[SDLK_LSHIFT] = CEGUI::Key::LeftShift;
+   sKeyMap[SDLK_RCTRL] = CEGUI::Key::RightControl;
+   sKeyMap[SDLK_LCTRL] = CEGUI::Key::LeftControl;
+   sKeyMap[SDLK_RALT] = CEGUI::Key::RightAlt;
+   sKeyMap[SDLK_LALT] = CEGUI::Key::LeftAlt;
+   sKeyMap[SDLK_LSUPER] = CEGUI::Key::LeftWindows;
+   sKeyMap[SDLK_RSUPER] = CEGUI::Key::RightWindows;
+   sKeyMap[SDLK_UP] = CEGUI::Key::ArrowUp;
+   sKeyMap[SDLK_DOWN] = CEGUI::Key::ArrowDown;
+   sKeyMap[SDLK_RIGHT] = CEGUI::Key::ArrowRight;
+   sKeyMap[SDLK_LEFT] = CEGUI::Key::ArrowLeft;
+   sKeyMap[SDLK_INSERT] = CEGUI::Key::Insert;
+   sKeyMap[SDLK_HOME] = CEGUI::Key::Home;
+   sKeyMap[SDLK_END] = CEGUI::Key::End;
+   sKeyMap[SDLK_PAGEUP] = CEGUI::Key::PageUp;
+   sKeyMap[SDLK_PAGEDOWN] = CEGUI::Key::PageDown;
+   sKeyMap[SDLK_DELETE] = CEGUI::Key::Delete;
+   sKeyMap[SDLK_INSERT] = CEGUI::Key::Insert;
+}
+
 bool init_sdl()
 {
    const SDL_VideoInfo *video;
@@ -38,7 +65,6 @@ bool init_sdl()
    SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
    SDL_GL_SetAttribute(SDL_GL_GREEN_SIZE, 5);
    SDL_GL_SetAttribute(SDL_GL_BLUE_SIZE, 5);
-   SDL_GL_SetAttribute(SDL_GL_RED_SIZE, 5);
    SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
    if (SDL_SetVideoMode(width, height, video->vfmt->BitsPerPixel, SDL_OPENGL) == 0)
    {
@@ -48,6 +74,9 @@ bool init_sdl()
    SDL_ShowCursor(0);
    SDL_EnableUNICODE(1);
    SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
+
+   constructKeyMap();
+
    return true;
 }
 
@@ -101,7 +130,11 @@ void main_loop()
                Z->isVisible() ? Z->hide() : Z->show();
                break;
             default:
-               S.injectKeyDown(e.key.keysym.scancode);
+               if (sKeyMap[e.key.keysym.sym] != 0)
+                  S.injectKeyDown(sKeyMap[e.key.keysym.sym]);
+               else
+                  S.injectKeyDown(e.key.keysym.scancode);
+
                if (e.key.keysym.unicode != 0 && e.key.keysym.sym != SDLK_RETURN)
                   S.injectChar(static_cast<CEGUI::utf32>(e.key.keysym.unicode));
                break;

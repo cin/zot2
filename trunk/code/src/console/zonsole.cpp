@@ -113,15 +113,15 @@ bool Zonsole::init()
 
       return true;
    }
-   catch (CEGUI::InvalidRequestException e)
+   catch (const CEGUI::InvalidRequestException &e)
    {
       cerr << e.getMessage() << endl;
    }
-   catch (CEGUI::UnknownObjectException e)
+   catch (const CEGUI::UnknownObjectException &e)
    {
       cerr << e.getMessage() << endl;
    }
-   catch (CEGUI::GenericException e)
+   catch (const CEGUI::GenericException &e)
    {
       cerr << e.getMessage() << endl;
    }

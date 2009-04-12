@@ -15,11 +15,12 @@ IConsole *IConsole::get()
 
 int IConsole::getArgc() const
 {
-   return 0;
+   return (int)m_cmd.size();
 }
 
 const char *IConsole::getArgv(int i) const
 {
-   return 0;
+   _ASSERT(i < (int)m_cmd.size());
+   return m_cmd[i].c_str();
 }
 
