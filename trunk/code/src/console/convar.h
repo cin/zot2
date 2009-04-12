@@ -97,6 +97,9 @@ protected:
    ConVarPfn   m_pfn;
    ChangePfn   m_changePfn;
 
+   void reg();
+   bool validate();
+
 private:
 
    ConVar();

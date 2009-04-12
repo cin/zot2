@@ -29,10 +29,10 @@ void handleExit()
 ConVar zotExit("exit", handleExit, "Exits the game.");
 ConVar zotQuit("quit", handleExit, "Exits the game.");
 
-//ConVar zotTestInt("testInt", "0");
-//ConVar zotTestBool("testBool", "1");
-//ConVar zotTestFloat("testFloat", "5.1");
-//ConVar zotTestString("testString", "this is a test string");
+ConVar zotTestInt("testInt", "0");
+ConVar zotTestBool("testBool", "1");
+ConVar zotTestFloat("testFloat", "5.1");
+ConVar zotTestString("testString", "this is a test string");
 
 void constructKeyMap()
 {

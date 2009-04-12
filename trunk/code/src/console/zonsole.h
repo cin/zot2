@@ -23,11 +23,11 @@ public:
    bool init();
    void draw();
 
-   void debug(const std::string &s);
-   void info(const std::string &s);
-   void warn(const std::string &s);
-   void error(const std::string &s);
-   void fatal(const std::string &s);
+   virtual void debug(const std::string &s);
+   virtual void info(const std::string &s);
+   virtual void warn(const std::string &s);
+   virtual void error(const std::string &s);
+   virtual void fatal(const std::string &s);
 
    void show();
    void hide();

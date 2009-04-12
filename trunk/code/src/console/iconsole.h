@@ -41,7 +41,11 @@ public:
    // destination (error, stdout, console logfile, console)
    // handling input from cegui
 
-   void handleCmd(const std::string &cmd);
+   virtual void debug(const std::string &s) = 0;
+   virtual void info(const std::string &s) = 0;
+   virtual void warn(const std::string &s) = 0;
+   virtual void error(const std::string &s) = 0;
+   virtual void fatal(const std::string &s) = 0;
 
 protected:
 
@@ -65,6 +69,8 @@ protected:
       : m_cachedCmdsMax(10)
    {
    }
+
+   void handleCmd(const std::string &cmd);
 
 };
 

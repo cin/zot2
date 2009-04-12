@@ -1,5 +1,7 @@
 #include "stdafx.h"
+
 #include <sstream>
+
 #include "convar.h"
 #include "iconsole.h"
 
@@ -27,7 +29,7 @@ ConVar::ConVar(
    , m_changePfn(pfn)
    , m_pfn(NULL)
 {
-   IConsole::get()->m_convars[m_name] = this;
+   reg();
 }
 
 ConVar::ConVar(
@@ -40,7 +42,7 @@ ConVar::ConVar(
    , m_changePfn(NULL)
    , m_pfn(pfn)
 {
-   IConsole::get()->m_convars[m_name] = this;
+   reg();
 }
 
 ConVar::ConVar(
@@ -57,7 +59,7 @@ ConVar::ConVar(
    , m_changePfn(pfn)
    , m_pfn(NULL)
 {
-   IConsole::get()->m_convars[m_name] = this;
+   reg();
 }
 
 ConVar::ConVar(
@@ -70,7 +72,7 @@ ConVar::ConVar(
    , m_changePfn(NULL)
    , m_pfn(pfn)
 {
-   IConsole::get()->m_convars[m_name] = this;
+   reg();
 }
 
 ConVar::~ConVar()
@@ -139,4 +141,23 @@ void ConVar::setUint32(uint32 value)
    ostringstream oss;
    oss << value;
    setString(oss.str());
+}
+
+void ConVar::reg()
+{
+   if (validate())
+      IConsole::get()->m_convars[m_name] = this;
+}
+
+bool ConVar::validate()
+{
+   if (m_name.find(" ") != m_name.npos)
+   {
+      ostringstream os;
+      os << "ConVar: Unable to create console variable, "
+         << m_name << ", because it contains spaces";
+      IConsole::get()->warn(os.str());
+      return false;
+   }
+   return true;
 }
