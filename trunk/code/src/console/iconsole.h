@@ -19,7 +19,8 @@ class IConsole
 
 public:
 
-   typedef std::map<std::string, ConVar> ConVars;
+   typedef std::map<std::string, ConVar *> ConVars;
+   typedef ConVars::iterator               ConVarIter;
 
    typedef std::vector<std::string> CmdArgs;
    typedef CmdArgs::iterator        CmdArgIter;
@@ -40,20 +41,30 @@ public:
    // destination (error, stdout, console logfile, console)
    // handling input from cegui
 
+   void handleCmd(const std::string &cmd);
+
 protected:
 
    static IConsole *create();
 
-   static IConsole  *m_spConsole;
+   static IConsole  *m_pConsole;
 
    ConVars           m_convars;
    CmdArgs           m_cmd;
    PrevCmds          m_prevCmds;
    std::string       m_wrkBuf;
+   std::size_t       m_cachedCmdsMax;
+
+   // allows the ConVar to add things to the convar list abstractly,
+   // without providing a public accessor to the lists
+   friend class ConVar;
 
 protected:
 
-   IConsole() {}
+   IConsole()
+      : m_cachedCmdsMax(10)
+   {
+   }
 
 };
 

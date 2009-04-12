@@ -12,12 +12,13 @@
 namespace Zot
 {
 
-class Zonsole
+class Zonsole : public IConsole
 {
 public:
+   Zonsole();
    virtual ~Zonsole();
 
-   static Zonsole *get() { if (!zonsole) zonsole = new Zonsole(); return zonsole; }
+   static Zonsole *get() { return (Zonsole *)m_pConsole; }
 
    bool init();
    void draw();
@@ -41,9 +42,6 @@ protected:
 
    void addMessage(const CEGUI::colour &c, const CEGUI::String &s);
 
-   Zonsole();
-
-   static Zonsole *zonsole;
 };
 
 }

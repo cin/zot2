@@ -11,7 +11,12 @@ using namespace std;
 using namespace Zot;
 using namespace CEGUI;
 
-Zonsole *Zonsole::zonsole = NULL;
+// create the proper console for the interface
+IConsole *IConsole::create()
+{
+   m_pConsole = new Zonsole;
+   return m_pConsole;
+}
 
 Zonsole::Zonsole()
 {
@@ -38,6 +43,8 @@ bool Zonsole::handleInput(const EventArgs &e)
       if (s == "red")
          i->setTextColours(colour(0.8f, 0.1f, 0.1f));
       l->addItem(i);
+
+      handleCmd(string(s.c_str()));
 
       // make sure the scrollbar stays at the bottom
       Scrollbar *scroll = (Scrollbar *)bufferWnd->getChild("Zonsole/Buffer__auto_vscrollbar__");

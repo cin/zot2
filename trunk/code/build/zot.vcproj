@@ -214,6 +214,14 @@
 					>
 				</File>
 				<File
+					RelativePath="..\src\console\iconsole.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\console\iconsole.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\console\zonsole.cpp"
 					>
 				</File>

@@ -22,18 +22,37 @@ public:
       EConVarServer     = 0x02,
       EConVarClient     = 0x04,
       EConVarReplicated = 0x08,
+      EConVarArchive    = 0x10,
    };
 
-	typedef void (__stdcall *ConVarPfn)();
-   typedef void (__stdcall *ChangePfn)(ConVar *pVar, const std::string &oldValue);
+   typedef void (*ConVarPfn)();
+   typedef void (*ChangePfn)(ConVar *pVar, const std::string &oldValue);
 
 public:
 
-   ConVar(const std::string &name,
+   ConVar(
+      const std::string &name,
       const std::string &value,
       int flags = EConVarNone,
-      const std::string &description = "",
+      const std::string &description = std::string(""),
       ChangePfn pfn = NULL);
+
+   ConVar(
+      const std::string &name,
+      ConVarPfn pfn,
+      const std::string &description = std::string(""));
+
+   ConVar(
+      const char *name,
+      const char *value,
+      int flags = EConVarNone,
+      const char *description = "",
+      ChangePfn pfn = NULL);
+
+   ConVar(
+      const char *name,
+      ConVarPfn pfn,
+      const char *description = "");
 
    virtual ~ConVar();
 
@@ -61,7 +80,12 @@ public:
 
    // need an assert or something here to let ppl know they're
    // overwriting a callback handler
-   void changeHandler(ChangePfn pfn) { m_changePfn = pfn; }
+   void setChangeHandler(ChangePfn pfn) { m_changePfn = pfn; }
+
+   // accessors and mutators
+   const std::string &getName() const { return m_name; }
+   const std::string &getDefaultValue() const { return m_defaultValue; }
+   const std::string &getDescription() const { return m_description; }
 
 protected:
 

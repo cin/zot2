@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <sstream>
 #include "convar.h"
+#include "iconsole.h"
 
 using namespace std;
 using namespace Zot;
@@ -26,10 +27,61 @@ ConVar::ConVar(
    , m_changePfn(pfn)
    , m_pfn(NULL)
 {
+   IConsole::get()->m_convars[m_name] = this;
+}
+
+ConVar::ConVar(
+   const string &name,
+   ConVar::ConVarPfn pfn,
+   const string &description)
+   : m_name(name)
+   , m_flags(0)
+   , m_description(description)
+   , m_changePfn(NULL)
+   , m_pfn(pfn)
+{
+   IConsole::get()->m_convars[m_name] = this;
+}
+
+ConVar::ConVar(
+   const char *name,
+   const char *value,
+   int flags,
+   const char *description,
+   ConVar::ChangePfn pfn)
+   : m_name(name)
+   , m_value(value)
+   , m_defaultValue(value)
+   , m_flags(flags)
+   , m_description(description)
+   , m_changePfn(pfn)
+   , m_pfn(NULL)
+{
+   IConsole::get()->m_convars[m_name] = this;
+}
+
+ConVar::ConVar(
+   const char *name,
+   ConVar::ConVarPfn pfn,
+   const char *description)
+   : m_name(name)
+   , m_flags(0)
+   , m_description(description)
+   , m_changePfn(NULL)
+   , m_pfn(pfn)
+{
+   IConsole::get()->m_convars[m_name] = this;
 }
 
 ConVar::~ConVar()
 {
+   // this prly isn't a good idea as most convars will be declared globally and
+   // there's no guarantee when they will be destructed vs the console
+   // was thinking it would be nice for dynamic ConVars; but meh, who needs dems
+   //IConsole::ConVars &cv = IConsole::get()->m_convars;
+   //IConsole::ConVarIter i = cv.find(m_name);
+   //if (i != cv.end())
+   //   cv.erase(i);
 }
 
 float ConVar::getFloat() const

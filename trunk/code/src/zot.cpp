@@ -19,6 +19,21 @@ static int width = 800, height = 600;
 
 CEGUI::utf32 sKeyMap[SDLK_LAST];
 
+void handleExit()
+{
+   // TODO: create CEGUI event and pass through the system so
+   // all other interfaces/systems can be shutdown gracefully
+   exit(0);
+}
+
+ConVar zotExit("exit", handleExit, "Exits the game.");
+ConVar zotQuit("quit", handleExit, "Exits the game.");
+
+//ConVar zotTestInt("testInt", "0");
+//ConVar zotTestBool("testBool", "1");
+//ConVar zotTestFloat("testFloat", "5.1");
+//ConVar zotTestString("testString", "this is a test string");
+
 void constructKeyMap()
 {
    memset(sKeyMap, 0, sizeof(sKeyMap));
