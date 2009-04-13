@@ -42,14 +42,51 @@ bool Zonsole::handleInput(const EventArgs &e)
       Listbox *l = (Listbox *)bufferWnd;
       l->addItem(i);
 
-      handleCmd(string(s.c_str()));
+      handleCmd(s.c_str());
 
       // make sure the scrollbar stays at the bottom
       Scrollbar *scroll = (Scrollbar *)bufferWnd->getChild("Zonsole/Buffer__auto_vscrollbar__");
       scroll->setScrollPosition(scroll->getDocumentSize());
 
       // clear the input field
-      inputWnd->setText("");
+      inputWnd->setText("\0");
+
+      if (autoCompleteWnd->isVisible())
+         autoCompleteWnd->hide();
+   }
+   return true;
+}
+
+void Zonsole::handleTab()
+{
+   if (autoCompleteWnd->isVisible() && m_matches.size())
+   {
+      string &firstMatch = m_matches[0];
+      size_t len(firstMatch.length());
+      inputWnd->setText(firstMatch);
+      inputWnd->setCaratIndex(len);
+   }
+}
+
+bool Zonsole::handleTextChanged(const EventArgs &e)
+{
+   IConsole::handleTextChanged(inputWnd->getText().c_str());
+   if (m_matches.size())
+   {
+      if (!autoCompleteWnd->isVisible())
+         autoCompleteWnd->show();
+      autoCompleteWnd->resetList();
+
+      for (CmdMatchIter i = m_matches.begin(); i != m_matches.end(); i++)
+      {
+         ListboxTextItem *item = new ListboxTextItem(*i);
+         autoCompleteWnd->addItem(item);
+      }
+   }
+   else
+   {
+      if (autoCompleteWnd->isVisible())
+         autoCompleteWnd->hide();
    }
    return true;
 }
@@ -109,12 +146,15 @@ bool Zonsole::init()
       // get pointers to child windows
       inputWnd = (Editbox *)WindowManager::getSingleton().getWindow("Zonsole/Input");
       bufferWnd = (Listbox *)WindowManager::getSingleton().getWindow("Zonsole/Buffer");
+      autoCompleteWnd = (Listbox *)WindowManager::getSingleton().getWindow("Zonsole/Input/AutoComplete");
+      autoCompleteWnd->hide();
 
       // make it a little transparent
       frameWnd->setProperty("Alpha", "0.7");
 
       // hook in events
       inputWnd->subscribeEvent(Editbox::EventTextAccepted, Event::Subscriber(&Zonsole::handleInput, this));
+      inputWnd->subscribeEvent(Window::EventTextChanged, Event::Subscriber(&Zonsole::handleTextChanged, this));
 
       return true;
    }

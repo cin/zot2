@@ -25,7 +25,7 @@ const char *IConsole::getArgv(int i) const
    return m_cmd[i].c_str();
 }
 
-void IConsole::handleCmd(const string &cmd)
+void IConsole::handleCmd(const char *cmd)
 {
    // clear out the old command
    m_cmd.clear();
@@ -91,4 +91,22 @@ void IConsole::handleCmd(const string &cmd)
    m_prevCmds.push_back(cmd);
    if (m_prevCmds.size() > m_cachedCmdsMax)
       m_prevCmds.pop_front();
+}
+
+void IConsole::handleTextChanged(const char *txt)
+{
+   m_matches.clear();
+
+   if (!txt || !strlen(txt))
+      return;
+
+   m_wrkBuf = txt;
+   for (ConVarIter i = m_convars.begin(); i != m_convars.end(); i++)
+   {
+      if (m_wrkBuf.length() < i->first.length())
+      {
+         if (!strncmp(m_wrkBuf.c_str(), i->first.c_str(), m_wrkBuf.length()))
+            m_matches.push_back(i->first);
+      }
+   }
 }

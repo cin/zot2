@@ -28,6 +28,9 @@ public:
    typedef std::deque<std::string>  PrevCmds;
    typedef PrevCmds::iterator       PcIter;
 
+   typedef std::vector<std::string> CmdMatches;
+   typedef CmdMatches::iterator     CmdMatchIter;
+
 public:
 
    virtual ~IConsole() {}
@@ -54,6 +57,7 @@ protected:
 
    ConVars           m_convars;
    CmdArgs           m_cmd;
+   CmdMatches        m_matches;
    PrevCmds          m_prevCmds;
    std::string       m_wrkBuf;
    std::size_t       m_cachedCmdsMax;
@@ -69,7 +73,8 @@ protected:
    {
    }
 
-   void handleCmd(const std::string &cmd);
+   void handleCmd(const char *cmd);
+   void handleTextChanged(const char *txt);
 
 };
 

@@ -33,11 +33,14 @@ public:
    bool isVisible();
 
    bool handleInput(const CEGUI::EventArgs &e);
+   void handleTab();
+   bool handleTextChanged(const CEGUI::EventArgs &e);
 
 protected:
    CEGUI::FrameWindow *frameWnd;
    CEGUI::Editbox *inputWnd;
    CEGUI::Listbox *bufferWnd;
+   CEGUI::Listbox *autoCompleteWnd;
 
    void addMessage(const CEGUI::colour &c, const CEGUI::String &s);
 

@@ -58,6 +58,7 @@ void constructKeyMap()
    sKeyMap[SDLK_PAGEDOWN] = CEGUI::Key::PageDown;
    sKeyMap[SDLK_DELETE] = CEGUI::Key::Delete;
    sKeyMap[SDLK_INSERT] = CEGUI::Key::Insert;
+   sKeyMap[SDLK_TAB] = CEGUI::Key::Tab;
 }
 
 bool init_sdl()
@@ -147,7 +148,14 @@ void main_loop()
                break;
             default:
                if (sKeyMap[e.key.keysym.sym] != 0)
-                  S.injectKeyDown(sKeyMap[e.key.keysym.sym]);
+               {
+                  if (Z->isVisible() && e.key.keysym.sym == SDLK_TAB)
+                  {
+                     Z->handleTab();
+                  }
+                  else
+                     S.injectKeyDown(sKeyMap[e.key.keysym.sym]);
+               }
                else
                   S.injectKeyDown(e.key.keysym.scancode);
 
