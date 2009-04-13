@@ -12,6 +12,7 @@
 #include <gl/glu.h>
 
 #include "zonsole.h"
+#include "zogger.h"
 
 using namespace Zot;
 
@@ -201,6 +202,8 @@ void main_loop()
 
 int main(int argc, char *argv[])
 {
+   Zogger::create(Zogger::ZOG_DEBUG, Zogger::ZOG_CONSOLE, "");
+
    if (!init_sdl())
    {
       return -1;
@@ -217,7 +220,10 @@ int main(int argc, char *argv[])
    Z->info("This is a info message");
    Z->warn("This is a warn message");
    Z->error("This is a error message");
-   Z->fatal("This is a fatal message");
+
+   // this needs to be at the top of main()
+   // see the notes in Zogger::zog for more info.
+   Zogger::get()->zog("Zogging started");
 
    main_loop();
 

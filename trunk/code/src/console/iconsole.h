@@ -45,7 +45,6 @@ public:
    virtual void info(const std::string &s) = 0;
    virtual void warn(const std::string &s) = 0;
    virtual void error(const std::string &s) = 0;
-   virtual void fatal(const std::string &s) = 0;
 
 protected:
 

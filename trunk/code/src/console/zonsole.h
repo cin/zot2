@@ -27,7 +27,6 @@ public:
    virtual void info(const std::string &s);
    virtual void warn(const std::string &s);
    virtual void error(const std::string &s);
-   virtual void fatal(const std::string &s);
 
    void show();
    void hide();

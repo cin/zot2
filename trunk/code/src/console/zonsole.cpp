@@ -40,8 +40,6 @@ bool Zonsole::handleInput(const EventArgs &e)
       // add message to output buffer
       ListboxTextItem *i = new ListboxTextItem(s);
       Listbox *l = (Listbox *)bufferWnd;
-      if (s == "red")
-         i->setTextColours(colour(0.8f, 0.1f, 0.1f));
       l->addItem(i);
 
       handleCmd(string(s.c_str()));
@@ -153,25 +151,20 @@ void Zonsole::show()
 
 void Zonsole::debug(const string &s)
 {
-   addMessage(colour(0xff9d9d9d), s);
+   addMessage(colour(0xff1fe000), s);
 }
 
 void Zonsole::info(const string &s)
 {
-   addMessage(colour(0xff1fe000), s);
+   addMessage(colour(0xffe6cc80), s);
 }
 
 void Zonsole::warn(const string &s)
 {
-   addMessage(colour(0xffe6cc80), s);
-}
-
-void Zonsole::error(const string &s)
-{
    addMessage(colour(0xffff8000), s);
 }
 
-void Zonsole::fatal(const string &s)
+void Zonsole::error(const string &s)
 {
    addMessage(colour(0xffe00000), s);
 }

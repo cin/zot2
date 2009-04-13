@@ -199,6 +199,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\zogger.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\zot.cpp"
 				>
 			</File>
@@ -242,6 +246,10 @@
 			</File>
 			<File
 				RelativePath="..\include\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\zogger.h"
 				>
 			</File>
 			<File
