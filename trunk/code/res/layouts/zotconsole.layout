@@ -3,7 +3,7 @@
 <GUILayout >
     <Window Type="TaharezLook/FrameWindow" Name="Zonsole" >
         <Property Name="Text" Value="Zonsole" />
-        <Property Name="TitlebarFont" Value="Commonwealth-10" />
+        <Property Name="TitlebarFont" Value="Consola" />
         <Property Name="UnifiedMaxSize" Value="{{1,0},{1,0}}" />
         <Property Name="TitlebarEnabled" Value="True" />
         <Property Name="UnifiedAreaRect" Value="{{0.02,0},{0.02,0},{0.98,0},{0.5,0}}" />
