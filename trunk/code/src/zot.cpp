@@ -219,15 +219,15 @@ int main(int argc, char *argv[])
    
    init_gl();
 
-   if (!Z->init())
+   if (!Zonsole::get()->init())
       return -1;
 
-   Z->debug("zonsole initialized");
+   Zonsole::get()->debug("zonsole initialized");
 
-   Z->debug("This is a debug message");
-   Z->info("This is a info message");
-   Z->warn("This is a warn message");
-   Z->error("This is a error message");
+   Zonsole::get()->debug("This is a debug message");
+   Zonsole::get()->info("This is a info message");
+   Zonsole::get()->warn("This is a warn message");
+   Zonsole::get()->error("This is a error message");
 
    // this needs to be at the top of main()
    // see the notes in Zogger::zog for more info.

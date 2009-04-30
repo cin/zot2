@@ -7,7 +7,7 @@
 
 #include <CEGUI.h>
 
-#define Z Zonsole::get()
+using CEGUI::EventArgs;
 
 namespace Zot
 {
@@ -32,9 +32,10 @@ public:
    void hide();
    bool isVisible();
 
-   bool handleInput(const CEGUI::EventArgs &e);
+   bool handleInput(const EventArgs &e);
+   bool handleKeyDown(const EventArgs &e);
    void handleTab();
-   bool handleTextChanged(const CEGUI::EventArgs &e);
+   bool handleTextChanged(const EventArgs &e);
 
 protected:
    CEGUI::FrameWindow *frameWnd;
@@ -44,6 +45,7 @@ protected:
 
    void addMessage(const CEGUI::colour &c, const CEGUI::String &s);
 
+   void chooseAuto(bool dir);
 };
 
 }

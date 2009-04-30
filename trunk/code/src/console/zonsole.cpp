@@ -2,6 +2,7 @@
 
 #include <iostream>
 
+#include "zogger.h"
 #include "zonsole.h"
 
 #include <CEGUIDefaultResourceProvider.h>
@@ -14,7 +15,7 @@ using namespace CEGUI;
 // create the proper console for the interface
 IConsole *IConsole::create()
 {
-   m_pConsole = new Zonsole;
+   m_pConsole = new Zonsole();
    return m_pConsole;
 }
 
@@ -57,14 +58,91 @@ bool Zonsole::handleInput(const EventArgs &e)
    return true;
 }
 
+bool Zonsole::handleKeyDown(const EventArgs &e)
+{
+   const KeyEventArgs &k = static_cast<const KeyEventArgs &>(e);
+
+   switch (k.scancode)
+   {
+   case Key::ArrowUp:
+      if (autoCompleteWnd->isVisible())
+      {
+         chooseAuto(false);
+      }
+      else
+      {
+         //display previous history entry
+      }
+      break;
+   case Key::ArrowDown:
+      if (autoCompleteWnd->isVisible())
+      {
+         chooseAuto(true);
+      }
+      else
+      {
+         //display next history entry
+      }
+      break;
+   default:
+      break;
+   }
+   return true;
+}
+
+void Zonsole::chooseAuto(bool dir)
+{
+   size_t cnt = autoCompleteWnd->getItemCount();
+   int osel = -1, nsel = -1;
+
+   for (size_t i = 0; i < cnt; i++)
+   {
+      if (autoCompleteWnd->getListboxItemFromIndex(i)->isSelected())
+      {
+         osel = i;
+         break;
+      }
+   }
+
+   if (osel >= 0)
+   {
+      if (dir)
+      {
+         nsel = (osel + 1 == cnt) ? 0 : osel + 1;
+      }
+      else
+      {
+         nsel = (osel == 0) ? cnt - 1 : osel - 1;
+      }
+      autoCompleteWnd->getListboxItemFromIndex(osel)->setSelected(false);
+      autoCompleteWnd->getListboxItemFromIndex(nsel)->setSelected(true);
+      autoCompleteWnd->requestRedraw();
+   }
+}
+
 void Zonsole::handleTab()
 {
    if (autoCompleteWnd->isVisible() && m_matches.size())
    {
-      string &firstMatch = m_matches[0];
-      size_t len(firstMatch.length());
-      inputWnd->setText(firstMatch);
-      inputWnd->setCaratIndex(len);
+      // find out which convar is selected (default to first one)
+      size_t i = 0, selected = 0;
+      for (; i < autoCompleteWnd->getItemCount(); i++)
+      {
+         if (autoCompleteWnd->getListboxItemFromIndex(i)->isSelected())
+         {
+            selected = i;
+            break;
+         }
+      }
+
+      // be paranoid
+      if (selected < m_matches.size())
+      {
+         string &selectedMatch = m_matches[selected];
+         size_t len(selectedMatch.length());
+         inputWnd->setText(selectedMatch);
+         inputWnd->setCaratIndex(len);
+      }
    }
 }
 
@@ -80,7 +158,13 @@ bool Zonsole::handleTextChanged(const EventArgs &e)
       for (CmdMatchIter i = m_matches.begin(); i != m_matches.end(); i++)
       {
          ListboxTextItem *item = new ListboxTextItem(*i);
+         item->setSelectionBrushImage("TaharezLook", "ListboxSelectionBrush");
          autoCompleteWnd->addItem(item);
+      }
+      // auto highlight the first item in the list, if it exists
+      if (autoCompleteWnd->getItemCount() > 0)
+      {
+         autoCompleteWnd->getListboxItemFromIndex(0)->setSelected(true);
       }
    }
    else
@@ -155,6 +239,7 @@ bool Zonsole::init()
       // hook in events
       inputWnd->subscribeEvent(Editbox::EventTextAccepted, Event::Subscriber(&Zonsole::handleInput, this));
       inputWnd->subscribeEvent(Window::EventTextChanged, Event::Subscriber(&Zonsole::handleTextChanged, this));
+      inputWnd->subscribeEvent(Editbox::EventKeyDown, Event::Subscriber(&Zonsole::handleKeyDown, this));
 
       return true;
    }
