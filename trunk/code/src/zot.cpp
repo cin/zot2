@@ -121,7 +121,7 @@ void repaint()
    glVertex3i(5, -5, 0);
    glEnd();
 
-   Z->draw();
+   Zonsole::get()->draw();
 
    SDL_GL_SwapBuffers();
 }
@@ -144,14 +144,14 @@ void main_loop()
                exit(0);
                break;
             case SDLK_BACKQUOTE:
-               Z->isVisible() ? Z->hide() : Z->show();
+               Zonsole::get()->isVisible() ? Zonsole::get()->hide() : Zonsole::get()->show();
                break;
             default:
                if (sKeyMap[e.key.keysym.sym] != 0)
                {
-                  if (Z->isVisible() && e.key.keysym.sym == SDLK_TAB)
+                  if (Zonsole::get()->isVisible() && e.key.keysym.sym == SDLK_TAB)
                   {
-                     Z->handleTab();
+                     Zonsole::get()->handleTab();
                   }
                   else
                      S.injectKeyDown(sKeyMap[e.key.keysym.sym]);

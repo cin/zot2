@@ -53,11 +53,11 @@ void Zogger::zog(const string &msg, ZogLevel l, int dest)
    // maybe if the Zonsole is not available, just cache
    // the log messages and then when it's ready, dump them
    // all in.
-   if ((dest & ZOG_CONSOLE) && Z)
+   if ((dest & ZOG_CONSOLE) && Zonsole::get())
    {
       switch (l)
       {
-      case ZOG_DEBUG: Z->debug(fullmsg); break;
+      case ZOG_DEBUG: Zonsole::get()->debug(fullmsg); break;
       case ZOG_INFO: break;
       case ZOG_WARN: break;
       case ZOG_ERROR: break;
