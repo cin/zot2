@@ -11,9 +11,7 @@
 #include <tchar.h>
 
 #include "zypes.h"
-#include "convar.h"
-#include "zapp.h"
-#include "zogger.h"
-#include "zonsole.h"
+//#include "convar.h"
+//#include "zapp.h"
 
 #endif // __ZOT_H__

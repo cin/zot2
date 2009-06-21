@@ -23,8 +23,13 @@
 #include <gl/gl.h>
 #include <gl/glu.h>
 
+#include "zogger.h"
+#include "zonsole.h"
+#include "zapp.h"
+
 using namespace Zot;
 
+// this will be movin soon
 static int width = 800, height = 600;
 
 CEGUI::utf32 sKeyMap[SDLK_LAST];
@@ -43,6 +48,35 @@ ConVar zotTestInt("testInt", "0");
 ConVar zotTestBool("testBool", "1");
 ConVar zotTestFloat("testFloat", "5.1");
 ConVar zotTestString("testString", "this is a test string");
+
+ConVar zotCfgFile("zotCfgFile", "zot.cfg");
+
+Zapp::Zapp()
+{
+}
+
+Zapp::~Zapp()
+{
+}
+
+bool Zapp::config(ZmCfg *pCfg)
+{
+   return true;
+}
+
+bool Zapp::init()
+{
+   bool ret = Zystem::init();
+   if (!ret)
+      return ret;
+   return true;
+}
+
+int Zapp::onExit()
+{
+   int ret = Zystem::onExit();
+   return ret;
+}
 
 void constructKeyMap()
 {
@@ -245,12 +279,4 @@ int main(int argc, char *argv[])
    main_loop();
 
    return 0;
-}
-
-Zapp::Zapp()
-{
-}
-
-Zapp::~Zapp()
-{
 }

@@ -1,10 +1,12 @@
 #include "zot.h"
-
 #include <iostream>
 
 #ifdef _WIN32
 #include <time.h>
 #endif
+
+#include "zogger.h"
+#include "zonsole.h"
 
 using namespace std;
 using namespace Zot;
