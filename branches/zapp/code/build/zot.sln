@@ -1,7 +1,12 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 10.00
-# Visual Studio 2008
+# Visual C++ Express 2008
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zot", "zot.vcproj", "{5828F371-FBF3-40AA-9995-9CA4C9737FE0}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "zemo", "..\zemo\zemo.vcproj", "{52353D24-B5E3-4D45-AB67-DBBFD5B9A50F}"
+	ProjectSection(ProjectDependencies) = postProject
+		{5828F371-FBF3-40AA-9995-9CA4C9737FE0} = {5828F371-FBF3-40AA-9995-9CA4C9737FE0}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,6 +18,10 @@ Global
 		{5828F371-FBF3-40AA-9995-9CA4C9737FE0}.Debug|Win32.Build.0 = Debug|Win32
 		{5828F371-FBF3-40AA-9995-9CA4C9737FE0}.Release|Win32.ActiveCfg = Release|Win32
 		{5828F371-FBF3-40AA-9995-9CA4C9737FE0}.Release|Win32.Build.0 = Release|Win32
+		{52353D24-B5E3-4D45-AB67-DBBFD5B9A50F}.Debug|Win32.ActiveCfg = Debug|Win32
+		{52353D24-B5E3-4D45-AB67-DBBFD5B9A50F}.Debug|Win32.Build.0 = Debug|Win32
+		{52353D24-B5E3-4D45-AB67-DBBFD5B9A50F}.Release|Win32.ActiveCfg = Release|Win32
+		{52353D24-B5E3-4D45-AB67-DBBFD5B9A50F}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

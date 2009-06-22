@@ -1,6 +1,8 @@
 //#include "zerialize.h"
 #include <iostream>
 
+#include "zypes.h"
+
 namespace Zot
 {
 

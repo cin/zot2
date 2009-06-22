@@ -159,20 +159,7 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath="..\src\zogger.cpp"
-				>
-				<FileConfiguration
-					Name="Release|Win32"
-					>
-					<Tool
-						Name="VCCLCompilerTool"
-						UsePrecompiledHeader="2"
-						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
-					/>
-				</FileConfiguration>
-			</File>
-			<File
-				RelativePath="..\src\zot.cpp"
+				RelativePath="..\src\pch.cpp"
 				>
 				<FileConfiguration
 					Name="Debug|Win32"
@@ -188,6 +175,18 @@
 					<Tool
 						Name="VCCLCompilerTool"
 						UsePrecompiledHeader="1"
+					/>
+				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\zogger.cpp"
+				>
+				<FileConfiguration
+					Name="Release|Win32"
+					>
+					<Tool
+						Name="VCCLCompilerTool"
+						UsePrecompiledHeader="2"
 						PrecompiledHeaderFile="$(IntDir)\$(TargetName).pch"
 					/>
 				</FileConfiguration>
@@ -251,6 +250,22 @@
 				Name="System"
 				>
 				<File
+					RelativePath="..\src\system\sdlapp.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\system\sdlapp.h"
+					>
+				</File>
+				<File
+					RelativePath="..\src\system\zapp.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\system\zapp.h"
+					>
+				</File>
+				<File
 					RelativePath="..\src\system\zerialize.cpp"
 					>
 				</File>
@@ -307,10 +322,6 @@
 			>
 			<File
 				RelativePath="..\include\targetver.h"
-				>
-			</File>
-			<File
-				RelativePath="..\include\zapp.h"
 				>
 			</File>
 			<File

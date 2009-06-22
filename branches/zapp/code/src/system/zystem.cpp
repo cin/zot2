@@ -29,3 +29,8 @@ int Zystem::onExit()
 void Zystem::run()
 {
 }
+
+bool Zystem::saveConfig(Zot::ZmCfg *pCfg)
+{
+   return false;
+}
