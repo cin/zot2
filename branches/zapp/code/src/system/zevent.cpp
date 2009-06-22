@@ -5,7 +5,7 @@
 using namespace Zot;
 
 Zevent::Zevent()
-   : m_hEvent(NULL)
+   : m_pEvent(NULL)
 {
 }
 

@@ -1,5 +1,7 @@
 #pragma once
 
+struct SDL_Event;
+
 namespace Zot
 {
 
@@ -13,13 +15,12 @@ class Zevent
 
 public:
 
+   Zevent();
    virtual ~Zevent();
 
 protected:
 
-   Zevent();
-
-   int m_hEvent;
+   SDL_Event *m_pEvent;
 
 };
 

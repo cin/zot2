@@ -23,7 +23,7 @@ bool Zapp::init()
    bool ret = Zystem::init();
    if (!ret)
       return ret;
-   return true;
+   return ret;
 }
 
 int Zapp::onExit()

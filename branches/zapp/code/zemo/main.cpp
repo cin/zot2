@@ -2,6 +2,14 @@
 
 using namespace Zot;
 
+class Tesystem : public Zystem
+{
+public:
+   Tesystem()
+   {
+   }
+};
+
 int main(int argc, char *argv[])
 {
    SDLApp sdlapp;
@@ -9,6 +17,9 @@ int main(int argc, char *argv[])
    {
       return -1;
    }
+   Tesystem sys;
+   sys.create();
+
    sdlapp.run();
    return 0;
 }
