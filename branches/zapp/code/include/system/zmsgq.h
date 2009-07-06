@@ -25,8 +25,10 @@ public:
    Zmsgq();
    virtual ~Zmsgq();
 
-   virtual void post(Zmsg *pMsg, uint32 timeout);
+   virtual void push(Zmsg *pMsg, uint32 timeout);
    virtual Zmsg *wait(uint32 timeout);
+
+   Zmsg *get();
 
 protected:
 

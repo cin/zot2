@@ -20,6 +20,7 @@ Zystem::Zystem(bool bThreaded)
    , m_timeout(17)
    , m_mask(0xffff0000)
    , m_pThread(NULL)
+   , m_id(0)
 {
 }
 
@@ -32,6 +33,11 @@ bool Zystem::config(ZmCfg *pCfg)
    return false;
 }
 
+uint32 Zystem::getThreadId() const
+{
+   return m_pThread ? m_pThread->getThreadId() : SDL_ThreadID();
+}
+
 bool Zystem::init()
 {
    reg(ZM_CFG_MSG, &Zystem::onConfig);
@@ -40,10 +46,15 @@ bool Zystem::init()
    return true;
 }
 
-void Zystem::publish(Zot::Zmsg *pMsg)
+void Zystem::push(Zot::Zmsg *pMsg)
 {
    if (m_mask & (pMsg->__m_type & 0xffff0000))
-      m_msgq.post(pMsg, m_timeout);
+   {
+      // make sure msg has a valid system
+      if (pMsg->__m_system <= 0)
+         pMsg->__m_system = this->getid();
+      m_msgq.push(pMsg, m_timeout);
+   }
 }
 
 int Zystem::onConfig(Zmsg *pMsg)
@@ -75,11 +86,7 @@ void Zystem::reg(uint32 msgType, ZmsgHandler pmf)
 void Zystem::run()
 {
    if (m_bThreaded)
-   {
-      m_pThread = new SDLThread(this);
-      Zthread::ZthreadProc pfn = bar;
-      m_pThread->create(pfn);
-   }
+      m_pThread = new SDLThread(bar, this);
    else
       _();
 }
@@ -98,6 +105,7 @@ void Zystem::tick()
          ZmsgHandler pmf = it->second;
          (this->*pmf)(pMsg);
       }
+
       delete pMsg;
    }
 }

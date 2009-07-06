@@ -37,6 +37,32 @@ bool Zapp::init()
 
 int Zapp::onExit()
 {
+   // send event stop event to all zystems
+   ZmStop stop;
+   for (ZysIter it = m_zystems.begin(); it != m_zystems.end(); it++)
+   {
+      (*it)->push(&stop);
+   }
+
+   // wait for all zystems to finish exiting
+   // TODO: handle infinite wait...hopefully won't happen, but u know it will
+   bool bWaiting = true;
+   while (bWaiting && m_zystems.size())
+   {
+      for (ZysIter it = m_zystems.begin(); it != m_zystems.end();)
+      {
+         if ((*it)->isRunning())
+         {
+            it++;
+         }
+         else
+         {
+            delete *it;
+            it = m_zystems.erase(it);
+         }
+      }
+   }
+
    int ret = Zystem::onExit();
    return ret;
 }

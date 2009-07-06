@@ -26,8 +26,18 @@ public:
    virtual void _();
    virtual bool saveConfig(ZmCfg *pCfg = NULL);
 
-   // method by which other systems publish to this...
-   virtual void publish(Zmsg *pMsg);
+   // method by which other systems push msgs to this system
+   virtual void push(Zmsg *pMsg);
+
+   // accessors
+   uint8 getid() const { return m_id; }
+   void setid(uint8 id) { m_id = id; }
+
+   bool isRunning() const { return m_bRunning; }
+   bool isThreaded() const { return m_bThreaded; }
+   uint32 getThreadId() const;
+   uint32 getTimeout() const { return m_timeout; }
+   void setTimeout(uint32 timeout) { m_timeout = timeout; }
 
 protected:
 
@@ -48,6 +58,7 @@ protected:
    uint32 m_mask;
    ZmsgHandlers m_handlers;
    Zthread *m_pThread;
+   uint8 m_id;
 
 };
 

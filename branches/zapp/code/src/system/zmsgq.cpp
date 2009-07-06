@@ -17,7 +17,17 @@ Zmsgq::~Zmsgq()
       delete m_pEvent, m_pEvent = NULL;
 }
 
-void Zmsgq::post(Zmsg *pMsg, uint32 timeout)
+Zmsg *Zmsgq::get()
+{
+   // safely remove the msg q's top element, which is what wait returns when a msg is ready
+   m_pEvent->lock();
+   Zmsg *pMsg = m_zmsgs.top();
+   m_zmsgs.pop();
+   m_pEvent->unlock();
+   return pMsg;
+}
+
+void Zmsgq::push(Zmsg *pMsg, uint32 timeout)
 {
    m_pEvent->lock();
    m_zmsgs.push(pMsg->copy());
@@ -26,9 +36,5 @@ void Zmsgq::post(Zmsg *pMsg, uint32 timeout)
 
 Zmsg *Zmsgq::wait(uint32 timeout)
 {
-   if (!m_pEvent->wait(timeout))
-   {
-      return m_zmsgs.top();
-   }
-   return NULL;
+   return m_pEvent->wait(timeout) ? get() : NULL;
 }

@@ -14,13 +14,15 @@ public:
 
    typedef int (*ZthreadProc)(void *);
 
-   Zthread(Zystem *pSys);
+   Zthread(ZthreadProc pfn, Zystem *pSys);
    virtual ~Zthread();
-   virtual bool create(ZthreadProc pfn);
+   virtual bool create(Zthread::ZthreadProc pfn, Zystem *pSys) = 0;
+   virtual uint32 getThreadId() const;
 
 protected:
 
-   Zystem *m_pSys;
+   Zthread(){}
+
 };
 
 class SDLThread : public Zthread
@@ -28,9 +30,9 @@ class SDLThread : public Zthread
 
 public:
 
-   SDLThread(Zystem *pSys);
-   virtual ~SDLThread();
-   virtual bool create(Zthread::ZthreadProc pfn);
+   SDLThread(ZthreadProc pfn, Zystem *pSys);
+   virtual bool create(Zthread::ZthreadProc pfn, Zystem *pSys);
+   virtual uint32 getThreadId() const;
 
 protected:
 

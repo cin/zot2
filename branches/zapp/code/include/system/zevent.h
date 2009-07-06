@@ -1,7 +1,6 @@
 #pragma once
 
-struct SDL_mutex;
-struct SDL_cond;
+#include "SDL.h"
 
 namespace Zot
 {
@@ -22,8 +21,10 @@ public:
 
    virtual bool lock();
    virtual bool unlock();
-   virtual bool signal();
-   virtual int32 wait(uint32 timeout = ZOT_INDEFINITE);
+   virtual void push();
+   virtual void pump();
+   virtual bool poll();
+   virtual bool wait(uint32 timeout = ZOT_INDEFINITE);
 
 protected:
 
@@ -41,13 +42,16 @@ public:
 
    virtual bool lock();
    virtual bool unlock();
-   virtual bool signal();
-   virtual int32 wait(uint32 timeout = ZOT_INDEFINITE);
+   virtual void push();
+   virtual void pump();
+   virtual bool poll();
+   virtual bool wait(uint32 timeout = ZOT_INDEFINITE);
 
 protected:
 
    SDL_mutex *m_pMutex;
    SDL_cond *m_pCond;
+   SDL_Event *m_pEvent;
 
 };
 

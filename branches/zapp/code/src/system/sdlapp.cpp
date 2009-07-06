@@ -175,8 +175,7 @@ void SDLApp::tick()
          switch (e.key.keysym.sym)
          {
          case SDLK_ESCAPE:
-            // TODO: FIX ME!!
-            handleExit();
+            onExit();
             break;
          case SDLK_BACKQUOTE:
             Zonsole::get()->isVisible() ? Zonsole::get()->hide() : Zonsole::get()->show();
@@ -234,7 +233,9 @@ void SDLApp::tick()
          }
          break;
       case SDL_QUIT:
-         handleExit();
+         onExit();
+         break;
+      default:
          break;
       }
    }
@@ -252,7 +253,9 @@ void SDLApp::run()
 
 int SDLApp::onExit()
 {
+   Zapp::onExit();
    SDL_Quit();
+   handleExit();
    return 1;
 }
 

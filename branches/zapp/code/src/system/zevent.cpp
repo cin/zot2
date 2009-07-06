@@ -1,9 +1,11 @@
 #include "zot.h"
 #include "zevent.h"
-#include "SDL.h"
 
 //using namespace std;
 using namespace Zot;
+
+/////////////////////////////////////////////////////////////////////
+// Zevent
 
 Zevent::Zevent()
 {
@@ -23,12 +25,20 @@ bool Zevent::unlock()
    return false;
 }
 
-bool Zevent::signal()
+void Zevent::push()
+{
+}
+
+void Zevent::pump()
+{
+}
+
+bool Zevent::poll()
 {
    return false;
 }
 
-int32 Zevent::wait(uint32 timeout)
+bool Zevent::wait(uint32 timeout)
 {
    //lock();
    //int32 ret = wait(timeout);
@@ -37,18 +47,29 @@ int32 Zevent::wait(uint32 timeout)
    return false;
 }
 
+/////////////////////////////////////////////////////////////////////
+// SDLEvent
+
 SDLEvent::SDLEvent()
 {
    m_pMutex = SDL_CreateMutex();
    m_pCond = SDL_CreateCond();
+
+   m_pEvent = new SDL_Event;
+   m_pEvent->type = SDL_USEREVENT;
+   m_pEvent->user.code = 0;
+   m_pEvent->user.data1 = NULL;
+   m_pEvent->user.data2 = NULL;
 }
 
 SDLEvent::~SDLEvent()
 {
-   if (m_pMutex)
-      SDL_DestroyMutex(m_pMutex), m_pMutex = NULL;
+   if (m_pEvent)
+      delete m_pEvent, m_pEvent = NULL;
    if (m_pCond)
       SDL_DestroyCond(m_pCond), m_pCond = NULL;
+   if (m_pMutex)
+      SDL_DestroyMutex(m_pMutex), m_pMutex = NULL;
 }
 
 bool SDLEvent::lock()
@@ -61,21 +82,48 @@ bool SDLEvent::unlock()
    return SDL_UnlockMutex(m_pMutex) == 0;
 }
 
-bool SDLEvent::signal()
+void SDLEvent::push()
 {
    lock();
-   bool ret = SDL_CondSignal(m_pCond) == 0;
+   while (SDL_PushEvent(m_pEvent) == -1)
+      SDL_CondWait(m_pCond, m_pMutex);
    unlock();
-   return ret;
+
+   SDL_CondSignal(m_pCond);
 }
 
-int32 SDLEvent::wait(uint32 timeout)
+void SDLEvent::pump()
+{
+   lock();
+   SDL_PumpEvents();
+   unlock();
+}
+
+bool SDLEvent::poll()
+{
+   lock();
+   bool bSignaled = SDL_PollEvent(m_pEvent) == 1;
+   unlock();
+
+   if (bSignaled)
+      SDL_CondSignal(m_pCond);
+
+   return bSignaled;
+}
+
+bool SDLEvent::wait(uint32 timeout)
 {
    // SDL_MUTEX_TIMEDOUT if timed out
    // 0 is signaled
    // -1 if error
    lock();
-   int32 ret = SDL_CondWaitTimeout(m_pCond, m_pMutex, timeout);
+   bool bSignaled = SDL_PollEvent(m_pEvent) == 1;
+   if (!bSignaled)
+      bSignaled = SDL_CondWaitTimeout(m_pCond, m_pMutex, timeout) == 0;
    unlock();
-   return ret;
+
+   if (bSignaled)
+      SDL_CondSignal(m_pCond);
+
+   return bSignaled;
 }
