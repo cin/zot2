@@ -4,8 +4,10 @@
   add CEGUI, ODE_PATH, and SDL_PATH env vars
   add dev tools to path, as so:
     ;%CEGUI%\bin;%ODE_PATH%\bin;%SDL_PATH%\bin
-  if vs is open, close it (allows for env vars to be set for next session)
-  build ode ('.\premake4.exe vs2008' from ode build folder)
+  if vs is open, close it
+    allows for env vars to be set for next session
+  build ode
+    .\premake4.exe vs2008 from ode build folder
     build releasedoubledll config
   build sdl (extract visualc.zip to sdl dir and open sdl.sln
     build release mode
