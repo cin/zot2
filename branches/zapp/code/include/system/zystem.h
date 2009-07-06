@@ -1,37 +1,52 @@
 #pragma once
 
+#include "zmsg.h"
 #include "zmsgq.h"
-#include "zthread.h"
+
+#include <map>
 
 namespace Zot
 {
 
-class Zystem : public Zthread
+   class Zthread;
+
+class Zystem
 {
 
 public:
 
+   Zystem(bool bThreaded = false);
    virtual ~Zystem();
-
-   static Zystem *get() { return m_pSystem; }
 
    virtual bool config(ZmCfg *pCfg);
    virtual bool init();
    virtual int onExit();
    virtual void run();
-   virtual void tick();
+   virtual void _();
    virtual bool saveConfig(ZmCfg *pCfg = NULL);
+
+   // method by which other systems publish to this...
+   virtual void publish(Zmsg *pMsg);
 
 protected:
 
-   Zystem();
+   virtual int onConfig(Zmsg *pMsg);
+   virtual int onStop(Zmsg *pMsg);
 
-   //static Zystem *create();
-   static Zystem *m_pSystem;
+   // define the mfp typedef
+   typedef int (Zystem::*ZmsgHandler)(Zmsg *);
+   typedef std::map<uint32, ZmsgHandler> ZmsgHandlers;
+   typedef ZmsgHandlers::iterator ZmhIter;
 
-   bool m_bRun;
-   uint32 m_delay;
-   Zmsgq m_zq;
+   virtual void reg(uint32 msgType, ZmsgHandler pmf);
+
+   bool m_bRunning;
+   bool m_bThreaded;
+   Zmsgq m_msgq;
+   uint32 m_timeout;
+   uint32 m_mask;
+   ZmsgHandlers m_handlers;
+   Zthread *m_pThread;
 
 };
 

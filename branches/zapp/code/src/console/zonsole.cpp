@@ -26,9 +26,10 @@ Zonsole::~Zonsole()
 {
 }
 
-//void Zonsole::draw()
-//{
-//}
+void Zonsole::draw()
+{
+   System::getSingleton().renderGUI();
+}
 
 bool Zonsole::handleInput(const EventArgs &e)
 {
@@ -186,6 +187,33 @@ bool Zonsole::init()
 {
    try
    {
+      // initialize CEGUI
+      new System(new OpenGLRenderer(0), NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
+
+      // set default directories for GUI elements
+      DefaultResourceProvider *rp = static_cast<DefaultResourceProvider *>(System::getSingleton().getResourceProvider());
+      rp->setResourceGroupDirectory("imagesets", "../res/imagesets/");
+      rp->setResourceGroupDirectory("schemes", "../res/schemes/");
+      rp->setResourceGroupDirectory("fonts", "../res/fonts/");
+      rp->setResourceGroupDirectory("looknfeels", "../res/looknfeel/");
+      rp->setResourceGroupDirectory("layouts", "../res/layouts/");
+
+      // now link them to CEGUI
+      Imageset::setDefaultResourceGroup("imagesets");
+      Scheme::setDefaultResourceGroup("schemes");
+      Font::setDefaultResourceGroup("fonts");
+      WidgetLookManager::setDefaultResourceGroup("looknfeels");
+      WindowManager::setDefaultResourceGroup("layouts");      
+
+      // load the scheme file
+      SchemeManager::getSingleton().loadScheme("TaharezLook.scheme");
+
+      // set a mouse cursor
+      System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
+
+      // the zonsole actually starts here.  everything above
+      // this should be in another file
+
       // load the layout file
       frameWnd = (FrameWindow *)WindowManager::getSingleton().loadWindowLayout("zotconsole.layout");
 

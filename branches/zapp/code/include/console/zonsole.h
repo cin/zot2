@@ -21,7 +21,7 @@ public:
    static Zonsole *get() { return (Zonsole *)m_pConsole; }
 
    bool init();
-   //void draw();
+   void draw();
 
    virtual void debug(const std::string &s);
    virtual void info(const std::string &s);

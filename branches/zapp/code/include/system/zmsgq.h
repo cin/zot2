@@ -1,17 +1,12 @@
 #pragma once
 
+#include <queue>
 #include <vector>
 #include "zmsg.h"
+#include "zevent.h"
 
 namespace Zot
 {
-
-/////////////////////////////////////////////////////////////////////
-// forward declarations
-/////////////////////////////////////////////////////////////////////
-
-class Zevent;
-class Zmutex;
 
 /////////////////////////////////////////////////////////////////////
 // Name: Zmsgq
@@ -25,17 +20,20 @@ class Zmsgq
 
 public:
 
-   typedef std::vector<Zmsg *> Zmsgs;
-   typedef Zmsgs::iterator ZmsgIter;
+   typedef std::priority_queue<Zmsg *, std::vector<Zmsg *>, Zmsg::ZmsgComparison> Zmsgs;
 
    Zmsgq();
    virtual ~Zmsgq();
 
+   virtual void post(Zmsg *pMsg, uint32 timeout);
+   virtual Zmsg *wait(uint32 timeout);
+
 protected:
 
-   Zmutex *m_pMutex;
    Zevent *m_pEvent;
    Zmsgs m_zmsgs;
+
+   friend class Zystem;
 
 };
 

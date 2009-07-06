@@ -1,6 +1,7 @@
 #pragma once
 
-struct SDL_Event;
+struct SDL_mutex;
+struct SDL_cond;
 
 namespace Zot
 {
@@ -15,12 +16,38 @@ class Zevent
 
 public:
 
-   Zevent();
+   static const uint32 ZOT_INDEFINITE = 0xffffffff;
+
    virtual ~Zevent();
+
+   virtual bool lock();
+   virtual bool unlock();
+   virtual bool signal();
+   virtual int32 wait(uint32 timeout = ZOT_INDEFINITE);
 
 protected:
 
-   SDL_Event *m_pEvent;
+   Zevent();
+
+};
+
+class SDLEvent : public Zevent
+{
+
+public:
+
+   SDLEvent();
+   virtual ~SDLEvent();
+
+   virtual bool lock();
+   virtual bool unlock();
+   virtual bool signal();
+   virtual int32 wait(uint32 timeout = ZOT_INDEFINITE);
+
+protected:
+
+   SDL_mutex *m_pMutex;
+   SDL_cond *m_pCond;
 
 };
 

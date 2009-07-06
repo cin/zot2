@@ -1,42 +1,48 @@
 #include "zot.h"
 #include "zthread.h"
 #include "SDL.h"
-#include "zystem.h"
 
 //using namespace std;
 using namespace Zot;
 
-Zthread::Zthread()
-   : m_pThread(NULL)
+///////////////////////////////////////////////////////////////
+// Zthread
+
+Zthread::Zthread(Zystem *pSys)
+   : m_pSys(pSys)
 {
 }
 
 Zthread::~Zthread()
 {
-   // don't clean up thread here b/c it may be used down the line
-   // by someone else...or self cleanup, etc
-   m_pThread = NULL;
 }
 
-bool Zthread::create()
+bool Zthread::create(Zthread::ZthreadProc pfn)
 {
-   m_pThread = SDL_CreateThread(sdlCallback, this);
-   return m_pThread != NULL;
+   return false;
 }
 
-void Zthread::kill()
+///////////////////////////////////////////////////////////////
+// SDLThread
+
+SDLThread::SDLThread(Zystem *pSys)
+  : Zthread(pSys)
 {
-   if (m_pThread)
-   {
-      SDL_KillThread(m_pThread);
-      m_pThread = NULL;
-   }
 }
 
-int Zthread::sdlCallback(void *data)
+SDLThread::~SDLThread()
 {
-   Zystem *sys = reinterpret_cast<Zystem *>(data);
-   if (sys)
-      sys->run();
-   return 0;
 }
+
+bool SDLThread::create(ZthreadProc pfn)
+{
+   return ((m_pThread = SDL_CreateThread(pfn, NULL)) ? true : false);
+}
+
+//int SDLThread::SDLRun(void *pData)
+//{
+//   Zthread *pThread = reinterpret_cast<Zthread *>(pData);
+//   if (pThread)
+//      pThread->pSys->run();
+//   return 0;
+//}

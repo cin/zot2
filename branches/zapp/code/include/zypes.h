@@ -10,6 +10,6 @@ namespace Zot
    typedef unsigned short  uint16;
 
    typedef char            int8;
-   typedef unsigned char   uin8;
+   typedef unsigned char   uint8;
 
 }

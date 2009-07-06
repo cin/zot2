@@ -5,16 +5,20 @@ using namespace std;
 using namespace Zot;
 
 Zmsg::Zmsg()
-   : m_type(ZM_NONE)
-   , m_timestamp(0.0f)
-   , m_len(Zmsg::s_baseLen)
+   : __m_type(ZM_NONE)
+   , __m_timestamp(0.0f)
+   , __m_len(Zmsg::s_baseLen)
+   , __m_priority(ZOT_PRIORITY_BOTTOM)
+   , __m_system(0)
 {
 }
 
 Zmsg::Zmsg(const Zmsg &other)
-   : m_type(other.m_type)
-   , m_timestamp(other.m_timestamp)
-   , m_len(other.m_len)
+   : __m_type(other.__m_type)
+   , __m_timestamp(other.__m_timestamp)
+   , __m_len(other.__m_len)
+   , __m_priority(other.__m_priority)
+   , __m_system(other.__m_system)
 {
 }
 
@@ -22,19 +26,28 @@ Zmsg::~Zmsg()
 {
 }
 
+Zmsg *Zmsg::copy()
+{
+   return new Zmsg(*this);
+}
+
 ostream &Zmsg::serialize(ostream &os)
 {
-   os.write((const char *)&m_type, sizeof(m_type));
-   os.write((const char *)&m_timestamp, sizeof(m_timestamp));
-   os.write((const char *)&m_len, sizeof(m_len));
+   os.write((const char *)&__m_type, sizeof(__m_type));
+   os.write((const char *)&__m_timestamp, sizeof(__m_timestamp));
+   os.write((const char *)&__m_len, sizeof(__m_len));
+   os.write((const char *)&__m_priority, sizeof(__m_priority));
+   os.write((const char *)&__m_system, sizeof(__m_system));
    return os;
 }
 
 istream &Zmsg::deserialize(istream &is)
 {
-   is.read((char *)&m_type, sizeof(m_type));
-   is.read((char *)&m_timestamp, sizeof(m_timestamp));
-   is.read((char *)&m_len, sizeof(m_len));
+   is.read((char *)&__m_type, sizeof(__m_type));
+   is.read((char *)&__m_timestamp, sizeof(__m_timestamp));
+   is.read((char *)&__m_len, sizeof(__m_len));
+   is.read((char *)&__m_priority, sizeof(__m_priority));
+   is.read((char *)&__m_system, sizeof(__m_system));
    return is;
 }
 
@@ -53,5 +66,15 @@ istream &Zmsg::jsonDeserialize(istream &is)
 
 ZmCfg::ZmCfg()
 {
-   m_type = ZM_CFG_MSG;
+   __m_type = ZM_CFG_MSG;
+   __m_priority = ZOT_PRIORITY_TOP;
+}
+
+///////////////////////////////////////////////////////////
+// ZmStop
+
+ZmStop::ZmStop()
+{
+   __m_type = ZM_STOP_MSG;
+   __m_priority = ZOT_PRIORITY_TOP;
 }

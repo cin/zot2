@@ -19,7 +19,7 @@ public:
    Zapp();
    virtual ~Zapp();
 
-   static Zapp *get() { return (Zapp *)m_pSystem; }
+   static Zapp *get() { return m_pApp; }
 
    virtual bool config(ZmCfg *pCfg);
    virtual bool init(); // overridden to not create da thread
@@ -28,6 +28,8 @@ public:
 protected:
 
    Zystems m_zystems;
+
+   static Zapp *m_pApp;
 
 };
 
