@@ -36,13 +36,5 @@ SDLThread::~SDLThread()
 
 bool SDLThread::create(ZthreadProc pfn)
 {
-   return ((m_pThread = SDL_CreateThread(pfn, NULL)) ? true : false);
+   return ((m_pThread = SDL_CreateThread(pfn, m_pSys)) ? true : false);
 }
-
-//int SDLThread::SDLRun(void *pData)
-//{
-//   Zthread *pThread = reinterpret_cast<Zthread *>(pData);
-//   if (pThread)
-//      pThread->pSys->run();
-//   return 0;
-//}

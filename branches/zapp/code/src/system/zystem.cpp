@@ -3,6 +3,7 @@
 #include "zthread.h"
 
 #include <SDL.h>
+
 using namespace Zot;
 
 int bar(void *data)
@@ -41,7 +42,8 @@ bool Zystem::init()
 
 void Zystem::publish(Zot::Zmsg *pMsg)
 {
-   m_msgq.post(pMsg, m_timeout);
+   if (m_mask & (pMsg->__m_type & 0xffff0000))
+      m_msgq.post(pMsg, m_timeout);
 }
 
 int Zystem::onConfig(Zmsg *pMsg)
@@ -82,26 +84,28 @@ void Zystem::run()
       _();
 }
 
+void Zystem::tick()
+{
+   Zmsg *pMsg = NULL;
+   while (pMsg = m_msgq.wait(m_timeout))
+   {
+      // if mask passed, find handler and invoke
+      // note: messages are now filtered upon post
+      // if (m_mask & (pMsg->__m_type & 0xffff0000))
+      ZmhIter it = m_handlers.find(pMsg->__m_type);
+      if (it != m_handlers.end())
+      {
+         ZmsgHandler pmf = it->second;
+         (this->*pmf)(pMsg);
+      }
+      delete pMsg;
+   }
+}
+
 void Zystem::_()
 {
    while (m_bRunning)
-   {
-      Zmsg *pMsg = NULL;
-      while (pMsg = m_msgq.wait(m_timeout))
-      {
-         // if mask passed, find handler and invoke
-         if (m_mask & (pMsg->__m_type & 0xffff0000))
-         {
-            ZmhIter it = m_handlers.find(pMsg->__m_type);
-            if (it != m_handlers.end())
-            {
-               ZmsgHandler pmf = it->second;
-               (this->*pmf)(pMsg);
-            }
-         }
-      }
-   }
-
+      tick();
    onExit();
 }
 

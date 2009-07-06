@@ -27,7 +27,10 @@ bool Zapp::init()
    // testing stuff for now...until created dynamically by cfg file
    Zystem *pSys = new Zystem(true);
    if (pSys->init())
+   {
+      pSys->run();
       m_zystems.push_back(pSys);
+   }
 
    return true;
 }

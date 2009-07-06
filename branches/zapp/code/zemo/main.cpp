@@ -2,13 +2,13 @@
 
 using namespace Zot;
 
-class Tesystem : public Zystem
-{
-public:
-   Tesystem()
-   {
-   }
-};
+//class Tesystem : public Zystem
+//{
+//public:
+//   Tesystem()
+//   {
+//   }
+//};
 
 int main(int argc, char *argv[])
 {
@@ -17,8 +17,8 @@ int main(int argc, char *argv[])
    {
       return -1;
    }
-   Tesystem sys;
-   sys.create();
+   //Tesystem sys;
+   //sys.create();
 
    sdlapp.run();
    return 0;

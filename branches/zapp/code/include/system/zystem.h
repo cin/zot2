@@ -8,7 +8,7 @@
 namespace Zot
 {
 
-   class Zthread;
+class Zthread;
 
 class Zystem
 {
@@ -22,6 +22,7 @@ public:
    virtual bool init();
    virtual int onExit();
    virtual void run();
+   virtual void tick();
    virtual void _();
    virtual bool saveConfig(ZmCfg *pCfg = NULL);
 

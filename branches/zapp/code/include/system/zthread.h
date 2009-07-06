@@ -36,8 +36,6 @@ protected:
 
    SDL_Thread *m_pThread;
 
-   //static int SDLRun(void *pData);
-
 };
 
 }
