@@ -1,0 +1,10 @@
+#summary Zot2 source install/compile guide
+
+download cegui (sdk and deps for vc9), sdl, and ode
+  may also want to grab cegui's layout editor
+add CEGUI, ODE_PATH, and SDL_PATH env vars
+add dev tools to path, as so:
+;%CEGUI%\bin;%ODE_PATH%\bin;%SDL_PATH%\bin
+if vs is open, close it
+grab src from google code
+open vs and load zot sln
