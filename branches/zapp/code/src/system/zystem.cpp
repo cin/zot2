@@ -18,7 +18,7 @@ Zystem::Zystem(bool bThreaded)
    : m_bRunning(false)
    , m_bThreaded(bThreaded)
    , m_timeout(17)
-   , m_mask(0xffff0000)
+   , m_mask(ZM_ALL)
    , m_pThread(NULL)
    , m_id(0)
 {
@@ -48,11 +48,11 @@ bool Zystem::init()
 
 void Zystem::push(Zot::Zmsg *pMsg)
 {
-   if (m_mask & (pMsg->__m_type & 0xffff0000))
+   if (m_mask & (pMsg->__m_type & ZM_ALL))
    {
       // make sure msg has a valid system
       if (pMsg->__m_system <= 0)
-         pMsg->__m_system = this->getid();
+         pMsg->__m_system = getid();
       m_msgq.push(pMsg, m_timeout);
    }
 }
@@ -98,7 +98,7 @@ void Zystem::tick()
    {
       // if mask passed, find handler and invoke
       // note: messages are now filtered upon post
-      // if (m_mask & (pMsg->__m_type & 0xffff0000))
+      // if (m_mask & (pMsg->__m_type & ZM_ALL))
       ZmhIter it = m_handlers.find(pMsg->__m_type);
       if (it != m_handlers.end())
       {

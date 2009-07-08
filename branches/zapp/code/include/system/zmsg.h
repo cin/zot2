@@ -89,6 +89,7 @@ class ZmCfg : public Zmsg
 public:
 
    ZmCfg();
+   virtual Zmsg *copy();
 
    uint32 m_mask;
 
@@ -105,6 +106,7 @@ class ZmStop : public Zmsg
 public:
 
    ZmStop();
+   virtual Zmsg *copy();
 
 };
 

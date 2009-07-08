@@ -107,6 +107,11 @@ ZmCfg::ZmCfg()
    __m_priority = ZOT_PRIORITY_TOP;
 }
 
+Zmsg *ZmCfg::copy()
+{
+   return new ZmCfg(*this);
+}
+
 std::ostream &ZmCfg::serialize(std::ostream &os)
 {
    Zmsg::serialize(os);
@@ -128,4 +133,9 @@ ZmStop::ZmStop()
 {
    __m_type = ZM_STOP_MSG;
    __m_priority = ZOT_PRIORITY_TOP;
+}
+
+Zmsg *ZmStop::copy()
+{
+   return new ZmStop(*this);
 }

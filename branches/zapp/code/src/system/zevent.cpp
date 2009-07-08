@@ -119,7 +119,8 @@ bool SDLEvent::wait(uint32 timeout)
    lock();
    bool bSignaled = SDL_PollEvent(m_pEvent) == 1;
    if (!bSignaled)
-      bSignaled = SDL_CondWaitTimeout(m_pCond, m_pMutex, timeout) == 0;
+      bSignaled = SDL_CondWait(m_pCond, m_pMutex) == 0;
+      //bSignaled = SDL_CondWaitTimeout(m_pCond, m_pMutex, timeout) == 0;
    unlock();
 
    if (bSignaled)
