@@ -46,17 +46,22 @@ int Zapp::onExit()
 
    // wait for all zystems to finish exiting
    // TODO: handle infinite wait...hopefully won't happen, but u know it will
-   bool bWaiting = true;
-   while (bWaiting && m_zystems.size())
+   Zystem *pSys = NULL;
+   ZimTime curtime(true);
+   ZimTime exitTime(curtime + 5000);
+
+   while (curtime.update() < exitTime && m_zystems.size())
    {
       for (ZysIter it = m_zystems.begin(); it != m_zystems.end();)
       {
-         if ((*it)->isRunning())
+         pSys = *it;
+         if (pSys->isRunning())
          {
             it++;
          }
          else
          {
+            pSys->onExit();
             delete *it;
             it = m_zystems.erase(it);
          }

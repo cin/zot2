@@ -21,8 +21,12 @@ Zmsg *Zmsgq::get()
 {
    // safely remove the msg q's top element, which is what wait returns when a msg is ready
    m_pEvent->lock();
-   Zmsg *pMsg = m_zmsgs.top();
-   m_zmsgs.pop();
+   Zmsg *pMsg = NULL;
+   if (m_zmsgs.size())
+   {
+      pMsg = m_zmsgs.top();
+      m_zmsgs.pop();
+   }
    m_pEvent->unlock();
    return pMsg;
 }

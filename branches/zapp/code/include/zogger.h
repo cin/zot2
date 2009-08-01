@@ -1,9 +1,4 @@
-#ifndef ZOGGER_H
-#define ZOGGER_H
-
-#ifdef _WIN32
 #pragma once
-#endif
 
 #include <string>
 
@@ -51,5 +46,3 @@ private:
 };
 
 }
-
-#endif

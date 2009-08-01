@@ -1,9 +1,4 @@
-#ifndef __CONVAR_H__
-#define __CONVAR_H__
-
-#ifdef _WIN32
 #pragma once
-#endif
 
 #include <string>
 
@@ -106,5 +101,3 @@ private:
 };
 
 }
-
-#endif // __CONVAR_H__

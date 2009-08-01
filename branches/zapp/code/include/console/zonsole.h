@@ -1,6 +1,3 @@
-#ifndef ZONSOLE_H
-#define ZONSOLE_H
-
 #include "iconsole.h"
 
 #include <string>
@@ -49,5 +46,3 @@ protected:
 };
 
 }
-
-#endif

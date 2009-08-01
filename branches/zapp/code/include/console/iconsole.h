@@ -1,9 +1,4 @@
-#ifndef __ICONSOLE_H__
-#define __ICONSOLE_H__
-
-#ifdef _WIN32
 #pragma once
-#endif
 
 #include <vector>
 #include <deque>
@@ -79,5 +74,3 @@ protected:
 };
 
 }
-
-#endif // __ICONSOLE_H__

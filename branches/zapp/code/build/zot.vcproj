@@ -179,6 +179,10 @@
 				</FileConfiguration>
 			</File>
 			<File
+				RelativePath="..\src\zimtime.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\zogger.cpp"
 				>
 				<FileConfiguration
@@ -322,6 +326,10 @@
 			>
 			<File
 				RelativePath="..\include\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\zimtime.h"
 				>
 			</File>
 			<File

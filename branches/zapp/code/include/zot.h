@@ -1,9 +1,4 @@
-#ifndef __ZOT_H__
-#define __ZOT_H__
-
-#ifdef _WIN32
 #pragma once
-#endif
 
 #include "targetver.h"
 
@@ -11,7 +6,7 @@
 #include <tchar.h>
 
 #include "zypes.h"
+#include "zimtime.h"
+
 //#include "convar.h"
 //#include "zapp.h"
-
-#endif // __ZOT_H__

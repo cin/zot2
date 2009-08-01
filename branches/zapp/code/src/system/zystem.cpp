@@ -93,20 +93,18 @@ void Zystem::run()
 
 void Zystem::tick()
 {
-   Zmsg *pMsg = NULL;
-   while (pMsg = m_msgq.wait(m_timeout))
+   Zmsg *pMsg = m_msgq.wait(m_timeout);
+   while (pMsg)
    {
       // if mask passed, find handler and invoke
       // note: messages are now filtered upon post
       // if (m_mask & (pMsg->__m_type & ZM_ALL))
       ZmhIter it = m_handlers.find(pMsg->__m_type);
       if (it != m_handlers.end())
-      {
-         ZmsgHandler pmf = it->second;
-         (this->*pmf)(pMsg);
-      }
+         (this->*(it->second))(pMsg);
 
       delete pMsg;
+      pMsg = m_msgq.wait(m_timeout);
    }
 }
 
@@ -114,7 +112,8 @@ void Zystem::_()
 {
    while (m_bRunning)
       tick();
-   onExit();
+   // MOVED: since onExit is deleting the thread, this needs to be called at the app level (creator of the threads)
+   //onExit();
 }
 
 bool Zystem::saveConfig(Zot::ZmCfg *pCfg)

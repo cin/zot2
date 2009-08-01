@@ -66,17 +66,16 @@ void SDLApp::draw()
 
 bool SDLApp::init()
 {
-   if (!Zapp::init())
-      return false;
-
    const SDL_VideoInfo *video;
 
-   if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_EVENTTHREAD) < 0)
+   if (SDL_Init(SDL_INIT_VIDEO) < 0)
    {
       fprintf(stderr, "SDL_Init() failed\n");
       return false;
    }
-   atexit(handleExit);
+
+   // don't need this anymore
+   //atexit(handleExit);
 
    video = SDL_GetVideoInfo();
    if (!video)
@@ -103,6 +102,9 @@ bool SDLApp::init()
    initGl();
    initCegui();
    if (!Zonsole::get()->init())
+      return false;
+
+   if (!Zapp::init())
       return false;
 
    return true;
