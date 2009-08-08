@@ -39,6 +39,8 @@ public:
    uint32 getTimeout() const { return m_timeout; }
    void setTimeout(uint32 timeout) { m_timeout = timeout; }
 
+   virtual int onLog(Zmsg *pMsg);
+
 protected:
 
    virtual int onConfig(Zmsg *pMsg);

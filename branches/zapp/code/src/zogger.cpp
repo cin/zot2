@@ -1,5 +1,4 @@
 #include "zot.h"
-#include <iostream>
 
 #ifdef _WIN32
 #include <time.h>
@@ -13,48 +12,77 @@ using namespace Zot;
 
 Zogger *Zogger::zogger = NULL;
 
-Zogger::Zogger(ZogLevel l, int dest, const string &file)
+ConVar zotLogFileName("zotLogFileName", "../log/zot.log", ConVar::EConVarArchive, "Sets the name of the zot logfile.");
+ConVar zotLogLevel("zotLogLevel", "5", ConVar::EConVarArchive, "Sets the log level of the zot logfile.");
+
+Zogger::Zogger(const string &file)
+   : Zystem(true)
+   , filename(file)
 {
-   level = l;
-   destMask = dest;
-   filename = file;
 }
 
 Zogger::~Zogger()
 {
 }
 
-void Zogger::create(ZogLevel l, int dest, const string &file)
+Zogger *Zogger::create()
 {
    if (!zogger)
    {
-      zogger = new Zogger(l, dest, file);
+      zogger = new Zogger(zotLogFileName.getString());
+      if (zogger->init())
+         zogger->run();
    }
+   return zogger;
 }
 
-void Zogger::zog(const string &msg)
+bool Zogger::init()
 {
-   zog(msg, level, destMask);
+   if (!Zystem::init())
+      return false;
+
+   // TODO: back up the old file
+   ofs.open(filename.c_str(), ios::trunc);
+   reg(ZM_LOG_MSG, &Zystem::onLog);
+   m_bRunning = true;
+   return true;
 }
 
-void Zogger::zog(const string &msg, ZogLevel l, int dest)
+int Zogger::onExit()
 {
+   if (ofs)
+      ofs.close();
+   return 0;
+}
+
+int Zogger::onLog(Zmsg *msg)
+{
+   ZmLog *pMsg = dynamic_cast<ZmLog *>(msg);
+   if (!pMsg)
+      return -1;
+
    // hacky .. improve please
    char date[9], time[9];
    _strdate_s(date);
    _strtime_s(time);
-   string timestamp = string(date) + " " + string(time);
-
+#if 0
    // append timestamp to message
-   string fullmsg = timestamp + string(" ") + msg;
+   string timestamp = string(date) + " " + string(time);
+   string fullmsg = timestamp + string(" ") + pMsg->m_msg;
+#else // no need to check log level here b/c it's filtered at the pushing level
+   ostringstream os;
+   os << date << "_" << time << " : " << (uint16)pMsg->m_level << " : " << pMsg->m_msg;
+   string fullmsg(os.str()); // done this way so string won't get copied for each os call
+#endif
 
    // zog the message based on the destination
 
+#if 0 // TODO: update this...cannot do this btwn threads...access the renderer that is
    // having to test if the Zonsole is available, sort of ugly
    // maybe if the Zonsole is not available, just cache
    // the log messages and then when it's ready, dump them
    // all in.
-   if ((dest & ZOG_CONSOLE) && Zonsole::get())
+   if ((pMsg->dest & ZOG_CONSOLE) && Zonsole::get())
    {
       switch (l)
       {
@@ -65,15 +93,27 @@ void Zogger::zog(const string &msg, ZogLevel l, int dest)
       default: break;
       }
    }
-
+#endif
    // this is ugly. maybe have STDERR trump STDOUT if it is set?
-   if (dest & ZOG_STDOUT) cout << fullmsg << endl;
-   if (dest & ZOG_STDERR) cerr << fullmsg << endl;
-   
-   if (dest & ZOG_FILE)
-   {
-      // should file already be opened and awaiting data?
-      // if so, the stream should be a memer, and we can simply
-      // write to it here.
-   }
+   // MOD: now forcing users to end their own lines...may want to call this
+   // multiple times w/out necessarily always ending
+   // should file already be opened and awaiting data?
+   // if so, the stream should be a memer, and we can simply
+   // write to it here.
+   if (pMsg->m_dest & ZOG_STDOUT) cout << fullmsg;
+   if (pMsg->m_dest & ZOG_STDERR) cerr << fullmsg;
+   if (pMsg->m_dest & ZOG_FILE)   ofs  << fullmsg;
+   return 0;
+}
+
+void Zogger::zog(const string &msg)
+{
+   if (Zmsg::ZOT_PRIORITY_NORMAL >= zotLogLevel.getInt32())
+      Zogger::get()->push(new ZmLog(msg, Zmsg::ZOT_PRIORITY_NORMAL, Zogger::ZOG_FILE));
+}
+
+void Zogger::zog(const string &msg, ZogLevel l, int dest)
+{
+   if (l >= zotLogLevel.getInt32())
+      Zogger::get()->push(new ZmLog(msg, l, dest));
 }

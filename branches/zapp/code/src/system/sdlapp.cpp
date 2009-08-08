@@ -2,6 +2,7 @@
 
 #include "sdlapp.h"
 #include "zonsole.h"
+#include "zogger.h"
 
 #include <CEGUIDefaultResourceProvider.h>
 #include <OpenGLGUIRenderer/openglrenderer.h>
@@ -19,8 +20,14 @@ void handleExit()
    exit(0);
 }
 
+void handleLog()
+{
+   Zogger::get()->zog("this is a test of the emergency broadcast system\n");
+}
+
 ConVar zotExit("exit", handleExit, "Exits the game.");
 ConVar zotQuit("quit", handleExit, "Exits the game.");
+ConVar zotLog("log", handleLog, "Logs a message to the logfile.");
 
 void SDLApp::constructKeyMap()
 {

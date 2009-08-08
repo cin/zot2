@@ -15,6 +15,7 @@ const uint32 ZM_NONE          = 0x00000000;
 const uint32 ZM_CFG_GRP       = 0x00010000;
 const uint32 ZM_CFG_MSG       = ZM_CFG_GRP | 0x0001;
 const uint32 ZM_STOP_MSG      = ZM_CFG_GRP | 0x0002;
+const uint32 ZM_LOG_MSG       = ZM_CFG_GRP | 0x0003;
 
 class Zystem;
 
@@ -24,6 +25,7 @@ class Zmsg// : public Zerialize
 public:
 
    static const uint8 ZOT_PRIORITY_TOP = 0;
+   static const uint8 ZOT_PRIORITY_NORMAL = 5;
    static const uint8 ZOT_PRIORITY_BOTTOM = 10;
 
    class ZmsgComparison
@@ -89,6 +91,7 @@ class ZmCfg : public Zmsg
 public:
 
    ZmCfg();
+   ZmCfg(const ZmCfg &other);
    virtual Zmsg *copy();
 
    uint32 m_mask;
@@ -107,6 +110,28 @@ public:
 
    ZmStop();
    virtual Zmsg *copy();
+
+};
+
+class ZmLog : public Zmsg
+{
+
+public:
+
+   ZmLog();
+   ZmLog(const std::string &msg);
+   ZmLog(const std::string &msg, int level, int dest);
+   ZmLog(const ZmLog &other);
+   virtual Zmsg *copy();
+
+   uint8 m_level;
+   uint8 m_dest;
+   std::string m_msg;
+
+protected:
+
+   virtual std::ostream &serialize(std::ostream &os);
+   virtual std::istream &deserialize(std::istream &is);
 
 };
 

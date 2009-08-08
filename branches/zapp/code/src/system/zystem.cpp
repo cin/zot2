@@ -1,6 +1,7 @@
 #include "zot.h"
 #include "zystem.h"
 #include "zthread.h"
+#include "zogger.h"
 
 #include <SDL.h>
 
@@ -42,6 +43,7 @@ bool Zystem::init()
 {
    reg(ZM_CFG_MSG, &Zystem::onConfig);
    reg(ZM_STOP_MSG, &Zystem::onStop);
+   reg(ZM_LOG_MSG, &Zystem::onLog);
    m_bRunning = true;
    return true;
 }
@@ -75,6 +77,12 @@ int Zystem::onExit()
 int Zystem::onStop(Zmsg *pMsg)
 {
    m_bRunning = false;
+   return 0;
+}
+
+int Zystem::onLog(Zmsg *pMsg)
+{
+   Zogger::get()->onLog(pMsg);
    return 0;
 }
 

@@ -1,6 +1,7 @@
 #include "zot.h"
 #include "zmsg.h"
 #include "zystem.h"
+#include "zogger.h"
 
 using namespace std;
 using namespace Zot;
@@ -102,6 +103,14 @@ istream &Zmsg::jsonDeserialize(istream &is)
 // ZmCfg
 
 ZmCfg::ZmCfg()
+   : m_mask(0)
+{
+   __m_type = ZM_CFG_MSG;
+   __m_priority = ZOT_PRIORITY_TOP;
+}
+
+ZmCfg::ZmCfg(const ZmCfg &other)
+   : m_mask(other.m_mask)
 {
    __m_type = ZM_CFG_MSG;
    __m_priority = ZOT_PRIORITY_TOP;
@@ -138,4 +147,70 @@ ZmStop::ZmStop()
 Zmsg *ZmStop::copy()
 {
    return new ZmStop(*this);
+}
+
+///////////////////////////////////////////////////////////
+// ZmLog
+
+ZmLog::ZmLog()
+   : m_level(ZOT_PRIORITY_NORMAL)
+   , m_dest(Zogger::ZOG_FILE)
+{
+   __m_type = ZM_LOG_MSG;
+   __m_priority = ZOT_PRIORITY_NORMAL;
+}
+
+ZmLog::ZmLog(const string &msg)
+   : m_level(ZOT_PRIORITY_NORMAL)
+   , m_dest(Zogger::ZOG_FILE)
+   , m_msg(msg)
+{
+   __m_type = ZM_LOG_MSG;
+   __m_priority = ZOT_PRIORITY_NORMAL;
+}
+
+ZmLog::ZmLog(const std::string &msg, int level, int dest)
+   : m_msg(msg)
+{
+   m_level = (uint8)level;
+   m_dest = (uint8)dest;
+   __m_type = ZM_LOG_MSG;
+   __m_priority = ZOT_PRIORITY_NORMAL;
+}
+
+ZmLog::ZmLog(const ZmLog &other)
+   : m_level(other.m_level)
+   , m_dest(other.m_dest)
+   , m_msg(other.m_msg)
+{
+   __m_type = ZM_LOG_MSG;
+   __m_priority = ZOT_PRIORITY_NORMAL;
+}
+
+Zmsg *ZmLog::copy()
+{
+   return new ZmLog(*this);
+}
+
+ostream &ZmLog::serialize(ostream &os)
+{
+   Zmsg::serialize(os);
+   uint16 sz = (uint16)m_msg.length();
+   os.write((const char *)&m_level, sizeof(m_level));
+   os.write((const char *)&m_dest, sizeof(m_dest));
+   os.write((const char *)&sz, sizeof(sz));
+   os.write(m_msg.data(), sz);
+   return os;
+}
+
+istream &ZmLog::deserialize(istream &is)
+{
+   Zmsg::deserialize(is);
+   uint16 sz = 0;
+   is.read((char *)&m_level, sizeof(m_level));
+   is.read((char *)&m_dest, sizeof(m_dest));
+   is.read((char *)&sz, sizeof(sz));
+   m_msg.resize(sz + 1);
+   is.read(&m_msg.at(0), sz);
+   return is;
 }

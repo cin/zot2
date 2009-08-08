@@ -1,5 +1,6 @@
 #include "zot.h"
 #include "zapp.h"
+#include "zogger.h"
 
 using namespace Zot;
 
@@ -32,6 +33,11 @@ bool Zapp::init()
       m_zystems.push_back(pSys);
    }
 
+   // now for a real built in system
+   Zogger *pLogger = Zogger::create();
+   if (pLogger)
+      m_zystems.push_back(pLogger);
+
    return true;
 }
 
@@ -47,10 +53,10 @@ int Zapp::onExit()
    // wait for all zystems to finish exiting
    // TODO: handle infinite wait...hopefully won't happen, but u know it will
    Zystem *pSys = NULL;
-   ZimTime curtime(true);
-   ZimTime exitTime(curtime + 5000);
+   ZimTime curTime(true);
+   ZimTime exitTime(curTime + 5000);
 
-   while (curtime.update() < exitTime && m_zystems.size())
+   while (curTime.update() < exitTime && m_zystems.size())
    {
       for (ZysIter it = m_zystems.begin(); it != m_zystems.end();)
       {
