@@ -35,6 +35,7 @@ void Zmsgq::push(Zmsg *pMsg, uint32 timeout)
 {
    m_pEvent->lock();
    m_zmsgs.push(pMsg->copy());
+   m_pEvent->push();
    m_pEvent->unlock();
 }
 

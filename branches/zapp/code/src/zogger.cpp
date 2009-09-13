@@ -52,6 +52,7 @@ int Zogger::onExit()
 {
    if (ofs)
       ofs.close();
+   Zystem::onExit();
    return 0;
 }
 

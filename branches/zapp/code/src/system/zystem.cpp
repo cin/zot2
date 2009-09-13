@@ -2,9 +2,16 @@
 #include "zystem.h"
 #include "zthread.h"
 #include "zogger.h"
+#include <sstream>
+#include <windows.h>
+
+#ifdef _WIN32
+#include <time.h>
+#endif
 
 #include <SDL.h>
 
+using namespace std;
 using namespace Zot;
 
 int bar(void *data)
@@ -43,7 +50,7 @@ bool Zystem::init()
 {
    reg(ZM_CFG_MSG, &Zystem::onConfig);
    reg(ZM_STOP_MSG, &Zystem::onStop);
-   reg(ZM_LOG_MSG, &Zystem::onLog);
+   //reg(ZM_LOG_MSG, &Zystem::onLog);
    m_bRunning = true;
    return true;
 }
@@ -69,20 +76,42 @@ int Zystem::onConfig(Zmsg *pMsg)
 
 int Zystem::onExit()
 {
+   {
+      wostringstream os;
+      int id = m_pThread ? m_pThread->getThreadId() : -1;
+      os << "Zystem::onExit: id " << id << endl;
+      OutputDebugString(os.str().c_str());
+   }
+
    if (m_pThread)
       delete m_pThread, m_pThread = NULL;
+
    return 0;
 }
 
 int Zystem::onStop(Zmsg *pMsg)
 {
+   {
+      wostringstream os;
+      int id = m_pThread ? m_pThread->getThreadId() : -1;
+      os << "Zystem::onStop: id " << id << endl;
+      OutputDebugString(os.str().c_str());
+   }
+
    m_bRunning = false;
    return 0;
 }
 
 int Zystem::onLog(Zmsg *pMsg)
 {
-   Zogger::get()->onLog(pMsg);
+   //{
+   //   wostringstream os;
+   //   int id = m_pThread ? m_pThread->getThreadId() : -1;
+   //   os << "Zystem::onLog: id " << id << endl;
+   //   OutputDebugString(os.str().c_str());
+   //}
+
+   //Zogger::get()->onLog(pMsg);
    return 0;
 }
 
@@ -101,9 +130,28 @@ void Zystem::run()
 
 void Zystem::tick()
 {
+   //{
+   //   char date[9], time[9];
+   //   _strdate_s(date);
+   //   _strtime_s(time);
+
+   //   wostringstream os;
+   //   int id = m_pThread ? m_pThread->getThreadId() : -1;
+   //   os << date << "_" << time << " : Zystem " << id << " is ticking" << endl;
+   //   OutputDebugString(os.str().c_str());
+   //}
+
    Zmsg *pMsg = m_msgq.wait(m_timeout);
-   while (pMsg)
+   while (m_bRunning && pMsg)
    {
+      {
+         wostringstream os;
+         int id = m_pThread ? m_pThread->getThreadId() : -1;
+         os << "Zystem " << id << " is has msg in q. type: "
+            << showbase << hex << pMsg->__m_type << endl;
+         OutputDebugString(os.str().c_str());
+      }
+
       // if mask passed, find handler and invoke
       // note: messages are now filtered upon post
       // if (m_mask & (pMsg->__m_type & ZM_ALL))

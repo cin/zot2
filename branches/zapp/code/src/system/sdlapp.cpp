@@ -17,7 +17,8 @@ void handleExit()
 {
    // TODO: create CEGUI event and pass through the system so
    // all other interfaces/systems can be shutdown gracefully
-   exit(0);
+   Zapp::get()->onExit();
+   //exit(0);
 }
 
 void handleLog()
@@ -74,6 +75,8 @@ void SDLApp::draw()
 bool SDLApp::init()
 {
    const SDL_VideoInfo *video;
+
+   m_pApp = this;
 
    if (SDL_Init(SDL_INIT_VIDEO) < 0)
    {
@@ -251,7 +254,8 @@ void SDLApp::tick()
 
    Zapp::tick();
 
-   draw();
+   if (m_bRunning)
+      draw();
 }
 
 void SDLApp::run()
@@ -262,9 +266,11 @@ void SDLApp::run()
 
 int SDLApp::onExit()
 {
+   m_bRunning = false;
    Zapp::onExit();
    SDL_Quit();
-   handleExit();
+   //handleExit();
+   m_pApp = NULL;
    return 1;
 }
 
