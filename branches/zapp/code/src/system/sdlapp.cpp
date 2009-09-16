@@ -26,6 +26,9 @@ void handleLog()
    Zogger::get()->zog("this is a test of the emergency broadcast system\n");
 }
 
+ConVar foo1("foo1", NULL, "foo1");
+ConVar foo2("foo2", NULL, "foo2");
+ConVar foo3("foo3", NULL, "foo3");
 ConVar zotExit("exit", handleExit, "Exits the game.");
 ConVar zotQuit("quit", handleExit, "Exits the game.");
 ConVar zotLog("log", handleLog, "Logs a message to the logfile.");

@@ -33,6 +33,7 @@ public:
    bool handleKeyDown(const EventArgs &e);
    void handleTab();
    bool handleTextChanged(const EventArgs &e);
+   bool handleACClick(const EventArgs &e);
 
 protected:
    CEGUI::FrameWindow *frameWnd;
@@ -43,6 +44,8 @@ protected:
    void addMessage(const CEGUI::colour &c, const CEGUI::String &s);
 
    void chooseAuto(bool dir);
+
+   int getSelectedIndex();
 };
 
 }

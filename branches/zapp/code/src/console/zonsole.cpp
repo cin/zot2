@@ -92,16 +92,7 @@ bool Zonsole::handleKeyDown(const EventArgs &e)
 void Zonsole::chooseAuto(bool dir)
 {
    size_t cnt = autoCompleteWnd->getItemCount();
-   int osel = -1, nsel = -1;
-
-   for (size_t i = 0; i < cnt; i++)
-   {
-      if (autoCompleteWnd->getListboxItemFromIndex(i)->isSelected())
-      {
-         osel = i;
-         break;
-      }
-   }
+   int osel = getSelectedIndex(), nsel = -1;
 
    if (osel >= 0)
    {
@@ -124,15 +115,7 @@ void Zonsole::handleTab()
    if (autoCompleteWnd->isVisible() && m_matches.size())
    {
       // find out which convar is selected (default to first one)
-      size_t i = 0, selected = 0;
-      for (; i < autoCompleteWnd->getItemCount(); i++)
-      {
-         if (autoCompleteWnd->getListboxItemFromIndex(i)->isSelected())
-         {
-            selected = i;
-            break;
-         }
-      }
+      size_t selected = getSelectedIndex();
 
       // be paranoid
       if (selected < m_matches.size())
@@ -183,6 +166,30 @@ void Zonsole::hide()
    }
 }
 
+bool Zonsole::handleACClick(const EventArgs &e)
+{
+   int sel = getSelectedIndex();
+
+   if (sel >= 0)
+   {
+      String txt = autoCompleteWnd->getListboxItemFromIndex(sel)->getText();
+      inputWnd->setText(txt);
+      inputWnd->setCaratIndex(txt.length());
+   }
+
+   return true;
+}
+
+int Zonsole::getSelectedIndex()
+{
+   for (size_t i = 0; i < autoCompleteWnd->getItemCount(); i++)
+   {
+      if (autoCompleteWnd->getListboxItemFromIndex(i)->isSelected())
+         return i;
+   }
+   return -1;
+}
+
 bool Zonsole::init()
 {
    try
@@ -203,6 +210,7 @@ bool Zonsole::init()
       inputWnd = (Editbox *)WindowManager::getSingleton().getWindow("Zonsole/Input");
       bufferWnd = (Listbox *)WindowManager::getSingleton().getWindow("Zonsole/Buffer");
       autoCompleteWnd = (Listbox *)WindowManager::getSingleton().getWindow("Zonsole/Input/AutoComplete");
+      autoCompleteWnd->subscribeEvent(Listbox::EventMouseClick, Event::Subscriber(&Zonsole::handleACClick, this));
       autoCompleteWnd->hide();
 
       // make it a little transparent
