@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "Zystem.h"
+#include "zystem.h"
 
 namespace Zot
 {
@@ -24,6 +24,9 @@ public:
    virtual bool config(ZmCfg *pCfg);
    virtual bool init(); // overridden to not create da thread
    virtual int onExit();
+   virtual void tick();
+
+   void addZystress();
 
 protected:
 

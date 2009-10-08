@@ -15,7 +15,7 @@ class Zystem
 
 public:
 
-   Zystem(bool bThreaded = false);
+   Zystem(Zystem *pParent, bool bThreaded = false);
    virtual ~Zystem();
 
    virtual bool config(ZmCfg *pCfg);
@@ -39,7 +39,19 @@ public:
    uint32 getTimeout() const { return m_timeout; }
    void setTimeout(uint32 timeout) { m_timeout = timeout; }
 
+   uint32 getMask() const { return m_mask; }
+   void setMask(uint32 mask) { m_mask = mask; }
+   void resetMask() { m_mask = 0; }
+   void addMask(uint32 mask) { m_mask |= mask; }
+   void toggleMask(uint32 mask) { m_mask ^= mask; }
+   void removeMask(uint32 mask) { m_mask &= ~mask; }
+
    virtual int onLog(Zmsg *pMsg);
+   virtual int onTest(Zmsg *pMsg);
+
+   Zystem *getParent() const { return m_pParent; }
+
+   size_t getMsgqSize() const { return m_msgq.m_zmsgs.size(); }
 
 protected:
 
@@ -53,6 +65,8 @@ protected:
 
    virtual void reg(uint32 msgType, ZmsgHandler pmf);
 
+   Zystem *m_pParent;
+
    bool m_bRunning;
    bool m_bThreaded;
    Zmsgq m_msgq;
@@ -61,6 +75,10 @@ protected:
    ZmsgHandlers m_handlers;
    Zthread *m_pThread;
    uint8 m_id;
+
+private:
+
+   static uint8 s_id;
 
 };
 

@@ -19,11 +19,9 @@ public:
 
    virtual ~Zevent();
 
-   virtual bool lock();
+   virtual bool lock(uint32 timeout = ZOT_INDEFINITE);
    virtual bool unlock();
-   virtual void push();
-   virtual void pump();
-   virtual bool poll();
+   virtual void signal();
    virtual bool wait(uint32 timeout = ZOT_INDEFINITE);
 
 protected:
@@ -32,6 +30,27 @@ protected:
 
 };
 
+#ifdef WIN32
+class MSEvent : public Zevent
+{
+
+public:
+
+   MSEvent();
+   virtual ~MSEvent();
+
+   virtual bool lock(uint32 timeout = ZOT_INDEFINITE);
+   virtual bool unlock();
+   virtual void signal();
+   virtual bool wait(uint32 timeout = ZOT_INDEFINITE);
+
+protected:
+
+   uint32 m_hEvent;
+   uint32 m_hMutex;
+
+};
+#else
 class SDLEvent : public Zevent
 {
 
@@ -40,19 +59,17 @@ public:
    SDLEvent();
    virtual ~SDLEvent();
 
-   virtual bool lock();
+   virtual bool lock(uint32 timeout = ZOT_INDEFINITE);
    virtual bool unlock();
-   virtual void push();
-   virtual void pump();
-   virtual bool poll();
+   virtual void signal();
    virtual bool wait(uint32 timeout = ZOT_INDEFINITE);
 
 protected:
 
    SDL_mutex *m_pMutex;
    SDL_cond *m_pCond;
-   SDL_Event *m_pEvent;
 
 };
+#endif
 
 }

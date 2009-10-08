@@ -15,8 +15,8 @@ Zogger *Zogger::zogger = NULL;
 ConVar zotLogFileName("zotLogFileName", "../log/zot.log", ConVar::EConVarArchive, "Sets the name of the zot logfile.");
 ConVar zotLogLevel("zotLogLevel", "5", ConVar::EConVarArchive, "Sets the log level of the zot logfile.");
 
-Zogger::Zogger(const string &file)
-   : Zystem(true)
+Zogger::Zogger(Zystem *pParent, const string &file)
+   : Zystem(pParent, true)
    , filename(file)
 {
 }
@@ -25,11 +25,11 @@ Zogger::~Zogger()
 {
 }
 
-Zogger *Zogger::create()
+Zogger *Zogger::create(Zystem *pParent)
 {
    if (!zogger)
    {
-      zogger = new Zogger(zotLogFileName.getString());
+      zogger = new Zogger(pParent, zotLogFileName.getString());
       if (zogger->init())
          zogger->run();
    }
@@ -110,11 +110,17 @@ int Zogger::onLog(Zmsg *msg)
 void Zogger::zog(const string &msg)
 {
    if (Zmsg::ZOT_PRIORITY_NORMAL >= zotLogLevel.getInt32())
-      Zogger::get()->push(new ZmLog(msg, Zmsg::ZOT_PRIORITY_NORMAL, Zogger::ZOG_FILE));
+   {
+      ZmLog msg(msg, Zmsg::ZOT_PRIORITY_NORMAL, Zogger::ZOG_FILE);
+      Zogger::get()->push(&msg);
+   }
 }
 
 void Zogger::zog(const string &msg, ZogLevel l, int dest)
 {
    if (l >= zotLogLevel.getInt32())
-      Zogger::get()->push(new ZmLog(msg, l, dest));
+   {
+      ZmLog msg(msg, l, dest);
+      Zogger::get()->push(&msg);
+   }
 }

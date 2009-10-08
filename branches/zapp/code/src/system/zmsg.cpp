@@ -69,7 +69,7 @@ void Zmsg::setSystem(Zystem *sys)
       __m_system = sys->getid();
 }
 
-ostream &Zmsg::serialize(ostream &os)
+ostream &Zmsg::serialize(ostream &os) const
 {
    os.write((const char *)&__m_type, sizeof(__m_type));
    os.write((const char *)&__m_timestamp, sizeof(__m_timestamp));
@@ -89,7 +89,7 @@ istream &Zmsg::deserialize(istream &is)
    return is;
 }
 
-ostream &Zmsg::jsonSerialize(ostream &os)
+ostream &Zmsg::jsonSerialize(ostream &os) const
 {
    return os;
 }
@@ -121,7 +121,7 @@ Zmsg *ZmCfg::copy()
    return new ZmCfg(*this);
 }
 
-std::ostream &ZmCfg::serialize(std::ostream &os)
+std::ostream &ZmCfg::serialize(std::ostream &os) const
 {
    Zmsg::serialize(os);
    os.write((const char *)&m_mask, sizeof(m_mask));
@@ -192,7 +192,7 @@ Zmsg *ZmLog::copy()
    return new ZmLog(*this);
 }
 
-ostream &ZmLog::serialize(ostream &os)
+ostream &ZmLog::serialize(ostream &os) const
 {
    Zmsg::serialize(os);
    uint16 sz = (uint16)m_msg.length();

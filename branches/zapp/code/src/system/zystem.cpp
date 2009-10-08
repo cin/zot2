@@ -14,6 +14,8 @@
 using namespace std;
 using namespace Zot;
 
+uint8 Zystem::s_id(0);
+
 int bar(void *data)
 {
    Zystem *foo = reinterpret_cast<Zystem *>(data);
@@ -22,13 +24,14 @@ int bar(void *data)
    return -1;
 }
 
-Zystem::Zystem(bool bThreaded)
-   : m_bRunning(false)
+Zystem::Zystem(Zystem *pParent, bool bThreaded)
+   : m_pParent(pParent)
+   , m_bRunning(false)
    , m_bThreaded(bThreaded)
    , m_timeout(17)
    , m_mask(ZM_ALL)
    , m_pThread(NULL)
-   , m_id(0)
+   , m_id(++s_id)
 {
 }
 
@@ -50,7 +53,6 @@ bool Zystem::init()
 {
    reg(ZM_CFG_MSG, &Zystem::onConfig);
    reg(ZM_STOP_MSG, &Zystem::onStop);
-   //reg(ZM_LOG_MSG, &Zystem::onLog);
    m_bRunning = true;
    return true;
 }
@@ -104,14 +106,11 @@ int Zystem::onStop(Zmsg *pMsg)
 
 int Zystem::onLog(Zmsg *pMsg)
 {
-   //{
-   //   wostringstream os;
-   //   int id = m_pThread ? m_pThread->getThreadId() : -1;
-   //   os << "Zystem::onLog: id " << id << endl;
-   //   OutputDebugString(os.str().c_str());
-   //}
+   return 0;
+}
 
-   //Zogger::get()->onLog(pMsg);
+int Zystem::onTest(Zmsg *pMsg)
+{
    return 0;
 }
 
@@ -147,7 +146,7 @@ void Zystem::tick()
       {
          wostringstream os;
          int id = m_pThread ? m_pThread->getThreadId() : -1;
-         os << "Zystem " << id << " is has msg in q. type: "
+         os << "Zystem " << id << " id has msg in q. type: "
             << showbase << hex << pMsg->__m_type << endl;
          OutputDebugString(os.str().c_str());
       }
@@ -166,6 +165,7 @@ void Zystem::tick()
 
 void Zystem::_()
 {
+   init();
    while (m_bRunning)
       tick();
    // MOVED: since onExit is deleting the thread, this needs to be called at the app level (creator of the threads)

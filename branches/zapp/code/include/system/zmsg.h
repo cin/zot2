@@ -16,6 +16,7 @@ const uint32 ZM_CFG_GRP       = 0x00010000;
 const uint32 ZM_CFG_MSG       = ZM_CFG_GRP | 0x0001;
 const uint32 ZM_STOP_MSG      = ZM_CFG_GRP | 0x0002;
 const uint32 ZM_LOG_MSG       = ZM_CFG_GRP | 0x0003;
+const uint32 ZM_TEST_MSG      = ZM_CFG_GRP | 0x0004;
 
 class Zystem;
 
@@ -65,10 +66,13 @@ public:
    void setSystem(uint8 _sys) { __m_system = _sys; }
    void setSystem(Zystem *sys);
 
-   virtual std::ostream &serialize(std::ostream &os);
+   uint32 getType() const { return __m_type; }
+   uint16 getPriority() const { return __m_priority; }
+
+   virtual std::ostream &serialize(std::ostream &os) const;
    virtual std::istream &deserialize(std::istream &is);
 
-   virtual std::ostream &jsonSerialize(std::ostream &os);
+   virtual std::ostream &jsonSerialize(std::ostream &os) const;
    virtual std::istream &jsonDeserialize(std::istream &is);
 
 protected:
@@ -98,7 +102,7 @@ public:
 
 protected:
 
-   virtual std::ostream &serialize(std::ostream &os);
+   virtual std::ostream &serialize(std::ostream &os) const;
    virtual std::istream &deserialize(std::istream &is);
 
 };
@@ -130,7 +134,7 @@ public:
 
 protected:
 
-   virtual std::ostream &serialize(std::ostream &os);
+   virtual std::ostream &serialize(std::ostream &os) const;
    virtual std::istream &deserialize(std::istream &is);
 
 };

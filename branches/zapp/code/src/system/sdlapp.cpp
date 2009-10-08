@@ -13,6 +13,11 @@ using namespace Zot;
 
 CEGUI::utf32 sKeyMap[SDLK_LAST];
 
+void handleZystress()
+{
+   Zapp::get()->addZystress();
+}
+
 void handleExit()
 {
    // TODO: create CEGUI event and pass through the system so
@@ -32,6 +37,7 @@ ConVar foo3("foo3", NULL, "foo3");
 ConVar zotExit("exit", handleExit, "Exits the game.");
 ConVar zotQuit("quit", handleExit, "Exits the game.");
 ConVar zotLog("log", handleLog, "Logs a message to the logfile.");
+ConVar zotZystress("addStress", handleZystress, "Adds another Zystress thread for testing.");
 
 void SDLApp::constructKeyMap()
 {
@@ -263,6 +269,7 @@ void SDLApp::tick()
 
 void SDLApp::run()
 {
+   init();
    while (m_bRunning)
       tick();
 }

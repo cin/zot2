@@ -1,5 +1,7 @@
 #pragma once
 
+#include <iostream>
+
 namespace Zot
 {
 
@@ -16,9 +18,15 @@ public:
    uint32 get() const { return m_time; }
    void set(uint32 time) { m_time = time; }
    bool operator<(const ZimTime &rhs) const { return m_time < rhs.m_time; }
+   bool operator<=(const ZimTime &rhs) const { return m_time <= rhs.m_time; }
+   bool operator>(const ZimTime &rhs) const { return m_time > rhs.m_time; }
+   bool operator>=(const ZimTime &rhs) const { return m_time >= rhs.m_time; }
 
    ZimTime operator+(const ZimTime &rhs) const { return ZimTime(m_time + rhs.m_time); }
+   ZimTime operator-(const ZimTime &rhs) const { return ZimTime(m_time - rhs.m_time); }
    ZimTime operator+(int mstime) const { return ZimTime(m_time + mstime); }
+
+   std::ostream &operator<<(std::ostream &os) const;
 
 protected:
 

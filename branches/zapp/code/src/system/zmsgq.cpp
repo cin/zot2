@@ -8,7 +8,11 @@ using namespace Zot;
 Zmsgq::Zmsgq()
    : m_pEvent(NULL)
 {
+#ifdef WIN32
+   m_pEvent = new MSEvent;
+#else
    m_pEvent = new SDLEvent;
+#endif
 }
 
 Zmsgq::~Zmsgq()
@@ -33,10 +37,10 @@ Zmsg *Zmsgq::get()
 
 void Zmsgq::push(Zmsg *pMsg, uint32 timeout)
 {
-   m_pEvent->lock();
+   m_pEvent->lock(timeout);
    m_zmsgs.push(pMsg->copy());
-   m_pEvent->push();
    m_pEvent->unlock();
+   m_pEvent->signal();
 }
 
 Zmsg *Zmsgq::wait(uint32 timeout)

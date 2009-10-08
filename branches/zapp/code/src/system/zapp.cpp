@@ -1,9 +1,11 @@
 #include "zot.h"
 #include "zapp.h"
 #include "zogger.h"
+#include "Zystress.h"
 #include <windows.h>
 #include <sstream>
 #include "zthread.h"
+#include <iomanip>
 
 using namespace std;
 using namespace Zot;
@@ -11,6 +13,7 @@ using namespace Zot;
 Zapp *Zapp::m_pApp = NULL;
 
 Zapp::Zapp()
+   : Zystem(NULL, false)
 {
 }
 
@@ -30,12 +33,9 @@ bool Zapp::init()
       return ret;
 
    // testing stuff for now...until created dynamically by cfg file
-   Zystem *pSys = new Zystem(true);
-   if (pSys->init())
-   {
-      pSys->run();
-      m_zystems.push_back(pSys);
-   }
+   Zystem *pSys = new Zystem(this, true);
+   pSys->run();
+   m_zystems.push_back(pSys);
 
    {
       wostringstream os;
@@ -44,7 +44,7 @@ bool Zapp::init()
    }
 
    // now for a real built in system
-   Zogger *pLogger = Zogger::create();
+   Zogger *pLogger = Zogger::create(this);
    if (pLogger)
    {
       m_zystems.push_back(pLogger);
@@ -71,9 +71,7 @@ int Zapp::onExit()
    // send event stop event to all zystems
    ZmStop stop;
    for (ZysIter it = m_zystems.begin(); it != m_zystems.end(); it++)
-   {
       (*it)->push(&stop);
-   }
 
    // wait for all zystems to finish exiting
    // TODO: handle infinite wait...hopefully won't happen, but u know it will
@@ -108,4 +106,58 @@ int Zapp::onExit()
 
    int ret = Zystem::onExit();
    return ret;
+}
+
+void Zapp::tick()
+{
+   Zmsg *pMsg = m_msgq.wait(m_timeout);
+   while (m_bRunning && pMsg)
+   {
+      {
+         wostringstream os;
+         os << "Zapp has msg in q. type: "
+            << showbase << hex << pMsg->getType() << endl;
+         OutputDebugString(os.str().c_str());
+      }
+
+      // check if other zystems want this msg
+      Zystem *pSys = NULL;
+      for (ZysIter it = m_zystems.begin(); it != m_zystems.end(); it++)
+      {
+         pSys = *it;
+         // don't send to the calling system and only send
+         // to systems that care about this message type
+         if (pSys->getid() != pMsg->getSystem() &&
+            pSys->getMask() & (pMsg->getType() & ZM_ALL))
+         {
+            pSys->push(pMsg);
+         }
+      }
+
+      // if mask passed, find handler and invoke
+      // note: messages are now filtered upon post
+      // if (m_mask & (pMsg->__m_type & ZM_ALL))
+      ZmhIter it = m_handlers.find(pMsg->getType());
+      if (it != m_handlers.end())
+         (this->*(it->second))(pMsg);
+
+      delete pMsg;
+      pMsg = m_msgq.wait(m_timeout);
+   }
+}
+
+void Zapp::addZystress()
+{
+   static uint32 sNumZystress(0);
+
+   Zystress *pSys = new Zystress(this);
+   pSys->run();
+   m_zystems.push_back(pSys);
+   sNumZystress++;
+
+   {
+      wostringstream os;
+      os << "Zapp::addZystress: pSys id " << pSys->getThreadId() << "; sNumZystress: " << setw(3) << sNumZystress << endl;
+      OutputDebugString(os.str().c_str());
+   }
 }

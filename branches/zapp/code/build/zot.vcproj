@@ -317,6 +317,14 @@
 					RelativePath="..\include\system\zystem.h"
 					>
 				</File>
+				<File
+					RelativePath="..\src\system\zystress.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\src\system\zystress.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter
@@ -351,14 +359,6 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}"
 			>
 		</Filter>
-		<File
-			RelativePath=".\ClassDiagram1.cd"
-			>
-		</File>
-		<File
-			RelativePath=".\ClassDiagram2.cd"
-			>
-		</File>
 	</Files>
 	<Globals>
 	</Globals>

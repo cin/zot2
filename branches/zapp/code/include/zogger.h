@@ -32,7 +32,7 @@ public:
 public:
    virtual ~Zogger();
 
-   static Zogger *create();
+   static Zogger *create(Zystem *pParent);
    static Zogger *get() { return zogger; }
 
    void zog(const std::string &msg);
@@ -45,7 +45,7 @@ protected:
    void zog(ZmLog *pMsg);
 
 private:
-   Zogger(const std::string &file);
+   Zogger(Zystem *pParent, const std::string &file);
 
    static Zogger *zogger;
 
