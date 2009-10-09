@@ -32,17 +32,6 @@ bool Zapp::init()
    if (!ret)
       return ret;
 
-   // testing stuff for now...until created dynamically by cfg file
-   //Zystem *pSys = new Zystem(this, true);
-   //pSys->run();
-   //m_zystems.push_back(pSys);
-
-   //{
-   //   wostringstream os;
-   //   os << "Zapp::init: pSys id " << pSys->getThreadId() << endl;
-   //   OutputDebugString(os.str().c_str());
-   //}
-
    // now for a real built in system
    Zogger *pLogger = Zogger::create(this);
    if (pLogger)
@@ -104,12 +93,16 @@ int Zapp::onExit()
       OutputDebugString(os.str().c_str());
    }
 
+   Zystem::onStop(&stop);
    int ret = Zystem::onExit();
    return ret;
 }
 
 void Zapp::tick()
 {
+   if (!m_bRunning)
+      return;
+
    // FIXME: the app needs to get some priority here...
    // unless the some priority is given to it there is a chance
    // that worker thread message traffic could cause the tick
@@ -119,7 +112,7 @@ void Zapp::tick()
    ZimTime finishTime(curTime + m_timeout);
 
    Zmsg *pMsg = m_msgq.wait(m_timeout);
-   while (m_bRunning && pMsg && curTime.update() < finishTime)
+   while (pMsg)
    {
       //{
       //   wostringstream os;
@@ -151,7 +144,9 @@ void Zapp::tick()
 
       delete pMsg;
 
-      if (--qStartSz == 0)
+      if (curTime.update() < finishTime)
+         pMsg = NULL;
+      else if (--qStartSz == 0)
          pMsg = m_msgq.wait(m_timeout);
       else
          pMsg = m_msgq.get();

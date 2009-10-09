@@ -22,7 +22,8 @@ void handleExit()
 {
    // TODO: create CEGUI event and pass through the system so
    // all other interfaces/systems can be shutdown gracefully
-   Zapp::get()->onExit();
+   ZmStop stop;
+   Zapp::get()->push(&stop);
    //exit(0);
 }
 
@@ -187,6 +188,7 @@ void SDLApp::tick()
 {
    SDL_Event e;
    CEGUI::System &S = CEGUI::System::getSingleton();
+   ZmStop stop;
 
    while (SDL_PollEvent(&e))
    {
@@ -196,7 +198,7 @@ void SDLApp::tick()
          switch (e.key.keysym.sym)
          {
          case SDLK_ESCAPE:
-            onExit();
+            push(&stop);
             break;
          case SDLK_BACKQUOTE:
             Zonsole::get()->isVisible() ? Zonsole::get()->hide() : Zonsole::get()->show();
@@ -254,7 +256,7 @@ void SDLApp::tick()
          }
          break;
       case SDL_QUIT:
-         onExit();
+         push(&stop);
          break;
       default:
          break;
@@ -278,9 +280,8 @@ int SDLApp::onExit()
 {
    m_bRunning = false;
    Zapp::onExit();
+   m_pApp = NULL;
    SDL_Quit();
    //handleExit();
-   m_pApp = NULL;
    return 1;
 }
-

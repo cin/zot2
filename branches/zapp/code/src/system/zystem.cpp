@@ -168,7 +168,8 @@ void Zystem::_()
    init();
    while (m_bRunning)
       tick();
-   // MOVED: since onExit is deleting the thread, this needs to be called at the app level (creator of the threads)
+   // MOVED: since onExit is deleting the thread,
+   // this needs to be called at the app level (creator of the threads)
    //onExit();
 }
 
