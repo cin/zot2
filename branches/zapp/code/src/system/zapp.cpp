@@ -33,15 +33,15 @@ bool Zapp::init()
       return ret;
 
    // testing stuff for now...until created dynamically by cfg file
-   Zystem *pSys = new Zystem(this, true);
-   pSys->run();
-   m_zystems.push_back(pSys);
+   //Zystem *pSys = new Zystem(this, true);
+   //pSys->run();
+   //m_zystems.push_back(pSys);
 
-   {
-      wostringstream os;
-      os << "Zapp::init: pSys id " << pSys->getThreadId() << endl;
-      OutputDebugString(os.str().c_str());
-   }
+   //{
+   //   wostringstream os;
+   //   os << "Zapp::init: pSys id " << pSys->getThreadId() << endl;
+   //   OutputDebugString(os.str().c_str());
+   //}
 
    // now for a real built in system
    Zogger *pLogger = Zogger::create(this);
@@ -114,8 +114,12 @@ void Zapp::tick()
    // unless the some priority is given to it there is a chance
    // that worker thread message traffic could cause the tick
    // to never empty the message queue.
+   size_t qStartSz = getMsgqSize();
+   ZimTime curTime;
+   ZimTime finishTime(curTime + m_timeout);
+
    Zmsg *pMsg = m_msgq.wait(m_timeout);
-   while (m_bRunning && pMsg)
+   while (m_bRunning && pMsg && curTime.update() < finishTime)
    {
       //{
       //   wostringstream os;
@@ -146,7 +150,11 @@ void Zapp::tick()
          (this->*(it->second))(pMsg);
 
       delete pMsg;
-      pMsg = m_msgq.wait(m_timeout);
+
+      if (--qStartSz == 0)
+         pMsg = m_msgq.wait(m_timeout);
+      else
+         pMsg = m_msgq.get();
    }
 }
 

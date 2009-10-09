@@ -55,7 +55,7 @@ int Zystress::onTest(Zmsg *msg)
          << " wrapped at " << m_time.get() << endl;
       OutputDebugString(os.str().c_str());
    }
-   else
+   else if (getMsgqSize() > 0)
    {
       wostringstream os;
       m_time.update();
