@@ -37,11 +37,17 @@ bool Zapp::init()
    if (pLogger)
    {
       m_zystems.push_back(pLogger);
-      {
+      D({
          wostringstream os;
          os << "Zapp::init: pLogger id " << pLogger->getThreadId() << endl;
          OutputDebugString(os.str().c_str());
-      }
+      })
+   }
+
+   for (int i = 0; i < 25; i++)
+   {
+      addZystress();
+      SDL_Delay(10);
    }
 
    m_timeout = 10;
@@ -50,25 +56,24 @@ bool Zapp::init()
 
 int Zapp::onExit()
 {
-   {
+   D({
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zapp::onExit: id " << id << endl;
       OutputDebugString(os.str().c_str());
-   }
+   })
 
    // send event stop event to all zystems
    ZmStop stop;
    for (ZysIter it = m_zystems.begin(); it != m_zystems.end(); it++)
-      (*it)->push(&stop);
+      (*it)->push(stop);
 
    // wait for all zystems to finish exiting
    // TODO: handle infinite wait...hopefully won't happen, but u know it will
    Zystem *pSys = NULL;
-   ZimTime curTime(true);
-   ZimTime exitTime(curTime + 5000);
+   ZimTime exitTime(m_curTime.update() + 5000);
 
-   while (curTime.update() < exitTime && m_zystems.size())
+   while (m_curTime.update() < exitTime && m_zystems.size())
    {
       for (ZysIter it = m_zystems.begin(); it != m_zystems.end();)
       {
@@ -82,16 +87,17 @@ int Zapp::onExit()
             pSys->onExit();
             delete *it;
             it = m_zystems.erase(it);
+            SDL_Delay(10);
          }
       }
    }
 
-   {
+   D({
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zapp::onExit: " << id << " calling base class' onExit" << endl;
       OutputDebugString(os.str().c_str());
-   }
+   })
 
    Zystem::onStop(&stop);
    int ret = Zystem::onExit();
@@ -100,27 +106,16 @@ int Zapp::onExit()
 
 void Zapp::tick()
 {
-   if (!m_bRunning)
-      return;
-
-   // FIXME: the app needs to get some priority here...
+   // the app needs to get some priority here...
    // unless the some priority is given to it there is a chance
    // that worker thread message traffic could cause the tick
    // to never empty the message queue.
    size_t qStartSz = getMsgqSize();
-   ZimTime curTime;
-   ZimTime finishTime(curTime + m_timeout);
+   ZimTime finishTime(m_curTime.update() + m_timeout);
 
    Zmsg *pMsg = m_msgq.wait(m_timeout);
    while (pMsg)
    {
-      //{
-      //   wostringstream os;
-      //   os << "Zapp has msg in q. type: "
-      //      << showbase << hex << pMsg->getType() << endl;
-      //   OutputDebugString(os.str().c_str());
-      //}
-
       // check if other zystems want this msg
       Zystem *pSys = NULL;
       for (ZysIter it = m_zystems.begin(); it != m_zystems.end(); it++)
@@ -144,10 +139,10 @@ void Zapp::tick()
 
       delete pMsg;
 
-      if (curTime.update() < finishTime)
+      if (m_curTime.update() > finishTime)
          pMsg = NULL;
       else if (--qStartSz == 0)
-         pMsg = m_msgq.wait(m_timeout);
+         pMsg = m_msgq.wait((finishTime - m_curTime).get());
       else
          pMsg = m_msgq.get();
    }
@@ -162,9 +157,9 @@ void Zapp::addZystress()
    m_zystems.push_back(pSys);
    sNumZystress++;
 
-   {
+   D({
       wostringstream os;
-      os << "Zapp::addZystress: pSys id " << pSys->getThreadId() << "; sNumZystress: " << setw(3) << sNumZystress << endl;
+      os << "Zapp::addZystress: pSys id " << setw(4) << pSys->getThreadId() << "; sNumZystress: " << setw(3) << sNumZystress << endl;
       OutputDebugString(os.str().c_str());
-   }
+   })
 }

@@ -6,12 +6,12 @@
 	>
 	<Tool
 		Name="VCCLCompilerTool"
-		PreprocessorDefinitions="__CEGUI_0_6_2__"
-		AdditionalIncludeDirectories="&quot;$(CEGUI)/include&quot;;&quot;$(CEGUI)/RendererModules&quot;"
+		AdditionalIncludeDirectories="&quot;$(CEGUI)/cegui/include&quot;;&quot;$(CEGUI)/cegui/include/RendererModules&quot;"
+		PreprocessorDefinitions=""
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies="CEGUIBase.lib OpenGLGUIRenderer.lib"
+		AdditionalDependencies="CEGUIBase.lib CEGUIOpenGLRenderer.lib"
 		AdditionalLibraryDirectories="&quot;$(CEGUI)/lib&quot;"
 	/>
 </VisualStudioPropertySheet>

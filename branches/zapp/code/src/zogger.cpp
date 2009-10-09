@@ -110,17 +110,11 @@ int Zogger::onLog(Zmsg *msg)
 void Zogger::zog(const string &msg)
 {
    if (Zmsg::ZOT_PRIORITY_NORMAL >= zotLogLevel.getInt32())
-   {
-      ZmLog lmsg(msg, Zmsg::ZOT_PRIORITY_NORMAL, Zogger::ZOG_FILE);
-      Zogger::get()->push(&lmsg);
-   }
+      push(ZmLog(msg, Zmsg::ZOT_PRIORITY_NORMAL, Zogger::ZOG_FILE));
 }
 
 void Zogger::zog(const string &msg, ZogLevel l, int dest)
 {
    if (l >= zotLogLevel.getInt32())
-   {
-      ZmLog lmsg(msg, l, dest);
-      Zogger::get()->push(&lmsg);
-   }
+      push(ZmLog(msg, l, dest));
 }

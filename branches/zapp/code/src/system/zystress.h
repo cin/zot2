@@ -22,6 +22,7 @@ protected:
    ZimTime m_startTime;
    ZimTime m_nextTime;
    ZimTime m_time;
+   size_t m_lastQSz;
 
 };
 

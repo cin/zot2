@@ -2,6 +2,7 @@
 
 #include "zmsg.h"
 #include "zmsgq.h"
+#include "zimtime.h"
 
 #include <map>
 
@@ -25,9 +26,6 @@ public:
    virtual void tick();
    virtual void _();
    virtual bool saveConfig(ZmCfg *pCfg = NULL);
-
-   // method by which other systems push msgs to this system
-   virtual void push(Zmsg *pMsg);
 
    // accessors
    uint8 getid() const { return m_id; }
@@ -53,7 +51,17 @@ public:
 
    size_t getMsgqSize() const { return m_msgq.m_zmsgs.size(); }
 
+   // push to parent -- this is the method all systems should be using
+   // to pass messages to thier parent as it will set the msg system
+   // id properly
+   virtual void post(Zmsg *pMsg);
+   virtual void post(Zmsg &msg);
+
 protected:
+
+   // method by which other systems push msgs to this system
+   virtual void push(Zmsg *pMsg);
+   virtual void push(Zmsg &msg);
 
    virtual int onConfig(Zmsg *pMsg);
    virtual int onStop(Zmsg *pMsg);
@@ -75,10 +83,13 @@ protected:
    ZmsgHandlers m_handlers;
    Zthread *m_pThread;
    uint8 m_id;
+   ZimTime m_curTime;
 
 private:
 
    static uint8 s_id;
+
+   friend class Zapp;
 
 };
 

@@ -32,6 +32,7 @@ Zystem::Zystem(Zystem *pParent, bool bThreaded)
    , m_mask(ZM_ALL)
    , m_pThread(NULL)
    , m_id(++s_id)
+   , m_curTime(true)
 {
 }
 
@@ -54,18 +55,36 @@ bool Zystem::init()
    reg(ZM_CFG_MSG, &Zystem::onConfig);
    reg(ZM_STOP_MSG, &Zystem::onStop);
    m_bRunning = true;
+   m_curTime.update();
    return true;
+}
+
+void Zystem::post(Zot::Zmsg *pMsg)
+{
+   // make sure msg has a valid system
+   if (pMsg->__m_system <= 0)
+      pMsg->__m_system = getid();
+
+   if (m_pParent)
+      m_pParent->push(pMsg);
+   else
+      push(pMsg);
+}
+
+void Zystem::post(Zot::Zmsg &msg)
+{
+   post(&msg);
 }
 
 void Zystem::push(Zot::Zmsg *pMsg)
 {
    if (m_mask & (pMsg->__m_type & ZM_ALL))
-   {
-      // make sure msg has a valid system
-      if (pMsg->__m_system <= 0)
-         pMsg->__m_system = getid();
       m_msgq.push(pMsg, m_timeout);
-   }
+}
+
+void Zystem::push(Zot::Zmsg &msg)
+{
+   push(&msg);
 }
 
 int Zystem::onConfig(Zmsg *pMsg)
@@ -78,12 +97,12 @@ int Zystem::onConfig(Zmsg *pMsg)
 
 int Zystem::onExit()
 {
-   {
+   D({
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zystem::onExit: id " << id << endl;
       OutputDebugString(os.str().c_str());
-   }
+   })
 
    if (m_pThread)
       delete m_pThread, m_pThread = NULL;
@@ -93,12 +112,12 @@ int Zystem::onExit()
 
 int Zystem::onStop(Zmsg *pMsg)
 {
-   {
+   D({
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zystem::onStop: id " << id << endl;
       OutputDebugString(os.str().c_str());
-   }
+   })
 
    m_bRunning = false;
    return 0;
@@ -129,28 +148,12 @@ void Zystem::run()
 
 void Zystem::tick()
 {
-   //{
-   //   char date[9], time[9];
-   //   _strdate_s(date);
-   //   _strtime_s(time);
-
-   //   wostringstream os;
-   //   int id = m_pThread ? m_pThread->getThreadId() : -1;
-   //   os << date << "_" << time << " : Zystem " << id << " is ticking" << endl;
-   //   OutputDebugString(os.str().c_str());
-   //}
+   size_t qStartSz = getMsgqSize();
+   ZimTime finishTime(m_curTime.update() + m_timeout);
 
    Zmsg *pMsg = m_msgq.wait(m_timeout);
-   while (m_bRunning && pMsg)
+   while (pMsg)
    {
-      //{
-      //   wostringstream os;
-      //   int id = m_pThread ? m_pThread->getThreadId() : -1;
-      //   os << "Zystem " << id << " id has msg in q. type: "
-      //      << showbase << hex << pMsg->__m_type << endl;
-      //   OutputDebugString(os.str().c_str());
-      //}
-
       // if mask passed, find handler and invoke
       // note: messages are now filtered upon post
       // if (m_mask & (pMsg->__m_type & ZM_ALL))
@@ -159,7 +162,13 @@ void Zystem::tick()
          (this->*(it->second))(pMsg);
 
       delete pMsg;
-      pMsg = m_msgq.wait(m_timeout);
+
+      if (!m_bRunning || m_curTime.update() > finishTime)
+         pMsg = NULL;
+      else if (--qStartSz == 0)
+         pMsg = m_msgq.wait((finishTime - m_curTime).get());
+      else
+         pMsg = m_msgq.get();
    }
 }
 

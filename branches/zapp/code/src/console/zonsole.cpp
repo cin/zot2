@@ -5,7 +5,12 @@
 #include "zonsole.h"
 
 #include <CEGUIDefaultResourceProvider.h>
+
+#ifdef __CEGUI_0_6_2__
 #include <OpenGLGUIRenderer/openglrenderer.h>
+#else
+#include <OpenGL/CEGUIOpenGLRenderer.h>
+#endif
 
 using namespace std;
 using namespace Zot;
@@ -106,7 +111,11 @@ void Zonsole::chooseAuto(bool dir)
       }
       autoCompleteWnd->getListboxItemFromIndex(osel)->setSelected(false);
       autoCompleteWnd->getListboxItemFromIndex(nsel)->setSelected(true);
+#ifdef __CEGUI_0_6_2__
       autoCompleteWnd->requestRedraw();
+#else
+      autoCompleteWnd->invalidate();
+#endif
    }
 }
 

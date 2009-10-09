@@ -5,7 +5,11 @@
 #include "zogger.h"
 
 #include <CEGUIDefaultResourceProvider.h>
+#ifdef __CEGUI_0_6_2__
 #include <OpenGLGUIRenderer/openglrenderer.h>
+#else
+#include <OpenGL/CEGUIOpenGLRenderer.h>
+#endif
 
 using namespace std;
 using namespace CEGUI;
@@ -20,11 +24,7 @@ void handleZystress()
 
 void handleExit()
 {
-   // TODO: create CEGUI event and pass through the system so
-   // all other interfaces/systems can be shutdown gracefully
-   ZmStop stop;
-   Zapp::get()->push(&stop);
-   //exit(0);
+   Zapp::get()->onExit();
 }
 
 void handleLog()
@@ -94,9 +94,6 @@ bool SDLApp::init()
       return false;
    }
 
-   // don't need this anymore
-   //atexit(handleExit);
-
    video = SDL_GetVideoInfo();
    if (!video)
    {
@@ -135,7 +132,11 @@ void SDLApp::initCegui()
    try
    {
       // initialize CEGUI
+#ifdef __CEGUI_0_6_2__
       new System(new OpenGLRenderer(0), NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
+#else
+      System::create(OpenGLRenderer::create(), NULL, NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
+#endif
 
       // set default directories for GUI elements
       DefaultResourceProvider *rp = static_cast<DefaultResourceProvider *>(System::getSingleton().getResourceProvider());
@@ -153,7 +154,11 @@ void SDLApp::initCegui()
       WindowManager::setDefaultResourceGroup("layouts");      
 
       // load the scheme file
+#ifdef __CEGUI_0_6_2__
       SchemeManager::getSingleton().loadScheme("TaharezLook.scheme");
+#else
+      SchemeManager::getSingleton().create("TaharezLook.scheme");
+#endif
 
       // set a mouse cursor
       System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
@@ -188,7 +193,6 @@ void SDLApp::tick()
 {
    SDL_Event e;
    CEGUI::System &S = CEGUI::System::getSingleton();
-   ZmStop stop;
 
    while (SDL_PollEvent(&e))
    {
@@ -198,7 +202,7 @@ void SDLApp::tick()
          switch (e.key.keysym.sym)
          {
          case SDLK_ESCAPE:
-            push(&stop);
+            onExit();
             break;
          case SDLK_BACKQUOTE:
             Zonsole::get()->isVisible() ? Zonsole::get()->hide() : Zonsole::get()->show();
@@ -256,7 +260,7 @@ void SDLApp::tick()
          }
          break;
       case SDL_QUIT:
-         push(&stop);
+         onExit();
          break;
       default:
          break;
@@ -281,7 +285,7 @@ int SDLApp::onExit()
    m_bRunning = false;
    Zapp::onExit();
    m_pApp = NULL;
+   SDL_Delay(10);
    SDL_Quit();
-   //handleExit();
    return 1;
 }

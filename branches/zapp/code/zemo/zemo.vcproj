@@ -96,7 +96,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui-debug.vsprops"
+			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
