@@ -46,7 +46,7 @@ bool Zapp::init()
       })
    }
 
-   for (int i = 0; i < 25; i++)
+   for (int i = 0; i < 50; i++)
    {
       addZystress();
       SDL_Delay(10);
@@ -70,27 +70,31 @@ int Zapp::onExit()
    for (ZysIter it = m_zystems.begin(); it != m_zystems.end(); it++)
       (*it)->push(stop);
 
-   // wait for all zystems to finish exiting
-   // TODO: handle infinite wait...hopefully won't happen, but u know it will
-   Zystem *pSys = NULL;
+   // try to wait for all zystems to finish exiting
    ZimTime exitTime(m_curTime.update() + 5000);
-
    while (m_curTime.update() < exitTime && m_zystems.size())
    {
       for (ZysIter it = m_zystems.begin(); it != m_zystems.end();)
       {
-         pSys = *it;
-         if (pSys->isRunning())
+         if ((*it)->isRunning())
          {
             it++;
          }
          else
          {
-            pSys->onExit();
+            (*it)->onExit();
             delete *it;
             it = m_zystems.erase(it);
          }
       }
+   }
+
+   // if some systems aren't cooperating, kill them
+   for (ZysIter it = m_zystems.begin(); it != m_zystems.end();)
+   {
+      (*it)->kill();
+      delete *it;
+      it = m_zystems.erase(it);
    }
 
    D({

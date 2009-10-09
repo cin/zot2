@@ -1,6 +1,8 @@
 #pragma once
 
-#ifndef WIN32
+#define __ZOT_USES_MSEVENTS__
+
+#ifndef __ZOT_USES_MSEVENTS__
 #include "SDL.h"
 #endif
 
@@ -32,7 +34,7 @@ protected:
 
 };
 
-#ifdef WIN32
+#ifdef __ZOT_USES_MSEVENTS__
 class MSEvent : public Zevent
 {
 

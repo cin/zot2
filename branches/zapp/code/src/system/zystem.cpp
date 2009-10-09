@@ -59,6 +59,11 @@ bool Zystem::init()
    return true;
 }
 
+void Zystem::kill()
+{
+   m_pThread->kill();
+}
+
 void Zystem::post(Zot::Zmsg *pMsg)
 {
    // make sure msg has a valid system

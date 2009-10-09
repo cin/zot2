@@ -27,6 +27,8 @@ public:
    virtual void _();
    virtual bool saveConfig(ZmCfg *pCfg = NULL);
 
+   virtual void kill();
+
    // accessors
    uint8 getid() const { return m_id; }
    void setid(uint8 id) { m_id = id; }

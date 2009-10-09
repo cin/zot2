@@ -1,7 +1,7 @@
 #include "zot.h"
 #include "zevent.h"
 
-#ifdef WIN32
+#ifdef __ZOT_USES_MSEVENTS__
 #include <windows.h>
 #endif
 
@@ -42,8 +42,7 @@ bool Zevent::wait(uint32 timeout)
    return false;
 }
 
-#ifdef WIN32
-
+#ifdef __ZOT_USES_MSEVENTS__
 /////////////////////////////////////////////////////////////////////
 // MSEvent
 
@@ -82,9 +81,7 @@ bool MSEvent::wait(uint32 timeout)
 {
    return WaitForSingleObject((HANDLE)m_hEvent, timeout) == WAIT_OBJECT_0;
 }
-
 #else
-
 /////////////////////////////////////////////////////////////////////
 // SDLEvent
 
@@ -123,7 +120,8 @@ bool SDLEvent::wait(uint32 timeout)
    // 0 is signaled
    // -1 if error
    lock();
-   return SDL_CondWaitTimeout(m_pCond, m_pMutex, timeout) == 0;
+   bool ret = SDL_CondWaitTimeout(m_pCond, m_pMutex, timeout) == 0;
+   unlock();
+   return ret;
 }
-
 #endif

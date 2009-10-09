@@ -267,10 +267,11 @@ void SDLApp::tick()
       }
    }
 
-   Zapp::tick();
-
    if (m_bRunning)
+   {
+      Zapp::tick();
       draw();
+   }
 }
 
 void SDLApp::run()

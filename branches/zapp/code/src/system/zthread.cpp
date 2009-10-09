@@ -33,6 +33,10 @@ uint32 Zthread::getThreadId() const
    return -1;
 }
 
+void Zthread::kill()
+{
+}
+
 #ifdef __ZOT_USE_MSTHREADS__
 ///////////////////////////////////////////////////////////////
 // MSThread
@@ -65,6 +69,15 @@ uint32 MSThread::getThreadId() const
    // returns id of the current thread if m_pThread is NULL
    return m_threadId;
 }
+
+void MSThread::kill()
+{
+   if (m_hThread)
+   {
+      TerminateThread(m_hThread);
+      m_hThread = 0;
+   }
+}
 #else
 ///////////////////////////////////////////////////////////////
 // SDLThread
@@ -93,5 +106,14 @@ uint32 SDLThread::getThreadId() const
 {
    // returns id of the current thread if m_pThread is NULL
    return SDL_GetThreadID(m_pThread);
+}
+
+void SDLThread::kill()
+{
+   if (m_pThread)
+   {
+      SDL_KillThread(m_pThread);
+      m_pThread = NULL;
+   }
 }
 #endif
