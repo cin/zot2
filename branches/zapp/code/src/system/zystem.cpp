@@ -143,13 +143,13 @@ void Zystem::tick()
    Zmsg *pMsg = m_msgq.wait(m_timeout);
    while (m_bRunning && pMsg)
    {
-      {
-         wostringstream os;
-         int id = m_pThread ? m_pThread->getThreadId() : -1;
-         os << "Zystem " << id << " id has msg in q. type: "
-            << showbase << hex << pMsg->__m_type << endl;
-         OutputDebugString(os.str().c_str());
-      }
+      //{
+      //   wostringstream os;
+      //   int id = m_pThread ? m_pThread->getThreadId() : -1;
+      //   os << "Zystem " << id << " id has msg in q. type: "
+      //      << showbase << hex << pMsg->__m_type << endl;
+      //   OutputDebugString(os.str().c_str());
+      //}
 
       // if mask passed, find handler and invoke
       // note: messages are now filtered upon post

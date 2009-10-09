@@ -25,7 +25,7 @@ public:
    Zmsgq();
    virtual ~Zmsgq();
 
-   virtual void push(Zmsg *pMsg, uint32 timeout);
+   virtual bool push(Zmsg *pMsg, uint32 timeout);
    virtual Zmsg *wait(uint32 timeout);
 
    Zmsg *get();

@@ -24,23 +24,29 @@ Zmsgq::~Zmsgq()
 Zmsg *Zmsgq::get()
 {
    // safely remove the msg q's top element, which is what wait returns when a msg is ready
-   m_pEvent->lock();
    Zmsg *pMsg = NULL;
-   if (m_zmsgs.size())
+   if (m_pEvent->lock())
    {
-      pMsg = m_zmsgs.top();
-      m_zmsgs.pop();
+      if (m_zmsgs.size())
+      {
+         pMsg = m_zmsgs.top();
+         m_zmsgs.pop();
+      }
+      m_pEvent->unlock();
    }
-   m_pEvent->unlock();
    return pMsg;
 }
 
-void Zmsgq::push(Zmsg *pMsg, uint32 timeout)
+bool Zmsgq::push(Zmsg *pMsg, uint32 timeout)
 {
-   m_pEvent->lock(timeout);
-   m_zmsgs.push(pMsg->copy());
-   m_pEvent->unlock();
-   m_pEvent->signal();
+   bool bLocked = m_pEvent->lock(timeout);
+   if (bLocked)
+   {
+      m_zmsgs.push(pMsg->copy());
+      m_pEvent->unlock();
+      m_pEvent->signal();
+   }
+   return bLocked;
 }
 
 Zmsg *Zmsgq::wait(uint32 timeout)

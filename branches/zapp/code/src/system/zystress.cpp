@@ -9,7 +9,7 @@
 using namespace std;
 using namespace Zot;
 
-ConVar stressDelay("stressDelay", "100", ConVar::EConVarArchive, "Stress test thread message delay");
+ConVar stressDelay("stressDelay", "20", ConVar::EConVarArchive, "Stress test thread message delay");
 
 Zystress::Zystress(Zystem *pParent)
    : Zystem(pParent, true)
@@ -29,6 +29,7 @@ bool Zystress::init()
    m_nextTime = m_startTime + stressDelay.getInt32();
    Zmsg msg(ZM_TEST_MSG, this);
    m_pParent->push(&msg);
+   m_timeout = 10;
    return ret;
 }
 

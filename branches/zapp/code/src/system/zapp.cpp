@@ -55,7 +55,7 @@ bool Zapp::init()
       }
    }
 
-
+   m_timeout = 10;
    return true;
 }
 
@@ -110,15 +110,19 @@ int Zapp::onExit()
 
 void Zapp::tick()
 {
+   // FIXME: the app needs to get some priority here...
+   // unless the some priority is given to it there is a chance
+   // that worker thread message traffic could cause the tick
+   // to never empty the message queue.
    Zmsg *pMsg = m_msgq.wait(m_timeout);
    while (m_bRunning && pMsg)
    {
-      {
-         wostringstream os;
-         os << "Zapp has msg in q. type: "
-            << showbase << hex << pMsg->getType() << endl;
-         OutputDebugString(os.str().c_str());
-      }
+      //{
+      //   wostringstream os;
+      //   os << "Zapp has msg in q. type: "
+      //      << showbase << hex << pMsg->getType() << endl;
+      //   OutputDebugString(os.str().c_str());
+      //}
 
       // check if other zystems want this msg
       Zystem *pSys = NULL;
