@@ -285,7 +285,6 @@ int SDLApp::onExit()
    m_bRunning = false;
    Zapp::onExit();
    m_pApp = NULL;
-   SDL_Delay(10);
    SDL_Quit();
    return 1;
 }

@@ -2,9 +2,11 @@
 #include "zapp.h"
 #include "zogger.h"
 #include "Zystress.h"
+#include "zthread.h"
+
+#include <SDL.h>
 #include <windows.h>
 #include <sstream>
-#include "zthread.h"
 #include <iomanip>
 
 using namespace std;
@@ -87,7 +89,6 @@ int Zapp::onExit()
             pSys->onExit();
             delete *it;
             it = m_zystems.erase(it);
-            SDL_Delay(10);
          }
       }
    }

@@ -141,7 +141,13 @@ void Zystem::reg(uint32 msgType, ZmsgHandler pmf)
 void Zystem::run()
 {
    if (m_bThreaded)
+   {
+#ifdef __ZOT_USE_MSTHREADS__
+      m_pThread = new MSThread(bar, this);
+#else
       m_pThread = new SDLThread(bar, this);
+#endif
+   }
    else
       _();
 }
