@@ -19,23 +19,25 @@ public:
 
    Camera();
 
-   // setup perspective and modelview matrices
+   // setup projection matrix
    void setup(int width = 1024, int height = 768, float fov = 45.0f);
 
    // handle mouse/kb movement
    void update() const;
 
+   void place();
+
    const Vec3f &getLook() const;
    const Vec3f &getRight() const;
    const Vec3f &getUp() const;
 
-   Mat3f &getMatrix() const;
+   Mat4f &getMatrix() const;
 
 protected:
 
    Quatf ori;
    Vec3f pos;
-   Mat3f mat;
+   Mat4f glmat;
 
    float aspect;
    float fov;

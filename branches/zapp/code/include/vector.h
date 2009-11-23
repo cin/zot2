@@ -102,6 +102,11 @@ struct Vector
       return *this;
    }
 
+   Vector operator-()
+   {
+      return Vector(-x, -y, -z);
+   }
+
    Vector &normalize()
    {
       T d(length());

@@ -70,14 +70,7 @@ void SDLApp::draw()
 {
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glLoadIdentity();
-   glTranslatef(0, 0, -20);
-   glRotatef(-20.0f, 1, 0, 0);
-   //glBegin(GL_POLYGON);
-   //glVertex3i(5, 5, 0);
-   //glVertex3i(-5, 5, 0);
-   //glVertex3i(-5, -5, 0);
-   //glVertex3i(5, -5, 0);
-   //glEnd();
+   m_camera.place();
    m_terrain.draw();
 }
 

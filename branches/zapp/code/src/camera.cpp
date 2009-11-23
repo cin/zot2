@@ -17,6 +17,15 @@ Camera::Camera()
    , fov(45.0f)
    , aspect(1024.0f / 768.0f)
 {
+   pos.init(0, 0, 20);
+}
+
+void Camera::place()
+{
+   float m[16];
+   glGetFloatv(GL_MODELVIEW_MATRIX, m);
+   ori.glMatrix(glmat, -pos);
+   glLoadMatrixf(glmat.m);
 }
 
 void Camera::setup(int width, int height, float fov)

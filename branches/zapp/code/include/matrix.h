@@ -24,6 +24,13 @@ public:
          m[i] = other.m[i];
    }
 
+   T &operator[](int i)
+   {
+      if (i < 0 || i > 8)
+         return m[0];
+      return m[i];
+   }
+
    Matrix3 &operator=(const Matrix3 &rhs)
    {
       if (this != &rhs)
@@ -69,10 +76,10 @@ public:
    //   other.gl
    //}
 
-   T operator[](int i) const
+   T &operator[](int i)
    {
       if (i < 0 || i > 15)
-         return 0;
+         return m[0];
       return m[i];
    }
 
@@ -86,7 +93,7 @@ public:
       return *this;
    }
 
-   Matrix3 &identity()
+   Matrix4<T> &identity()
    {
       for (int i = 0; i < 16; i++)
          m[i] = (i % 5) == 0 ? 1.0f : 0.0f;
