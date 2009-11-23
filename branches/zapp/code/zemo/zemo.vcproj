@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui-debug.vsprops"
+			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui-debug.vsprops;..\props\boost.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -96,7 +96,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
-			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui.vsprops"
+			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui.vsprops;..\props\boost.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>

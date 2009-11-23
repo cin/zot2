@@ -2,6 +2,8 @@
 
 #include <vector>
 #include "zystem.h"
+#include "terrain.h"
+#include "camera.h"
 
 namespace Zot
 {
@@ -31,6 +33,8 @@ public:
 protected:
 
    Zystems m_zystems;
+   Terrain m_terrain;
+   Camera m_camera;
 
    static Zapp *m_pApp;
 

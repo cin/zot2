@@ -27,9 +27,10 @@ protected:
 
    void constructKeyMap();
    bool handleKeyDown(const CEGUI::EventArgs &e);
-   void draw();
-   void initGl();
-   void initCegui();
+   virtual void draw();
+   virtual void initGl();
+   virtual void initCegui();
+   virtual void postDraw();
 
    static const int width = 1024, height = 768;
 

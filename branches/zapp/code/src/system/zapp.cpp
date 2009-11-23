@@ -46,11 +46,16 @@ bool Zapp::init()
       })
    }
 
-   for (int i = 0; i < 50; i++)
+   for (int i = 0; i < 4; i++)
    {
       addZystress();
       SDL_Delay(10);
    }
+
+   m_terrain.initTerrain();
+   m_terrain.build();
+
+   m_camera.setup();
 
    m_timeout = 10;
    return true;

@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui-debug.vsprops"
+			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui-debug.vsprops;..\props\boost.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -87,7 +87,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\props\cegui.vsprops;..\props\sdl.vsprops;..\props\opengl.vsprops"
+			InheritedPropertySheets="..\props\cegui.vsprops;..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\boost.vsprops"
 			CharacterSet="1"
 			WholeProgramOptimization="1"
 			>
@@ -159,6 +159,10 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
+				RelativePath="..\src\camera.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\pch.cpp"
 				>
 				<FileConfiguration
@@ -177,6 +181,10 @@
 						UsePrecompiledHeader="1"
 					/>
 				</FileConfiguration>
+			</File>
+			<File
+				RelativePath="..\src\terrain.cpp"
+				>
 			</File>
 			<File
 				RelativePath="..\src\zimtime.cpp"
@@ -333,7 +341,27 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
+				RelativePath="..\include\camera.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\matrix.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\quaternion.h"
+				>
+			</File>
+			<File
 				RelativePath="..\include\targetver.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\terrain.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\vector.h"
 				>
 			</File>
 			<File

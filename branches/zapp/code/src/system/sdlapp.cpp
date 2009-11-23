@@ -71,15 +71,14 @@ void SDLApp::draw()
    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
    glLoadIdentity();
    glTranslatef(0, 0, -20);
-   glBegin(GL_POLYGON);
-   glVertex3i(5, 5, 0);
-   glVertex3i(-5, 5, 0);
-   glVertex3i(-5, -5, 0);
-   glVertex3i(5, -5, 0);
-   glEnd();
-
-   System::getSingleton().renderGUI();
-   SDL_GL_SwapBuffers();
+   glRotatef(-20.0f, 1, 0, 0);
+   //glBegin(GL_POLYGON);
+   //glVertex3i(5, 5, 0);
+   //glVertex3i(-5, 5, 0);
+   //glVertex3i(-5, -5, 0);
+   //glVertex3i(5, -5, 0);
+   //glEnd();
+   m_terrain.draw();
 }
 
 bool SDLApp::init()
@@ -179,14 +178,20 @@ void SDLApp::initCegui()
 
 void SDLApp::initGl()
 {
-   glViewport(0, 0, width, height);
-   glMatrixMode(GL_PROJECTION);
-   glLoadIdentity();
-   gluPerspective(45.0f, (float)width / (float)height, 1.0, 1000.0);
-   glMatrixMode(GL_MODELVIEW);
+   //glViewport(0, 0, width, height);
+   //glMatrixMode(GL_PROJECTION);
+   //glLoadIdentity();
+   //gluPerspective(45.0f, (float)width / (float)height, 1.0, 1000.0);
+   //glMatrixMode(GL_MODELVIEW);
 
    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
    glEnable(GL_DEPTH_TEST);
+}
+
+void SDLApp::postDraw()
+{
+   System::getSingleton().renderGUI();
+   SDL_GL_SwapBuffers();
 }
 
 void SDLApp::tick()
@@ -271,6 +276,7 @@ void SDLApp::tick()
    {
       Zapp::tick();
       draw();
+      postDraw();
    }
 }
 
