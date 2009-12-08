@@ -1,5 +1,5 @@
 #include "zot.h"
-
+#include "iinput.h"
 #include "sdlapp.h"
 #include "zonsole.h"
 #include "zogger.h"
@@ -14,8 +14,6 @@
 using namespace std;
 using namespace CEGUI;
 using namespace Zot;
-
-CEGUI::utf32 sKeyMap[SDLK_LAST];
 
 void handleZystress()
 {
@@ -39,32 +37,6 @@ ConVar zotExit("exit", handleExit, "Exits the game.");
 ConVar zotQuit("quit", handleExit, "Exits the game.");
 ConVar zotLog("log", handleLog, "Logs a message to the logfile.");
 ConVar zotZystress("addStress", handleZystress, "Adds another Zystress thread for testing.");
-
-void SDLApp::constructKeyMap()
-{
-   memset(sKeyMap, 0, sizeof(sKeyMap));
-
-   sKeyMap[SDLK_RSHIFT] = CEGUI::Key::RightShift;
-   sKeyMap[SDLK_LSHIFT] = CEGUI::Key::LeftShift;
-   sKeyMap[SDLK_RCTRL] = CEGUI::Key::RightControl;
-   sKeyMap[SDLK_LCTRL] = CEGUI::Key::LeftControl;
-   sKeyMap[SDLK_RALT] = CEGUI::Key::RightAlt;
-   sKeyMap[SDLK_LALT] = CEGUI::Key::LeftAlt;
-   sKeyMap[SDLK_LSUPER] = CEGUI::Key::LeftWindows;
-   sKeyMap[SDLK_RSUPER] = CEGUI::Key::RightWindows;
-   sKeyMap[SDLK_UP] = CEGUI::Key::ArrowUp;
-   sKeyMap[SDLK_DOWN] = CEGUI::Key::ArrowDown;
-   sKeyMap[SDLK_RIGHT] = CEGUI::Key::ArrowRight;
-   sKeyMap[SDLK_LEFT] = CEGUI::Key::ArrowLeft;
-   sKeyMap[SDLK_INSERT] = CEGUI::Key::Insert;
-   sKeyMap[SDLK_HOME] = CEGUI::Key::Home;
-   sKeyMap[SDLK_END] = CEGUI::Key::End;
-   sKeyMap[SDLK_PAGEUP] = CEGUI::Key::PageUp;
-   sKeyMap[SDLK_PAGEDOWN] = CEGUI::Key::PageDown;
-   sKeyMap[SDLK_DELETE] = CEGUI::Key::Delete;
-   sKeyMap[SDLK_INSERT] = CEGUI::Key::Insert;
-   sKeyMap[SDLK_TAB] = CEGUI::Key::Tab;
-}
 
 void SDLApp::draw()
 {
@@ -102,11 +74,8 @@ bool SDLApp::init()
       fprintf(stderr, "SDL_SetVideoMode() failed\n");
       return false;
    }
-   SDL_ShowCursor(0);
-   SDL_EnableUNICODE(1);
-   SDL_EnableKeyRepeat(SDL_DEFAULT_REPEAT_DELAY, SDL_DEFAULT_REPEAT_INTERVAL);
 
-   constructKeyMap();
+   IInput::get()->init();
 
    initGl();
    initCegui();
@@ -194,6 +163,79 @@ void SDLApp::tick()
 
    while (SDL_PollEvent(&e))
    {
+#if 1
+      InputEvent *pEvent = NULL;
+      switch (e.type)
+      {
+      case SDL_KEYDOWN:
+      {
+         Keyboard *pKb = new Keyboard;
+         pKb->m_type = EKeyDown;
+         pKb->m_state = e.key.state;
+         pKb->m_mod = e.key.keysym.mod;
+         pKb->m_key = e.key.keysym.sym;
+         pKb->m_unicode = e.key.keysym.unicode;
+         pEvent = pKb;
+         break;
+      }
+      case SDL_KEYUP:
+      {
+         Keyboard *pKb = new Keyboard;
+         pKb->m_type = EKeyUp;
+         pKb->m_state = e.key.state;
+         pKb->m_mod = e.key.keysym.mod;
+         pKb->m_key = e.key.keysym.sym;
+         pKb->m_unicode = e.key.keysym.unicode;
+         pEvent = pKb;
+         break;
+      }
+      case SDL_MOUSEMOTION:
+      {
+         MouseMotion *pMm = new MouseMotion;
+         pMm->m_type = EMouseMotion;
+         pMm->m_state = e.motion.state;
+         pMm->m_abs.x = e.motion.x;
+         pMm->m_abs.y = e.motion.y;
+         pMm->m_rel.x = e.motion.xrel;
+         pMm->m_rel.y = e.motion.yrel;
+         pEvent = pMm;
+         break;
+      }
+      case SDL_MOUSEBUTTONDOWN:
+      {
+         MouseButton *pMb = new MouseButton;
+         pMb->m_type = EMouseButtonDown;
+         pMb->m_state = e.button.state;
+         pMb->m_button = e.button.button;
+         pMb->m_abs.x = e.button.x;
+         pMb->m_abs.y = e.button.y;
+         pEvent = pMb;
+         break;
+      }
+      case SDL_MOUSEBUTTONUP:
+      {
+         MouseButton *pMb = new MouseButton;
+         pMb->m_type = EMouseButtonUp;
+         pMb->m_state = e.button.state;
+         pMb->m_button = e.button.button;
+         pMb->m_abs.x = e.button.x;
+         pMb->m_abs.y = e.button.y;
+         pEvent = pMb;
+         break;
+      }
+      case SDL_QUIT:
+         onExit();
+         break;
+      default:
+         break;
+      }
+
+      if (pEvent)
+      {
+         IInput::get()->tick(pEvent);
+         delete pEvent;
+      }
+#else
       switch (e.type)
       {
       case SDL_KEYDOWN:
@@ -263,6 +305,7 @@ void SDLApp::tick()
       default:
          break;
       }
+#endif
    }
 
    if (m_bRunning)

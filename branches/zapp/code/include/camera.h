@@ -12,6 +12,22 @@ class Frustum
 {
 };
 
+class CameraMoveController
+{
+public:
+   CameraMoveController();
+};
+
+class CameraFpsController : public CameraMoveController
+{
+public:
+};
+
+class CameraWowController : public CameraMoveController
+{
+public:
+};
+
 class Camera
 {
 
@@ -46,6 +62,8 @@ protected:
    Frustum frustum;
 
    ZimTime last;
+
+   CameraMoveController *pController;
 
 };
 

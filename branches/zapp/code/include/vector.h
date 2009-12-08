@@ -145,10 +145,12 @@ struct Vector
 
 };
 
-typedef Vector<int> Vec3i;
+typedef Vector<int32> Vec3i;
+typedef Vector<uint32> Vec3ui;
 typedef Vector<float> Vec3f;
 
-typedef Point2d<int> Pnt2i;
+typedef Point2d<int32> Pnt2i;
+typedef Point2d<uint32> Pnt2ui;
 typedef Point2d<float> Pnt2f;
 
 static const Vec3f sZeros;

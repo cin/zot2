@@ -47,6 +47,7 @@ public:
          m[i] = (i % 5) == 0 ? 1.0f : 0.0f;
       return *this;
    }
+
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -70,11 +71,6 @@ public:
       for (int i = 0; i < 16; i++)
          m[i] = other.m[i];
    }
-
-   //Matrix4(boost::math::quaternion<T> &other)
-   //{
-   //   other.gl
-   //}
 
    T &operator[](int i)
    {
