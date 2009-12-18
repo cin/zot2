@@ -3,7 +3,9 @@
 #include "iinput.h"
 #include "zonsole.h"
 #include "zogger.h"
+#include "convar.h"
 
+#include "windows.h"
 #include <SDL.h>
 
 #include <CEGUIDefaultResourceProvider.h>
@@ -12,6 +14,7 @@
 #else
 #include <OpenGL/CEGUIOpenGLRenderer.h>
 #endif
+
 
 using namespace std;
 using namespace Zot;
@@ -27,8 +30,20 @@ IInput *IInput::m_pInput = NULL;
 // InputEvent
 
 InputEvent::InputEvent()
-   : m_type(0)
-   , m_state(0)
+   : m_type(EInputEventNone)
+   , m_state(EInputNone)
+{
+}
+
+InputEvent::InputEvent(uint8 type)
+   : m_type(type)
+   , m_state(EInputNone)
+{
+}
+
+InputEvent::InputEvent(uint8 type, uint8 state)
+   : m_type(type)
+   , m_state(state)
 {
 }
 
@@ -42,9 +57,18 @@ InputEvent::InputEvent(const InputEvent &other)
 // Keyboard
 
 Keyboard::Keyboard()
-   : m_mod(EKmodNone)
+   : InputEvent(EInputKeyboard, EInputNone)
+   , m_mod(EKmodNone)
    , m_key(SDLK_UNKNOWN)
    , m_unicode(0)
+{
+}
+
+Keyboard::Keyboard(uint8 state, uint8 mod, uint16 key, uint16 unicode)
+   : InputEvent(EInputKeyboard, state)
+   , m_mod(mod)
+   , m_key(key)
+   , m_unicode(unicode)
 {
 }
 
@@ -60,6 +84,14 @@ Keyboard::Keyboard(const Keyboard &other)
 // MouseMotion
 
 MouseMotion::MouseMotion()
+   : InputEvent(EInputMouseMotion, EInputNone)
+{
+}
+
+MouseMotion::MouseMotion(Pnt2ui abs, Pnt2i rel)
+   : InputEvent(EInputMouseMotion, EMouseMotion)
+   , m_abs(abs)
+   , m_rel(rel)
 {
 }
 
@@ -74,7 +106,15 @@ MouseMotion::MouseMotion(const MouseMotion &other)
 // MouseButton
 
 MouseButton::MouseButton()
-   : m_button(0)
+   : InputEvent(EInputMouseButton, EInputNone)
+   , m_button(EMbNone)
+{
+}
+
+MouseButton::MouseButton(uint8 state, uint8 button, Pnt2ui abs)
+   : InputEvent(EInputMouseButton, state)
+   , m_button(button)
+   , m_abs(abs)
 {
 }
 
@@ -129,12 +169,93 @@ int IInput::mouseButtonHandler(InputEvent *pEvent)
    return 0;
 }
 
+void IInput::regKeyDown(uint16 key, ConVar *pCv)
+{
+   _ASSERT(pCv);
+   m_kdm[key] = pCv;
+}
+
+void IInput::unregKeyDown(uint16 key)
+{
+   KdmIter it = m_kdm.find(key);
+   if (it != m_kdm.end())
+      m_kdm.erase(it);
+}
+
+void IInput::regKeyUp(uint16 key, ConVar *pCv)
+{
+   _ASSERT(pCv);
+   m_kum[key] = pCv;
+}
+
+void IInput::unregKeyUp(uint16 key)
+{
+   KumIter it = m_kum.find(key);
+   if (it != m_kum.end())
+      m_kum.erase(it);
+}
+
+void IInput::regMbDown(uint8 mb, ConVar *pCv)
+{
+   _ASSERT(pCv);
+   m_mbdm[mb] = pCv;
+}
+
+void IInput::unregMbDown(uint8 mb)
+{
+   MbdmIter it = m_mbdm.find(mb);
+   if (it != m_mbdm.end())
+      m_mbdm.erase(it);
+}
+
+void IInput::regMbUp(uint8 mb, ConVar *pCv)
+{
+   _ASSERT(pCv);
+   m_mbum[mb] = pCv;
+}
+
+void IInput::unregMbUp(uint8 mb)
+{
+   MbumIter it = m_mbum.find(mb);
+   if (it != m_mbum.end())
+      m_mbum.erase(it);
+}
+
 void IInput::tick(InputEvent *pEvent)
 {
    IhIter it = m_handlers.find(pEvent->m_type);
    if (it != m_handlers.end())
       (this->*(it->second))(pEvent);
 }
+
+///////////////////////////////////////////////////////////////////////////////
+// test mappings
+
+void forwardDown()
+{
+   OutputDebugString(L"forwardDown\n");
+}
+
+void forwardUp()
+{
+   OutputDebugString(L"forwardUp\n");
+}
+
+void reverseDown()
+{
+   OutputDebugString(L"reverseDown\n");
+}
+
+void reverseUp()
+{
+   OutputDebugString(L"reverseUp\n");
+}
+
+ConVar InputForwardDown("+forward", forwardDown);
+ConVar InputForwardUp("-forward", forwardUp);
+
+ConVar InputReverseDown("+reverse", reverseDown);
+ConVar InputReverseUp("-reverse", reverseUp);
 
 /////////////////////////////////////////////////////////////////////////////
 // Zinput
@@ -226,6 +347,12 @@ void Zinput::init()
 
    // set the mode here for now...eventually will go to menu or w/e
    m_mode = EModeGame;
+
+   // setup some test mappings
+   regKeyDown(SDLK_w, &InputForwardDown);
+   regKeyUp(SDLK_w, &InputForwardUp);
+   regKeyDown(SDLK_s, &InputReverseDown);
+   regKeyUp(SDLK_s, &InputReverseUp);
 }
 
 int Zinput::keyboardHandler(InputEvent *pEvent)
@@ -233,7 +360,7 @@ int Zinput::keyboardHandler(InputEvent *pEvent)
    CEGUI::System &S = CEGUI::System::getSingleton();
 
    Keyboard *pKb = (Keyboard *)pEvent;
-   if (pKb->m_type == EKeyDown)
+   if (pKb->m_state == EKeyDown)
    {
       switch (pKb->m_key)
       {
@@ -276,12 +403,15 @@ int Zinput::keyboardHandler(InputEvent *pEvent)
          }
          else
          {
-            // TODO: insert game handlers here!!!
+            m_state[pKb->m_key] = 1;
+            KdmIter it = m_kdm.find(pKb->m_key);
+            if (it != m_kdm.end())
+               (it->second->getPfn())();
          }
          break;
       }
    }
-   else // pKb->m_type == EKeyUp
+   else // pKb->m_state == EKeyUp
    {
       if (m_mode < EModeGame)
       {
@@ -289,6 +419,13 @@ int Zinput::keyboardHandler(InputEvent *pEvent)
             S.injectKeyUp(m_keyMap[pKb->m_key]);
          else
             S.injectKeyUp(pKb->m_key);
+      }
+      else
+      {
+         m_state[pKb->m_key] = 0;
+         KumIter it = m_kum.find(pKb->m_key);
+         if (it != m_kum.end())
+            (it->second->getPfn())();
       }
    }
    return 0;
@@ -308,7 +445,7 @@ int Zinput::mouseButtonHandler(Zot::InputEvent *pEvent)
    CEGUI::System &S = CEGUI::System::getSingleton();
 
    MouseButton *pMb = (MouseButton *)pEvent;
-   if (pMb->m_type == EMouseButtonDown)
+   if (pMb->m_state == EMouseButtonDown)
    {
       if (pMb->m_button > EMbNone && pMb->m_button < EMbLast)
          S.injectMouseButtonDown(m_mbMap[pMb->m_button]);

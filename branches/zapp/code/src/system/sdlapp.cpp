@@ -168,61 +168,36 @@ void SDLApp::tick()
       switch (e.type)
       {
       case SDL_KEYDOWN:
-      {
-         Keyboard *pKb = new Keyboard;
-         pKb->m_type = EKeyDown;
-         pKb->m_state = e.key.state;
-         pKb->m_mod = e.key.keysym.mod;
-         pKb->m_key = e.key.keysym.sym;
-         pKb->m_unicode = e.key.keysym.unicode;
-         pEvent = pKb;
+         pEvent = new Keyboard(
+            EKeyDown,
+            e.key.keysym.mod,
+            e.key.keysym.sym,
+            e.key.keysym.unicode);
          break;
-      }
       case SDL_KEYUP:
-      {
-         Keyboard *pKb = new Keyboard;
-         pKb->m_type = EKeyUp;
-         pKb->m_state = e.key.state;
-         pKb->m_mod = e.key.keysym.mod;
-         pKb->m_key = e.key.keysym.sym;
-         pKb->m_unicode = e.key.keysym.unicode;
-         pEvent = pKb;
+         pEvent = new Keyboard(
+            EKeyUp,
+            e.key.keysym.mod,
+            e.key.keysym.sym,
+            e.key.keysym.unicode);
          break;
-      }
       case SDL_MOUSEMOTION:
-      {
-         MouseMotion *pMm = new MouseMotion;
-         pMm->m_type = EMouseMotion;
-         pMm->m_state = e.motion.state;
-         pMm->m_abs.x = e.motion.x;
-         pMm->m_abs.y = e.motion.y;
-         pMm->m_rel.x = e.motion.xrel;
-         pMm->m_rel.y = e.motion.yrel;
-         pEvent = pMm;
+         pEvent = new MouseMotion(
+            Pnt2ui(e.motion.x, e.motion.y),
+            Pnt2i(e.motion.xrel, e.motion.yrel));
          break;
-      }
       case SDL_MOUSEBUTTONDOWN:
-      {
-         MouseButton *pMb = new MouseButton;
-         pMb->m_type = EMouseButtonDown;
-         pMb->m_state = e.button.state;
-         pMb->m_button = e.button.button;
-         pMb->m_abs.x = e.button.x;
-         pMb->m_abs.y = e.button.y;
-         pEvent = pMb;
+         pEvent = new MouseButton(
+            EMouseButtonDown,
+            e.button.button,
+            Pnt2ui(e.button.x, e.button.y));
          break;
-      }
       case SDL_MOUSEBUTTONUP:
-      {
-         MouseButton *pMb = new MouseButton;
-         pMb->m_type = EMouseButtonUp;
-         pMb->m_state = e.button.state;
-         pMb->m_button = e.button.button;
-         pMb->m_abs.x = e.button.x;
-         pMb->m_abs.y = e.button.y;
-         pEvent = pMb;
+         pEvent = new MouseButton(
+            EMouseButtonUp,
+            e.button.button,
+            Pnt2ui(e.button.x, e.button.y));
          break;
-      }
       case SDL_QUIT:
          onExit();
          break;

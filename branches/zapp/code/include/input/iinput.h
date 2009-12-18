@@ -8,6 +8,8 @@
 namespace Zot
 {
 
+class ConVar;
+
 // thin wrapper layer for input events based on SDL_Event
 typedef enum EInputEvent
 {
@@ -85,6 +87,8 @@ struct InputEvent
    uint8 m_state;
 
    InputEvent();
+   InputEvent(uint8 type);
+   InputEvent(uint8 type, uint8 state);
    InputEvent(const InputEvent &other);
 
 };
@@ -102,6 +106,7 @@ struct Keyboard : InputEvent
    uint16 m_unicode;
 
    Keyboard();
+   Keyboard(uint8 state, uint8 mod, uint16 key, uint16 unicode);
    Keyboard(const Keyboard &other);
 
 };
@@ -116,6 +121,7 @@ struct MouseMotion : InputEvent
    Pnt2i m_rel;
 
    MouseMotion();
+   MouseMotion(Pnt2ui abs, Pnt2i rel = Pnt2i());
    MouseMotion(const MouseMotion &other);
 
 };
@@ -132,6 +138,7 @@ struct MouseButton : InputEvent
    Pnt2ui m_abs;
 
    MouseButton();
+   MouseButton(uint8 state, uint8 button, Pnt2ui abs);
    MouseButton(const MouseButton &other);
 
 };
@@ -209,6 +216,19 @@ public:
    EInputMode getMode() const { return m_mode; }
    void setMode(EInputMode mode) { m_mode = mode; }
 
+   void regKeyDown(uint16 key, ConVar *pCv);
+   void unregKeyDown(uint16 key);
+
+   void regKeyUp(uint16 key, ConVar *pCv);
+   void unregKeyUp(uint16 key);
+
+   void regMbDown(uint8 mb, ConVar *pCv);
+   void unregMbDown(uint8 mb);
+
+   void regMbUp(uint8 mb, ConVar *pCv);
+   void unregMbUp(uint8 mb);
+
+// generic input handlers for keyboard and mouse input
 protected:
 
    static const int32 sInputBitCount = SDLK_LAST;
@@ -228,6 +248,30 @@ protected:
    virtual int keyboardHandler(InputEvent *pEvent);
    virtual int mouseMotionHandler(InputEvent *pEvent);
    virtual int mouseButtonHandler(InputEvent *pEvent);
+
+// key and mouse button handlers
+protected:
+
+   typedef std::map<uint16, ConVar *> KeyDownMap;
+   typedef KeyDownMap::iterator KdmIter;
+   typedef KeyDownMap::const_iterator KdmCIter;
+
+   typedef std::map<uint16, ConVar *> KeyUpMap;
+   typedef KeyUpMap::iterator KumIter;
+   typedef KeyUpMap::const_iterator KumCIter;
+
+   typedef std::map<uint8, ConVar *> MbDownMap;
+   typedef MbDownMap::iterator MbdmIter;
+   typedef MbDownMap::const_iterator MbdmCIter;
+
+   typedef std::map<uint8, ConVar *> MbUpMap;
+   typedef MbUpMap::iterator MbumIter;
+   typedef MbUpMap::const_iterator MbumCIter;
+
+   KeyDownMap m_kdm;
+   KeyUpMap m_kum;
+   MbDownMap m_mbdm;
+   MbUpMap m_mbum;
 
 protected:
 
