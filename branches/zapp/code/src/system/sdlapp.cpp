@@ -75,12 +75,13 @@ bool SDLApp::init()
       return false;
    }
 
-   IInput::get()->init();
-
    initGl();
    initCegui();
-   if (!Zonsole::get()->init())
+
+   if (!IConsole::get()->init())
       return false;
+
+   IInput::get()->init();
 
    if (!Zapp::init())
       return false;

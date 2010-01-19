@@ -345,6 +345,14 @@
 					RelativePath="..\include\input\iinput.h"
 					>
 				</File>
+				<File
+					RelativePath="..\src\input\zinput.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\include\input\zinput.h"
+					>
+				</File>
 			</Filter>
 		</Filter>
 		<Filter

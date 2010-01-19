@@ -14,6 +14,14 @@ IConsole *IConsole::get()
    return m_pConsole;
 }
 
+ConVar *IConsole::findCommand(const std::string &cmd)
+{
+   ConVarIter i = m_convars.find(cmd);
+   if (i == m_convars.end())
+      return NULL;
+   return i->second;
+}
+
 int IConsole::getArgc() const
 {
    return (int)m_cmd.size();

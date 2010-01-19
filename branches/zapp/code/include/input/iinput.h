@@ -77,6 +77,18 @@ typedef enum EMouseButton
    EMbLast
 };
 
+static const char *MouseButtonStrings[EMbLast] =
+{
+   "MouseNone",
+   "MouseLeft",
+   "MouseMiddle",
+   "MouseRight",
+   "MouseWheelUp",
+   "MouseWheelDown",
+   "MouseX1",
+   "MouseX2",
+};
+
 /////////////////////////////////////////////////////////////////////////////
 // InputEvent
 
@@ -205,7 +217,6 @@ class IInput
 
 public:
 
-   IInput();
    virtual ~IInput();
 
    static IInput *get();
@@ -228,6 +239,9 @@ public:
    void regMbUp(uint8 mb, ConVar *pCv);
    void unregMbUp(uint8 mb);
 
+   void regMouseMotion(ConVar *pCv);
+   void unregMouseMotion();
+
 // generic input handlers for keyboard and mouse input
 protected:
 
@@ -244,6 +258,11 @@ protected:
    InputHandlers m_handlers;
    InputState m_state;
    EInputMode m_mode;
+
+   static const uint32 MOTION_SZ = 128;
+   uint32 m_motionCnt;
+   MouseMotion m_motion[MOTION_SZ];
+   ZimTime m_motionTimes[MOTION_SZ];
 
    virtual int keyboardHandler(InputEvent *pEvent);
    virtual int mouseMotionHandler(InputEvent *pEvent);
@@ -272,8 +291,11 @@ protected:
    KeyUpMap m_kum;
    MbDownMap m_mbdm;
    MbUpMap m_mbum;
+   ConVar *m_pMm;
 
 protected:
+
+   IInput();
 
    static IInput *create();
 

@@ -32,12 +32,16 @@ public:
 
    static IConsole *get();
 
+   ConVar *findCommand(const std::string &cmd);
+
    int getArgc() const;
    const char *getArgv(int i) const;
 
    // output level
    // destination (error, stdout, console logfile, console)
    // handling input from cegui
+
+   virtual bool init() = 0;
 
    virtual void debug(const std::string &s) = 0;
    virtual void info(const std::string &s) = 0;
