@@ -43,38 +43,6 @@ ConVar keyBind("bind", bindHandler, "binds a key to a handler");
 ///////////////////////////////////////////////////////////////////////////////
 // test mappings
 
-void forwardDown()
-{
-   OutputDebugString(L"forwardDown\n");
-}
-
-void forwardUp()
-{
-   OutputDebugString(L"forwardUp\n");
-}
-
-void reverseDown()
-{
-   OutputDebugString(L"reverseDown\n");
-}
-
-void reverseUp()
-{
-   OutputDebugString(L"reverseUp\n");
-}
-
-ConVar InputForwardDown("+forward", forwardDown);
-ConVar InputForwardUp("-forward", forwardUp);
-
-ConVar InputReverseDown("+reverse", reverseDown);
-ConVar InputReverseUp("-reverse", reverseUp);
-
-void mouseMotion()
-{
-}
-
-ConVar InputMouseMotion("mouse_motion", mouseMotion);
-
 Zinput::Zinput()
 {
 }
@@ -218,13 +186,13 @@ void Zinput::init()
    // set the mode here for now...eventually will go to menu or w/e
    m_mode = EModeGame;
 
-   // setup some test mappings
-   bind("w", "+forward");
-   bind("S", "+reverse");
-   bind("]", "+forward");
-   bind("leftbracket", "+reverse");
-   bind("mouseleft", "+forward");
-   regMouseMotion(&InputMouseMotion);
+   //// setup some test mappings
+   //bind("w", "+forward");
+   //bind("S", "+reverse");
+   //bind("]", "+forward");
+   //bind("leftbracket", "+reverse");
+   //bind("mouseleft", "+forward");
+   //regMouseMotion(&InputMouseMotion);
 }
 
 int Zinput::keyboardHandler(InputEvent *pEvent)

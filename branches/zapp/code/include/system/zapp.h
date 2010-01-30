@@ -29,6 +29,7 @@ public:
    virtual void tick();
 
    void addZystress();
+   Camera &getCamera() { return m_camera; }
 
 protected:
 

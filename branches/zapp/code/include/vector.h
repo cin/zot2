@@ -91,6 +91,47 @@ struct Vector
       return *this;
    }
 
+   Vector operator*(const Vector &rhs) const
+   {
+      Vector r;
+      r.x = x * rhs.x;
+      r.y = y * rhs.y;
+      r.z = z * rhs.z;
+      return r;
+   }
+
+   Vector &operator*=(const Vector &rhs)
+   {
+      x *= rhs.x;
+      y *= rhs.y;
+      z *= rhs.z;
+      return *this;
+   }
+
+   Vector &operator*=(const T &rhs)
+   {
+      x *= rhs;
+      y *= rhs;
+      z *= rhs;
+      return *this;
+   }
+
+   Vector &operator+=(const Vector &rhs)
+   {
+      x += rhs.x;
+      y += rhs.y;
+      z += rhs.z;
+      return *this;
+   }
+
+   Vector &operator+=(const T &rhs)
+   {
+      x += rhs;
+      y += rhs;
+      z += rhs;
+      return *this;
+   }
+
    Vector &operator=(const Vector &rhs)
    {
       if (this != &rhs)
@@ -141,6 +182,12 @@ struct Vector
    T squaredLength() const
    {
       return (x * x + y * y + z * z);
+   }
+
+   Vector &set(const T &_x, const T &_y, const T &_z)
+   {
+      x = _x; y = _y; z = _z;
+      return *this;
    }
 
 };

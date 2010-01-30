@@ -12,10 +12,31 @@ class Frustum
 {
 };
 
+class Camera;
+
+///////////////////////////////////////////////////////////////////////////////
+// CameraMoveController
+
 class CameraMoveController
 {
+
 public:
-   CameraMoveController();
+
+   CameraMoveController(Camera *c);
+
+   virtual void update() const;
+
+   virtual void forwardDown();
+   virtual void forwardUp();
+   virtual void reverseDown();
+   virtual void reverseUp();
+   virtual void leftDown();
+   virtual void leftUp();
+   virtual void rightDown();
+   virtual void rightUp();
+
+   Camera *pCamera;
+
 };
 
 class CameraFpsController : public CameraMoveController
@@ -27,6 +48,9 @@ class CameraWowController : public CameraMoveController
 {
 public:
 };
+
+///////////////////////////////////////////////////////////////////////////////
+// Camera
 
 class Camera
 {
@@ -46,8 +70,12 @@ public:
    const Vec3f &getLook() const;
    const Vec3f &getRight() const;
    const Vec3f &getUp() const;
+   const Vec3f &getPos() const;
+
+   void setPos(const Vec3f &_pos);
 
    Mat4f &getMatrix() const;
+   CameraMoveController *getController() { return pController; }
 
 protected:
 
@@ -64,6 +92,9 @@ protected:
    ZimTime last;
 
    CameraMoveController *pController;
+
+   friend CameraMoveController;
+   friend Frustum;
 
 };
 

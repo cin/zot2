@@ -255,6 +255,13 @@ protected:
    typedef std::map<uint32, InputHandler> InputHandlers;
    typedef InputHandlers::iterator IhIter;
 
+   //struct ButtonData
+   //{
+   //   ZimTime m_start;
+   //   int m_idx;
+   //};
+
+   //std::vector 
    InputHandlers m_handlers;
    InputState m_state;
    EInputMode m_mode;

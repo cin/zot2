@@ -39,7 +39,7 @@ public:
       return (a * a + v.squaredLength());
    }
 
-   Vector<T> &getLook(Vector<T> &look)
+   Vector<T> &getLook(Vector<T> &look) const
    {
       T w(sqLength());
       w = (w > 0.0f) ? 2.0f / w : 0.0f;
@@ -50,7 +50,7 @@ public:
       return look.set(xz + sy, yz - sx, 1.0f - (xx + yy));
    }
 
-   Vector<T> &getRight(Vector<T> &right)
+   Vector<T> &getRight(Vector<T> &right) const
    {
       T w(sqLength());
       w = (w > 0.0f) ? 2.0f / w : 0.0f;
@@ -62,7 +62,7 @@ public:
       return right.set(1.0f - (yy + zz), xy + sz, xz - sy);
    }
 
-   Vector<T> &getUp(Vector<T> &up)
+   Vector<T> &getUp(Vector<T> &up) const
    {
       T w(sqLength());
       w = (w > 0.0f) ? 2.0f / w : 0.0f;
