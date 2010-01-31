@@ -1,0 +1,23 @@
+#summary Fleshing out dat system.
+
+= Introduction =
+
+Add your content here.
+
+
+= Details =
+ * Zot
+  * Base Component
+  * Base Object
+  * Base Singleton Interface
+  * Zystem
+   * State based tick methods
+   * Can be a singleton
+   * Event driven
+  * Zapp : Zystem
+   * Maintains and manages list of Zystems
+  * SDLApp : Zapp
+  * Zemo : SDLApp
+  * Zogger : Zystem
+ * Console Interface
+ * Input Interface
