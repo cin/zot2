@@ -13,11 +13,14 @@ Zot is amazing.
    * State based tick methods
    * Can be a singleton
    * Event driven - generated from SDL events or other Zystems
-   * Input method is called within the thread for the Zystem
+   * Zystem::init() is called within the thread for the Zystem.
+    * This ensures that the init occurs inside the thread.
    * All events are Zmsgs 
     * Controlled by the Zmsgq
+     * Keeps one Zevent around to manage access to Zmsgq
     * Prioritized queue
     * Map of msgid to handlers
+   * post/push methods are used to send and recv msg
   * Zapp : Zystem
    * Maintains and manages list of Zystems
    * OnExit cleans up all Zystems
