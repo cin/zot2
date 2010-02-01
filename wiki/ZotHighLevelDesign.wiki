@@ -24,8 +24,9 @@ Zot is amazing.
   * Zapp : Zystem
    * Maintains and manages list of Zystems
    * OnExit cleans up all Zystems
+   * Initializes GL, Renderer
   * SDLApp : Zapp
-   * Initializes SDL, GL, CEGUI, IConsole, IInput
+   * Initializes SDL, CEGUI, IConsole, IInput
   * Zemo : SDLApp
   * Zogger : Zystem
    * Zogger is only Zystem that uses Zmsgs at the moment.
@@ -41,7 +42,16 @@ Zot is amazing.
  * Coordinate Conventions
  * MathLib
  * ZimTime
+ * Renderer
+  * Generic class for handling other platforms.
+ * Data File Access
+  * Model loading
+   * Setup Textures and mesh data
  * Camera
+  * width, height
+  * frustum
+  * fov
+  * near, far
   * Camera Controllers
    * Flying/noclip, FPS, WoW
  * Terrain
