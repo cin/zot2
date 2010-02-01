@@ -14,7 +14,6 @@ Zot is amazing.
    * Can be a singleton
    * Event driven - generated from SDL events or other Zystems
    * Input method is called within the thread for the Zystem
-   * Zogger is only Zystem that uses Zmsgs at the moment.
    * All events are Zmsgs 
     * Controlled by the Zmsgq
     * Prioritized queue
@@ -26,9 +25,16 @@ Zot is amazing.
    * Initializes SDL, GL, CEGUI, IConsole, IInput
   * Zemo : SDLApp
   * Zogger : Zystem
+   * Zogger is only Zystem that uses Zmsgs at the moment.
+   * Zogger is running in another thread in order to prevent file corruption.
  * ConVar
+  * Console Variables used to save/load game settings.
  * Console Interface
+  * Base console interface that manages all of the convars, command line, and command line arguments.
+  * Zonsole uses IConsole and CEGUI interface, first working panel!!
  * Input Interface
+  * Handles key, mouse, and misc input bindings and their callbacks.
+  * Keeps an array of the last x (128) mouse motions.
  * Coordinate Conventions
  * MathLib
  * ZimTime
