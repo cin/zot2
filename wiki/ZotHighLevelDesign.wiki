@@ -13,11 +13,25 @@ Add your content here.
   * Zystem
    * State based tick methods
    * Can be a singleton
-   * Event driven
+   * Event driven - generated from SDL events or other Zystems
+   * input method is called within the thread for the zystem.
+   * All events are Zmsgs 
+    * Controlled by the Zmsgq
+    * Prioritized queue
+    * Map of msgid to handlers
   * Zapp : Zystem
    * Maintains and manages list of Zystems
+   * OnExit cleans up all Zystems
   * SDLApp : Zapp
+   * Initializes SDL, GL, CEGUI, IConsole, IInput
   * Zemo : SDLApp
   * Zogger : Zystem
  * Console Interface
  * Input Interface
+ * Coordinate Conventions
+ * MathLib
+ * ZimTime
+ * Camera
+  * Camera Controllers
+   * Flying/noclip, FPS, WoW
+ * Terrain
