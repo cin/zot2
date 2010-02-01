@@ -1,9 +1,8 @@
-#summary Fleshing out dat system.
+#summary Zot High Level Design
 
 = Introduction =
 
-Add your content here.
-
+Zot is amazing.
 
 = Details =
  * Zot
@@ -14,7 +13,8 @@ Add your content here.
    * State based tick methods
    * Can be a singleton
    * Event driven - generated from SDL events or other Zystems
-   * input method is called within the thread for the zystem.
+   * Input method is called within the thread for the Zystem
+   * Zogger is only Zystem that uses Zmsgs at the moment.
    * All events are Zmsgs 
     * Controlled by the Zmsgq
     * Prioritized queue
@@ -26,6 +26,7 @@ Add your content here.
    * Initializes SDL, GL, CEGUI, IConsole, IInput
   * Zemo : SDLApp
   * Zogger : Zystem
+ * ConVar
  * Console Interface
  * Input Interface
  * Coordinate Conventions
