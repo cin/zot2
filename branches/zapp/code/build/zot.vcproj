@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\zobject.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\zogger.cpp"
 				>
 				<FileConfiguration
@@ -386,6 +390,10 @@
 			</File>
 			<File
 				RelativePath="..\include\zimtime.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\zobject.h"
 				>
 			</File>
 			<File

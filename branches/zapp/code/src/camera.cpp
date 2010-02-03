@@ -71,7 +71,7 @@ ConVar InputRightUp("-right", rightUp);
 // CameraMoveController
 
 CameraMoveController::CameraMoveController(Camera *c)
-   : pCamera(c)
+   : m_pCamera(c)
 {
    Zinput *pInput = Zinput::get();
    pInput->bind("w", "+forward");
@@ -88,10 +88,10 @@ void CameraMoveController::update() const
 
 void CameraMoveController::forwardDown()
 {
-   Vec3f pos(pCamera->getPos()), l(pCamera->getLook());
+   Vec3f pos(m_pCamera->getPos()), l(m_pCamera->getLook());
    l *= -1.0f;
    pos += l;
-   pCamera->setPos(pos);
+   m_pCamera->setPos(pos);
 }
 
 void CameraMoveController::forwardUp()
@@ -100,10 +100,10 @@ void CameraMoveController::forwardUp()
 
 void CameraMoveController::reverseDown()
 {
-   Vec3f pos(pCamera->getPos()), l(pCamera->getLook());
+   Vec3f pos(m_pCamera->getPos()), l(m_pCamera->getLook());
    l *= 1.0f;
    pos += l;
-   pCamera->setPos(pos);
+   m_pCamera->setPos(pos);
 }
 
 void CameraMoveController::reverseUp()
@@ -112,22 +112,22 @@ void CameraMoveController::reverseUp()
 
 void CameraMoveController::leftDown()
 {
+   Vec3f pos(m_pCamera->getPos()), l(m_pCamera->getRight());
+   l *= -1.0f;
+   pos += l;
+   m_pCamera->setPos(pos);
 }
 
 void CameraMoveController::leftUp()
 {
-   Vec3f pos(pCamera->getPos()), l(pCamera->getRight());
-   l *= -1.0f;
-   pos += l;
-   pCamera->setPos(pos);
 }
 
 void CameraMoveController::rightDown()
 {
-   Vec3f pos(pCamera->getPos()), l(pCamera->getRight());
+   Vec3f pos(m_pCamera->getPos()), l(m_pCamera->getRight());
    l *= 1.0f;
    pos += l;
-   pCamera->setPos(pos);
+   m_pCamera->setPos(pos);
 }
 
 void CameraMoveController::rightUp()
@@ -138,62 +138,77 @@ void CameraMoveController::rightUp()
 // Camera
 
 Camera::Camera()
-   : _near(1.0f)
-   , _far(1000.0f)
-   , fov(45.0f)
-   , aspect(1024.0f / 768.0f)
-   , pController(NULL)
+   : m_near(1.0f)
+   , m_far(1000.0f)
+   , m_fov(45.0f)
+   , m_aspect(1024.0f / 768.0f)
+   , m_pController(NULL)
 {
-   pos.init(0, 0, 20);
+   m_pos.init(0, 0, 20);
+}
+
+Camera::~Camera()
+{
+   if (m_pController)
+   {
+      delete m_pController;
+      m_pController = NULL;
+   }
 }
 
 void Camera::place()
 {
-   ori.glMatrix(glmat, -pos);
-   glLoadMatrixf(glmat.m);
+   m_ori.glMatrix(m_glmat, -m_pos);
+   glLoadMatrixf(m_glmat.m);
 }
 
 void Camera::setup(int width, int height, float fov)
 {
-   aspect = float(width) / height;
+   m_aspect = float(width) / height;
    glViewport(0, 0, width, height);
    glMatrixMode(GL_PROJECTION);
    glLoadIdentity();
-   gluPerspective(fov, aspect, _near, _far);
+   gluPerspective(m_fov, m_aspect, m_near, m_far);
    glMatrixMode(GL_MODELVIEW);
-   pController = new CameraMoveController(this);
+
+   if (m_pController)
+   {
+      delete m_pController;
+      m_pController = NULL;
+   }
+   m_pController = new CameraMoveController(this);
 }
 
 void Camera::update() const
 {
-   if (pController)
-      pController->update();
+   if (m_pController)
+      m_pController->update();
 }
 
 const Vec3f &Camera::getLook() const
 {
    static Vec3f l;
-   return ori.getLook(l);
+   return m_ori.getLook(l);
 }
 
 const Vec3f &Camera::getRight() const
 {
    static Vec3f r;
-   return ori.getRight(r);
+   return m_ori.getRight(r);
 }
 
 const Vec3f &Camera::getUp() const
 {
    static Vec3f u;
-   return ori.getUp(u);
+   return m_ori.getUp(u);
 }
 
 const Vec3f &Camera::getPos() const
 {
-   return pos;
+   return m_pos;
 }
 
-void Camera::setPos(const Vec3f &_pos)
+void Camera::setPos(const Vec3f &pos)
 {
-   pos = _pos;
+   m_pos = pos;
 }

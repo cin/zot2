@@ -1,5 +1,6 @@
 #pragma once
 
+#include "zobject.h"
 #include "matrix.h"
 #include "quaternion.h"
 
@@ -35,7 +36,7 @@ public:
    virtual void rightDown();
    virtual void rightUp();
 
-   Camera *pCamera;
+   Camera *m_pCamera;
 
 };
 
@@ -52,12 +53,13 @@ public:
 ///////////////////////////////////////////////////////////////////////////////
 // Camera
 
-class Camera
+class Camera : public WorldObject
 {
 
 public:
 
    Camera();
+   virtual ~Camera();
 
    // setup projection matrix
    void setup(int width = 1024, int height = 768, float fov = 45.0f);
@@ -72,26 +74,24 @@ public:
    const Vec3f &getUp() const;
    const Vec3f &getPos() const;
 
-   void setPos(const Vec3f &_pos);
+   void setPos(const Vec3f &pos);
 
    Mat4f &getMatrix() const;
-   CameraMoveController *getController() { return pController; }
+   CameraMoveController *getController() { return m_pController; }
 
 protected:
 
-   Quatf ori;
-   Vec3f pos;
-   Mat4f glmat;
+   Mat4f m_glmat;
 
-   float aspect;
-   float fov;
-   float _near;
-   float _far;
-   Frustum frustum;
+   float m_aspect;
+   float m_fov;
+   float m_near;
+   float m_far;
+   Frustum m_frustum;
 
-   ZimTime last;
+   ZimTime m_last;
 
-   CameraMoveController *pController;
+   CameraMoveController *m_pController;
 
    friend CameraMoveController;
    friend Frustum;
