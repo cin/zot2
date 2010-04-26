@@ -1,0 +1,13 @@
+#summary Message handling: storage and processing.
+= Message Handling =
+
+general concept
+
+For those seeking further information on message handling techniques, Brandon found [http://rubyforge.org/projects/eventmachine Event Machine] the other day and is similar to the approach taken in Zot2. 
+
+== Storage ==
+  * flat list
+  * keep smart pointers around to elements so new's won't have to be made all over the place
+    * allows systems to determine whether or not they want to create a copy to modify
+
+== Processing ==
