@@ -3,6 +3,8 @@
 = Message Handling =
 
 general concept
+zystems communicated with each other through an event based messaging system. each zy
+handing packing order automatically so don't have to think about it when writing the classes themselves.
 
 For those seeking further information on message handling techniques, Brandon found [http://rubyforge.org/projects/eventmachine Event Machine] the other day and is similar to the approach taken in Zot2. This also lead to reading about [http://www.cs.wustl.edu/~schmidt/ACE-overview.html ACE].
 
