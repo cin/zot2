@@ -1,4 +1,5 @@
-#summary Message handling: storage and processing.
+#summary Message Handling: Storage and Processing.
+
 = Message Handling =
 
 general concept
