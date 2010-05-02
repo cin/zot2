@@ -1,18 +1,25 @@
 #summary Zot2 source compilation guide
 
-* download cegui (sdk and deps for vc9), sdl, and ode
- * may also want to grab cegui's layout editor
-* add CEGUI, ODE_PATH, and SDL_PATH env vars
- * add dev tools to path, as so:
- * ;%CEGUI%\bin;%ODE_PATH%\bin;%SDL_PATH%\bin
-* if vs is open, close it
- * allows for env vars to be set for next session
-* build ode
- * .\premake4.exe vs2008 from ode build folder
- * build releasedoubledll config
-* build sdl (extract visualc.zip to sdl dir and open sdl.sln
- * build release mode
- * create bin and lib dirs under sdl folder if not already there
- * copy sdl.dll, sdl.lib, and sdl_main.lib to bin/lib
-* grab src from google code
-* load zot sln and compile away!!
+  * download cegui (sdk and deps for vc9), sdl, and ode
+    * may also want to grab cegui's layout editor
+  * add CEGUI, ODE_PATH, and SDL_PATH env vars
+    * {{{
+[Environment]::SetEnvironmentVariable("SDL_PATH", "D:\Development Tools\SDL-1.2.14", "Machine")
+[Environment]::SetEnvironmentVariable("BOOST_PATH", "D:\Development Tools\boost_1_42_0", "Machine")
+[Environment]::SetEnvironmentVariable("CEGUI", "D:\Development Tools\CEGUI-SDK-0.6.2-vc9", "Machine")
+[Environment]::SetEnvironmentVariable("OPENAL_PATH", "D:\Development Tools\OpenAL 1.1 SDK", "Machine")
+[Environment]::SetEnvironmentVariable("ODE_PATH", "D:\Development Tools\ode-0.11.1", "Machine")
+}}}
+    * add dev tools to path, as so:
+    * ;%CEGUI%\bin;%ODE_PATH%\bin;%SDL_PATH%\bin
+  * if vs is open, close it
+    * allows for env vars to be set for next session
+  * build ode
+    * .\premake4.exe vs2008 from ode build folder
+    * build releasedoubledll config
+  * build sdl (extract visualc.zip to sdl dir and open sdl.sln
+    * build release mode
+    * create bin and lib dirs under sdl folder if not already there
+    * copy sdl.dll, sdl.lib, and sdl_main.lib to bin/lib
+  * grab src from google code
+  * load zot sln and compile away!!
