@@ -3,7 +3,7 @@
   * download cegui (sdk and deps for vc9), sdl, and ode
     * may also want to grab cegui's layout editor
   * add CEGUI, ODE_PATH, BOOST_PATH, OPENAL_PATH, and SDL_PATH env vars
-    * [http://zot2.googlecode.com/files/zot2_env_vars.ps1 Here's] a link to a Powershell script that may help with setting the environment variables. Be sure to update the locations to where tools are installed on the development machine in question.
+    * [http://zot2.googlecode.com/files/zot2_env_vars.ps1 here's] a link to a Powershell script that may help with setting the environment variables. Be sure to update the locations to where tools are installed on the development machine in question.
     * add dev tools to path, as so:
     * ;%CEGUI%\bin;%ODE_PATH%\bin;%SDL_PATH%\bin
   * if vs is open, close it
