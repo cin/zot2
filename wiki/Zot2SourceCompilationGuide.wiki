@@ -3,13 +3,11 @@
   * download cegui (sdk and deps for vc9), sdl, and ode
     * may also want to grab cegui's layout editor
   * add CEGUI, ODE_PATH, and SDL_PATH env vars
-    * {{{
-[Environment]::SetEnvironmentVariable("SDL_PATH", "D:\Development Tools\SDL-1.2.14", "Machine")
+    * `[Environment]::SetEnvironmentVariable("SDL_PATH", "D:\Development Tools\SDL-1.2.14", "Machine")
 [Environment]::SetEnvironmentVariable("BOOST_PATH", "D:\Development Tools\boost_1_42_0", "Machine")
 [Environment]::SetEnvironmentVariable("CEGUI", "D:\Development Tools\CEGUI-SDK-0.6.2-vc9", "Machine")
 [Environment]::SetEnvironmentVariable("OPENAL_PATH", "D:\Development Tools\OpenAL 1.1 SDK", "Machine")
-[Environment]::SetEnvironmentVariable("ODE_PATH", "D:\Development Tools\ode-0.11.1", "Machine")
-}}}
+[Environment]::SetEnvironmentVariable("ODE_PATH", "D:\Development Tools\ode-0.11.1", "Machine")`
     * add dev tools to path, as so:
     * ;%CEGUI%\bin;%ODE_PATH%\bin;%SDL_PATH%\bin
   * if vs is open, close it
