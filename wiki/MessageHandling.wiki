@@ -1,21 +1,22 @@
 #summary Message Handling: Storage and Processing.
 
-= Message Handling =
+=Message Handling=
+Zystems communicate with each other through an event based messaging system. All of the events are based off of Zmsgs and controlled by the Zmsgq. Zmsgq is a priority queue used to abstract message handling. Additionally, Zmsgq provides mutex protection for the queue itself and is a base member and friend of Zystem -- this allows the Zystem to easily access protected members of Zmsgq. Zmsgq keeps around a Zevent to indicate when a new message is in the queue. The Zevent is signaled whenever a new message is pushed into the queue.
 
-general concept
+The Zystem's post and push methods are the main functions used to add messages to the Zmsgq. The post method places the Zmsg passed in into the Zystem's parent's Zmsgq. If not parent exists, then the message goes into the Zystem's message queue. The push method will always place the Zmsg into the Zystem's message queue (not the parent's).
 
-Zystems communicate with each other through an event based messaging system. All of the events are based off of Zmsgs and controlled by the Zmsgq. Zmsgq is a priority queue used to abstract message handling. Additionally, Zmsgq provides mutex protection for the queue itself and is a base member and friend of Zystem. Zmsgq keeps around a Zevent to manage access to the queue.
+TODO: make this process less confusing...not sure how post ended up going into the parent's queue and push into the calling object's queue.
 
-    * Map of msgid to handlers
-   * post/push methods are used to send and recv msg
+==Features==
+  * Whenever Zystems are connected over a network, handle packing order automatically so don't have to think about it when writing the classes themselves.
+  * Difference engine support for networked Zystems.
 
-handing packing order automatically so don't have to think about it when writing the classes themselves.
-
+==Further Information==
 For those seeking further information on message handling techniques, Brandon found [http://rubyforge.org/projects/eventmachine Event Machine] the other day and is similar to the approach taken in Zot2. This also lead to reading about [http://www.cs.wustl.edu/~schmidt/ACE-overview.html ACE].
 
-== Storage ==
-  * flat list
-  * keep smart pointers around to elements so new's won't have to be made all over the place
-    * allows systems to determine whether or not they want to create a copy to modify
+==Storage==
+  * Usage of smart pointers for Zmsgs.
+    * Reduces heap fragmentation by reducing number of calls to new for messages being passed between systems.
+    * If modification of a Zmsg is required by a Zystem, the Zystem must make a copy of the Zmsg in question.
 
-== Processing ==
+==Processing==
