@@ -20,15 +20,15 @@ class Zmsgq
 
 public:
 
-   typedef std::priority_queue<Zmsg *, std::vector<Zmsg *>, Zmsg::ZmsgComparison> Zmsgs;
+   typedef std::priority_queue<ZmsgPtr, std::vector<ZmsgPtr>, Zmsg::ZmsgComparison> Zmsgs;
 
    Zmsgq();
    virtual ~Zmsgq();
 
-   virtual bool push(Zmsg *pMsg, uint32 timeout);
-   virtual Zmsg *wait(uint32 timeout);
+   virtual bool push(ZmsgPtr pMsg, uint32 timeout);
+   virtual ZmsgPtr wait(uint32 timeout);
 
-   Zmsg *get();
+   ZmsgPtr pop();
 
 protected:
 

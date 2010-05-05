@@ -89,16 +89,6 @@ istream &Zmsg::deserialize(istream &is)
    return is;
 }
 
-ostream &Zmsg::jsonSerialize(ostream &os) const
-{
-   return os;
-}
-
-istream &Zmsg::jsonDeserialize(istream &is)
-{
-   return is;
-}
-
 ///////////////////////////////////////////////////////////
 // ZmCfg
 

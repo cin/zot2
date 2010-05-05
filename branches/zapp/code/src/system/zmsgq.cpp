@@ -17,6 +17,7 @@ Zmsgq::Zmsgq()
 
 Zmsgq::~Zmsgq()
 {
+#if 0
    if (m_pEvent)
    {
       m_pEvent->lock();
@@ -29,15 +30,16 @@ Zmsgq::~Zmsgq()
       }
       m_pEvent->unlock();
    }
+#endif
 
    if (m_pEvent)
       delete m_pEvent, m_pEvent = NULL;
 }
 
-Zmsg *Zmsgq::get()
+ZmsgPtr Zmsgq::pop()
 {
    // safely remove the msg q's top element, which is what wait returns when a msg is ready
-   Zmsg *pMsg = NULL;
+   ZmsgPtr pMsg;
    if (m_pEvent->lock())
    {
       if (m_zmsgs.size())
@@ -50,19 +52,19 @@ Zmsg *Zmsgq::get()
    return pMsg;
 }
 
-bool Zmsgq::push(Zmsg *pMsg, uint32 timeout)
+bool Zmsgq::push(ZmsgPtr pMsg, uint32 timeout)
 {
    bool bLocked = m_pEvent->lock(timeout);
    if (bLocked)
    {
-      m_zmsgs.push(pMsg->copy());
+      m_zmsgs.push(pMsg);
       m_pEvent->unlock();
       m_pEvent->signal();
    }
    return bLocked;
 }
 
-Zmsg *Zmsgq::wait(uint32 timeout)
+ZmsgPtr Zmsgq::wait(uint32 timeout)
 {
-   return m_pEvent->wait(timeout) ? get() : NULL;
+   return m_pEvent->wait(timeout) ? pop() : ZmsgPtr();
 }

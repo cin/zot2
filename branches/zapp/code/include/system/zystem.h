@@ -46,8 +46,8 @@ public:
    void toggleMask(uint32 mask) { m_mask ^= mask; }
    void removeMask(uint32 mask) { m_mask &= ~mask; }
 
-   virtual int onLog(Zmsg *pMsg);
-   virtual int onTest(Zmsg *pMsg);
+   virtual int onLog(ZmsgPtr pMsg);
+   virtual int onTest(ZmsgPtr pMsg);
 
    Zystem *getParent() const { return m_pParent; }
 
@@ -56,20 +56,18 @@ public:
    // push to parent -- this is the method all systems should be using
    // to pass messages to thier parent as it will set the msg system
    // id properly
-   virtual void post(Zmsg *pMsg);
-   virtual void post(Zmsg &msg);
+   virtual void post(ZmsgPtr pMsg);
 
 protected:
 
    // method by which other systems push msgs to this system
-   virtual void push(Zmsg *pMsg);
-   virtual void push(Zmsg &msg);
+   virtual void push(ZmsgPtr );
 
-   virtual int onConfig(Zmsg *pMsg);
-   virtual int onStop(Zmsg *pMsg);
+   virtual int onConfig(ZmsgPtr pMsg);
+   virtual int onStop(ZmsgPtr pMsg);
 
    // define the mfp typedef
-   typedef int (Zystem::*ZmsgHandler)(Zmsg *);
+   typedef int (Zystem::*ZmsgHandler)(ZmsgPtr );
    typedef std::map<uint32, ZmsgHandler> ZmsgHandlers;
    typedef ZmsgHandlers::iterator ZmhIter;
 

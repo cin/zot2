@@ -207,6 +207,10 @@
 					/>
 				</FileConfiguration>
 			</File>
+			<File
+				RelativePath="..\src\zutil.cpp"
+				>
+			</File>
 			<Filter
 				Name="Console"
 				>
@@ -402,6 +406,10 @@
 			</File>
 			<File
 				RelativePath="..\include\zot.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\zutil.h"
 				>
 			</File>
 			<File

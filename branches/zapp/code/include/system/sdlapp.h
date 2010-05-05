@@ -25,7 +25,6 @@ public:
 
 protected:
 
-   bool handleKeyDown(const CEGUI::EventArgs &e);
    virtual void draw();
    virtual void initGl();
    virtual void initCegui();

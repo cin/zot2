@@ -2,6 +2,7 @@
 
 //#include "zerialize.h"
 #include <iostream>
+#include <boost/shared_ptr.hpp>
 
 #include "zypes.h"
 
@@ -19,6 +20,9 @@ const uint32 ZM_LOG_MSG       = ZM_CFG_GRP | 0x0003;
 const uint32 ZM_TEST_MSG      = ZM_CFG_GRP | 0x0004;
 
 class Zystem;
+class Zmsg;
+
+typedef boost::shared_ptr<Zmsg> ZmsgPtr;
 
 class Zmsg// : public Zerialize
 {
@@ -39,7 +43,7 @@ public:
       {
       }
 
-      bool operator()(const Zmsg *lhs, const Zmsg *rhs) const
+      bool operator()(const ZmsgPtr lhs, const ZmsgPtr rhs) const
       {
          if (bReverse)
             return lhs->__m_priority > rhs->__m_priority;
@@ -71,9 +75,6 @@ public:
 
    virtual std::ostream &serialize(std::ostream &os) const;
    virtual std::istream &deserialize(std::istream &is);
-
-   virtual std::ostream &jsonSerialize(std::ostream &os) const;
-   virtual std::istream &jsonDeserialize(std::istream &is);
 
 protected:
 

@@ -15,7 +15,7 @@ public:
 
    virtual bool init();
    virtual void tick();
-   virtual int onTest(Zmsg *pMsg);
+   virtual int onTest(ZmsgPtr pMsg);
 
 protected:
    uint32 m_eventCounter;

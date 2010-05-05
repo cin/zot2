@@ -37,7 +37,7 @@ public:
 
    void zog(const std::string &msg);
    void zog(const std::string &msg, ZogLevel l, int dest);
-   virtual int onLog(Zmsg *pMsg);
+   virtual int onLog(ZmsgPtr pMsg);
 
 protected:
    virtual bool init();

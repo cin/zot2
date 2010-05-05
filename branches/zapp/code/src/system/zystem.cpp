@@ -64,7 +64,7 @@ void Zystem::kill()
    m_pThread->kill();
 }
 
-void Zystem::post(Zot::Zmsg *pMsg)
+void Zystem::post(ZmsgPtr pMsg)
 {
    // make sure msg has a valid system
    if (pMsg->__m_system <= 0)
@@ -76,25 +76,15 @@ void Zystem::post(Zot::Zmsg *pMsg)
       push(pMsg);
 }
 
-void Zystem::post(Zot::Zmsg &msg)
-{
-   post(&msg);
-}
-
-void Zystem::push(Zot::Zmsg *pMsg)
+void Zystem::push(ZmsgPtr pMsg)
 {
    if (m_mask & (pMsg->__m_type & ZM_ALL))
       m_msgq.push(pMsg, m_timeout);
 }
 
-void Zystem::push(Zot::Zmsg &msg)
+int Zystem::onConfig(ZmsgPtr pMsg)
 {
-   push(&msg);
-}
-
-int Zystem::onConfig(Zmsg *pMsg)
-{
-   ZmCfg *pCfg = dynamic_cast<ZmCfg *>(pMsg);
+   ZmCfg *pCfg = dynamic_cast<ZmCfg *>(pMsg.get());
    if (pCfg)
       return !config(pCfg);
    return -1;
@@ -115,7 +105,7 @@ int Zystem::onExit()
    return 0;
 }
 
-int Zystem::onStop(Zmsg *pMsg)
+int Zystem::onStop(ZmsgPtr pMsg)
 {
    D({
       wostringstream os;
@@ -128,12 +118,12 @@ int Zystem::onStop(Zmsg *pMsg)
    return 0;
 }
 
-int Zystem::onLog(Zmsg *pMsg)
+int Zystem::onLog(ZmsgPtr pMsg)
 {
    return 0;
 }
 
-int Zystem::onTest(Zmsg *pMsg)
+int Zystem::onTest(ZmsgPtr pMsg)
 {
    return 0;
 }
@@ -162,8 +152,8 @@ void Zystem::tick()
    size_t qStartSz = getMsgqSize();
    ZimTime finishTime(m_curTime.update() + m_timeout);
 
-   Zmsg *pMsg = m_msgq.wait(m_timeout);
-   while (pMsg)
+   ZmsgPtr pMsg = m_msgq.wait(m_timeout);
+   while (pMsg.get())
    {
       // if mask passed, find handler and invoke
       // note: messages are now filtered upon post
@@ -172,14 +162,12 @@ void Zystem::tick()
       if (it != m_handlers.end())
          (this->*(it->second))(pMsg);
 
-      delete pMsg;
-
       if (!m_bRunning || m_curTime.update() > finishTime)
-         pMsg = NULL;
+         pMsg.reset();
       else if (--qStartSz == 0)
          pMsg = m_msgq.wait((finishTime - m_curTime).get());
       else
-         pMsg = m_msgq.get();
+         pMsg = m_msgq.pop();
    }
 }
 

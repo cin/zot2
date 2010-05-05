@@ -150,33 +150,35 @@ struct Vector
 
    Vector &normalize()
    {
-      T d(length());
-      if (d == 0.0) return *this;
-      T l(1.0f / d);
+      T d = length();
+      if (d == 0.0f)
+         return *this;
+      T l = 1.0f / d;
       x *= l; y *= l; z *= l;
       return *this;
    }
 
    Vector norm() const
    {
-      T d(length());
-      if (d == 0.0) return Vec();
-      T l(1.0f / d);
+      T d = length();
+      if (d == 0.0f)
+         return Vec();
+      T l = 1.0f / d;
       return Vec(x * l, y * l, z * l);
    }
 
    Vector &norm(Vector &vec) const
    {
-      T d(length());
-      if (d == 0.0)
+      T d = length();
+      if (d == 0.0f)
          return vec;
-      T l(1.0f / d);
+      T l = 1.0f / d;
       return vec.set(x * l, y * l, z * l);
    }
 
    T length() const
    {
-      return T(sqrt((double)(x * x + y * y + z * z)));
+      return sqrt(x * x + y * y + z * z);
    }
 
    T squaredLength() const

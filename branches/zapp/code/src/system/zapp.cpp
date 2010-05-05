@@ -71,7 +71,7 @@ int Zapp::onExit()
    })
 
    // send event stop event to all zystems
-   ZmStop stop;
+   ZmsgPtr stop(new ZmStop);
    for (ZysIter it = m_zystems.begin(); it != m_zystems.end(); it++)
       (*it)->push(stop);
 
@@ -109,7 +109,7 @@ int Zapp::onExit()
       OutputDebugString(os.str().c_str());
    })
 
-   Zystem::onStop(&stop);
+   Zystem::onStop(stop);
    int ret = Zystem::onExit();
    return ret;
 }
@@ -123,8 +123,8 @@ void Zapp::tick()
    size_t qStartSz = getMsgqSize();
    ZimTime finishTime(m_curTime.update() + m_timeout);
 
-   Zmsg *pMsg = m_msgq.wait(m_timeout);
-   while (pMsg)
+   ZmsgPtr pMsg = m_msgq.wait(m_timeout);
+   while (pMsg.get())
    {
       // check if other zystems want this msg
       Zystem *pSys = NULL;
@@ -133,11 +133,8 @@ void Zapp::tick()
          pSys = *it;
          // don't send to the calling system and only send
          // to systems that care about this message type
-         if (pSys->getid() != pMsg->getSystem() &&
-            pSys->getMask() & (pMsg->getType() & ZM_ALL))
-         {
+         if (pSys->getid() != pMsg->getSystem())
             pSys->push(pMsg);
-         }
       }
 
       // if mask passed, find handler and invoke
@@ -147,14 +144,12 @@ void Zapp::tick()
       if (it != m_handlers.end())
          (this->*(it->second))(pMsg);
 
-      delete pMsg;
-
       if (m_curTime.update() > finishTime)
-         pMsg = NULL;
+         pMsg.reset();
       else if (--qStartSz == 0)
          pMsg = m_msgq.wait((finishTime - m_curTime).get());
       else
-         pMsg = m_msgq.get();
+         pMsg = m_msgq.pop();
    }
 }
 

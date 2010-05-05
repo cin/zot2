@@ -5,6 +5,7 @@
 #include <windows.h>
 #include "zapp.h"
 #include "convar.h"
+#include "zogger.h"
 
 using namespace std;
 using namespace Zot;
@@ -28,7 +29,8 @@ bool Zystress::init()
    reg(ZM_TEST_MSG, &Zystem::onTest);
    m_startTime = ZimTime(true);
    m_nextTime = m_startTime + stressDelay.getInt32();
-   post(Zmsg(ZM_TEST_MSG, this));
+   ZmsgPtr ptr(new Zmsg(ZM_TEST_MSG, this));
+   post(ptr);
    m_timeout = 10;
    return ret;
 }
@@ -38,12 +40,13 @@ void Zystress::tick()
    Zystem::tick();
    if (m_time.update() > m_nextTime)
    {
-      post(Zmsg(ZM_TEST_MSG, this));
+      ZmsgPtr ptr(new Zmsg(ZM_TEST_MSG, this));
+      post(ptr);
       m_nextTime = m_time + stressDelay.getInt32();
    }
 }
 
-int Zystress::onTest(Zmsg *msg)
+int Zystress::onTest(ZmsgPtr msg)
 {
    if (++m_eventCounter >= UINT_MAX)
    {
@@ -54,13 +57,23 @@ int Zystress::onTest(Zmsg *msg)
       OutputDebugString(os.str().c_str());)
    }
 
-   D(if (getMsgqSize() != m_lastQSz)
+   if (getMsgqSize() != m_lastQSz)
    {
       wostringstream os;
       os << "Zystress::onTest: pSys id " << getThreadId()
          << " msgq size: " << getMsgqSize() << " at " << m_time.get() << endl;
       OutputDebugString(os.str().c_str());
       m_lastQSz = getMsgqSize();
-   })
+   }
+
+#if 1 // testing a whole lotta logging
+   {
+      ostringstream os;
+      os << "Zystress::onTest: pSys id " << getThreadId()
+         << " msgq size: " << getMsgqSize() << " at " << m_time.get() << endl;
+      Zogger::get()->zog(os.str());
+   }
+#endif
+
    return 0;
 }
