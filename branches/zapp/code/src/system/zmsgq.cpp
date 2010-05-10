@@ -8,8 +8,10 @@ using namespace Zot;
 Zmsgq::Zmsgq()
    : m_pEvent(NULL)
 {
-#ifdef __ZOT_USES_MSEVENTS__
+#ifdef __ZOT_USES_MS_EVENTS__
    m_pEvent = new MSEvent;
+#elif defined(__ZOT_USES_BOOST_EVENTS__)
+   m_pEvent = new BoostEvent;
 #else
    m_pEvent = new SDLEvent;
 #endif

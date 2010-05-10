@@ -11,7 +11,7 @@
 	/>
 	<Tool
 		Name="VCLinkerTool"
-		AdditionalDependencies=""
-		AdditionalLibraryDirectories="&quot;$(BOOST_PATH)/libs&quot;"
+		AdditionalDependencies="boost_thread-vc90-mt-1_43.lib"
+		AdditionalLibraryDirectories="&quot;$(BOOST_PATH)/stage/lib&quot;"
 	/>
 </VisualStudioPropertySheet>

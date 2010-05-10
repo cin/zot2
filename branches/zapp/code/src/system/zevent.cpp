@@ -1,8 +1,12 @@
 #include "zot.h"
 #include "zevent.h"
 
-#ifdef __ZOT_USES_MSEVENTS__
+#if defined(__ZOT_USES_MS_EVENTS__)
 #include <windows.h>
+#elif defined(__ZOT_USES_BOOST_EVENTS__)
+#include <boost/thread/condition_variable.hpp>
+#else
+#include <SDL.h>
 #endif
 
 //using namespace std;
@@ -42,7 +46,8 @@ bool Zevent::wait(uint32 timeout)
    return false;
 }
 
-#ifdef __ZOT_USES_MSEVENTS__
+#if defined(__ZOT_USES_MS_EVENTS__)
+
 /////////////////////////////////////////////////////////////////////
 // MSEvent
 
@@ -79,9 +84,59 @@ void MSEvent::signal()
 
 bool MSEvent::wait(uint32 timeout)
 {
-   return WaitForSingleObject((HANDLE)m_hEvent, timeout) == WAIT_OBJECT_0;
+   lock();
+   bool ret = WaitForSingleObject((HANDLE)m_hEvent, timeout) == WAIT_OBJECT_0;
+   unlock();
+   return ret;
 }
+
+#elif defined(__ZOT_USES_BOOST_EVENTS__)
+
+/////////////////////////////////////////////////////////////////////
+// BoostEvent
+
+BoostEvent::BoostEvent()
+{
+   m_pMutex = new boost::mutex();
+   m_pCond = new boost::condition_variable();
+}
+
+BoostEvent::~BoostEvent()
+{
+   if (m_pCond)
+      delete m_pCond, m_pCond = NULL;
+   if (m_pMutex)
+      delete m_pMutex, m_pMutex = NULL;
+}
+
+bool BoostEvent::lock(uint32 timeout)
+{
+   m_pMutex->lock();
+   return true;
+}
+
+bool BoostEvent::unlock()
+{
+   m_pMutex->unlock();
+   return true;
+}
+
+void BoostEvent::signal()
+{
+   m_pCond->notify_one();
+}
+
+bool BoostEvent::wait(uint32 timeout)
+{
+   using namespace boost::posix_time;
+   using namespace boost::gregorian;
+
+   boost::mutex::scoped_lock lock(*m_pMutex);
+   return m_pCond->timed_wait(lock, millisec(timeout));
+}
+
 #else
+
 /////////////////////////////////////////////////////////////////////
 // SDLEvent
 
@@ -124,4 +179,5 @@ bool SDLEvent::wait(uint32 timeout)
    unlock();
    return ret;
 }
+
 #endif

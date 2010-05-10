@@ -1,9 +1,21 @@
 #pragma once
 
-#define __ZOT_USES_MSEVENTS__
+#ifdef _WIN32
+#define __ZOT_USES_MS_EVENTS__
+//#define __ZOT_USES_BOOST_EVENTS__
+#else
+#define __ZOT_USES_BOOST_EVENTS__
+#endif
 
-#ifndef __ZOT_USES_MSEVENTS__
-#include "SDL.h"
+#if defined(__ZOT_USES_BOOST_EVENTS__)
+namespace boost
+{
+   class condition_variable;
+   class mutex;
+}
+#elif (!defined(__ZOT_USES_MS_EVENTS__) && !defined(__ZOT_USES_BOOST_EVENTS__))
+struct SDL_mutex;
+struct SDL_cond;
 #endif
 
 namespace Zot
@@ -34,7 +46,8 @@ protected:
 
 };
 
-#ifdef __ZOT_USES_MSEVENTS__
+#if defined(__ZOT_USES_MS_EVENTS__)
+
 class MSEvent : public Zevent
 {
 
@@ -54,7 +67,31 @@ protected:
    uint32 m_hMutex;
 
 };
+
+#elif defined(__ZOT_USES_BOOST_EVENTS__)
+
+class BoostEvent : public Zevent
+{
+
+public:
+
+   BoostEvent();
+   virtual ~BoostEvent();
+
+   virtual bool lock(uint32 timeout = ZOT_INDEFINITE);
+   virtual bool unlock();
+   virtual void signal();
+   virtual bool wait(uint32 timeout = ZOT_INDEFINITE);
+
+protected:
+
+   boost::mutex *m_pMutex;
+   boost::condition_variable *m_pCond;
+
+};
+
 #else
+
 class SDLEvent : public Zevent
 {
 
