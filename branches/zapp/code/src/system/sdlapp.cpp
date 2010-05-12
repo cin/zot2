@@ -3,16 +3,12 @@
 #include "sdlapp.h"
 #include "zonsole.h"
 #include "zogger.h"
+#include "gui.h"
 
-#include <CEGUIDefaultResourceProvider.h>
-#ifdef __CEGUI_0_6_2__
-#include <OpenGLGUIRenderer/openglrenderer.h>
-#else
-#include <OpenGL/CEGUIOpenGLRenderer.h>
-#endif
+#include <windows.h>
+#include <gl/gl.h>
 
 using namespace std;
-using namespace CEGUI;
 using namespace Zot;
 
 void handleZystress()
@@ -37,6 +33,12 @@ ConVar zotExit("exit", handleExit, "Exits the game.");
 ConVar zotQuit("quit", handleExit, "Exits the game.");
 ConVar zotLog("log", handleLog, "Logs a message to the logfile.");
 ConVar zotZystress("addStress", handleZystress, "Adds another Zystress thread for testing.");
+
+SDLApp::SDLApp()
+   : Zapp()
+   , m_gui(NULL)
+{
+}
 
 void SDLApp::draw()
 {
@@ -76,7 +78,7 @@ bool SDLApp::init()
    }
 
    initGl();
-   initCegui();
+   initGUI();
 
    if (!IConsole::get()->init())
       return false;
@@ -89,54 +91,9 @@ bool SDLApp::init()
    return true;
 }
 
-void SDLApp::initCegui()
+void SDLApp::initGUI()
 {
-   try
-   {
-      // initialize CEGUI
-#ifdef __CEGUI_0_6_2__
-      new System(new OpenGLRenderer(0), NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
-#else
-      System::create(OpenGLRenderer::create(), NULL, NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
-#endif
-
-      // set default directories for GUI elements
-      DefaultResourceProvider *rp = static_cast<DefaultResourceProvider *>(System::getSingleton().getResourceProvider());
-      rp->setResourceGroupDirectory("imagesets", "../res/imagesets/");
-      rp->setResourceGroupDirectory("schemes", "../res/schemes/");
-      rp->setResourceGroupDirectory("fonts", "../res/fonts/");
-      rp->setResourceGroupDirectory("looknfeels", "../res/looknfeel/");
-      rp->setResourceGroupDirectory("layouts", "../res/layouts/");
-
-      // now link them to CEGUI
-      Imageset::setDefaultResourceGroup("imagesets");
-      Scheme::setDefaultResourceGroup("schemes");
-      Font::setDefaultResourceGroup("fonts");
-      WidgetLookManager::setDefaultResourceGroup("looknfeels");
-      WindowManager::setDefaultResourceGroup("layouts");      
-
-      // load the scheme file
-#ifdef __CEGUI_0_6_2__
-      SchemeManager::getSingleton().loadScheme("TaharezLook.scheme");
-#else
-      SchemeManager::getSingleton().create("TaharezLook.scheme");
-#endif
-
-      // set a mouse cursor
-      System::getSingleton().setDefaultMouseCursor("TaharezLook", "MouseArrow");
-   }
-   catch (const CEGUI::InvalidRequestException &e)
-   {
-      cerr << e.getMessage() << endl;
-   }
-   catch (const CEGUI::UnknownObjectException &e)
-   {
-      cerr << e.getMessage() << endl;
-   }
-   catch (const CEGUI::GenericException &e)
-   {
-      cerr << e.getMessage() << endl;
-   }
+   GUI::init();
 }
 
 void SDLApp::initGl()
@@ -153,7 +110,7 @@ void SDLApp::initGl()
 
 void SDLApp::postDraw()
 {
-   System::getSingleton().renderGUI();
+   GUI::render();
    SDL_GL_SwapBuffers();
 }
 

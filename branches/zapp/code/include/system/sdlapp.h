@@ -13,10 +13,14 @@ class FrameWindow;
 namespace Zot
 {
 
+class GUI;
+
 class SDLApp : public Zapp
 {
 
 public:
+
+   SDLApp();
 
    virtual bool init();
    virtual void tick();
@@ -27,11 +31,12 @@ protected:
 
    virtual void draw();
    virtual void initGl();
-   virtual void initCegui();
+   virtual void initGUI();
    virtual void postDraw();
 
    static const int width = 1024, height = 768;
 
+   GUI *m_gui;
 };
 
 }

@@ -21,7 +21,7 @@
 			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="4"
-			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\cegui-debug.vsprops;..\props\boost.vsprops"
+			InheritedPropertySheets="..\props\sdl.vsprops;..\props\opengl.vsprops;..\props\boost.vsprops;..\props\cegui-debug.vsprops"
 			CharacterSet="1"
 			>
 			<Tool
@@ -160,6 +160,10 @@
 			>
 			<File
 				RelativePath="..\src\camera.cpp"
+				>
+			</File>
+			<File
+				RelativePath="..\src\gui.cpp"
 				>
 			</File>
 			<File
@@ -370,6 +374,10 @@
 			>
 			<File
 				RelativePath="..\include\camera.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\gui.h"
 				>
 			</File>
 			<File

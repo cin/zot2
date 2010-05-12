@@ -3,14 +3,7 @@
 #include <iostream>
 
 #include "zonsole.h"
-
-#include <CEGUIDefaultResourceProvider.h>
-
-#ifdef __CEGUI_0_6_2__
-#include <OpenGLGUIRenderer/openglrenderer.h>
-#else
-#include <OpenGL/CEGUIOpenGLRenderer.h>
-#endif
+#include "gui.h"
 
 using namespace std;
 using namespace Zot;
@@ -33,7 +26,7 @@ Zonsole::~Zonsole()
 
 void Zonsole::draw()
 {
-   System::getSingleton().renderGUI();
+   // nothing to do here anymore .. all rendering is done in gui.cpp
 }
 
 bool Zonsole::handleInput(const EventArgs &e)
@@ -204,21 +197,18 @@ bool Zonsole::init()
    try
    {
       // load the layout file
-      frameWnd = (FrameWindow *)WindowManager::getSingleton().loadWindowLayout("zotconsole.layout");
+      frameWnd = (FrameWindow *)WM.loadWindowLayout("zotconsole.layout");
 
-      // set the console as the active window
-      // NOTE: this should be done in a controlling class with a root window.
-      // CEGUI's DefaultWindow is a prime candidate for this, as it takes up
-      // the entire screen and is invisible.
-      System::getSingleton().setGUISheet(frameWnd);
+      // add the console window to the GUI
+      GUI::root()->addChildWindow(frameWnd);
 
       // initially hide the zonsole
       hide();
 
       // get pointers to child windows
-      inputWnd = (Editbox *)WindowManager::getSingleton().getWindow("Zonsole/Input");
-      bufferWnd = (Listbox *)WindowManager::getSingleton().getWindow("Zonsole/Buffer");
-      autoCompleteWnd = (Listbox *)WindowManager::getSingleton().getWindow("Zonsole/Input/AutoComplete");
+      inputWnd = (Editbox *)WM.getWindow("Zonsole/Input");
+      bufferWnd = (Listbox *)WM.getWindow("Zonsole/Buffer");
+      autoCompleteWnd = (Listbox *)WM.getWindow("Zonsole/Input/AutoComplete");
       autoCompleteWnd->subscribeEvent(Listbox::EventMouseClick, Event::Subscriber(&Zonsole::handleACClick, this));
       autoCompleteWnd->hide();
 
