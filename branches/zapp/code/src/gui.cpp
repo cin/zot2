@@ -29,7 +29,8 @@ void GUI::init()
 #ifdef __CEGUI_0_6_2__
       new System(new OpenGLRenderer(0), NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
 #else
-      System::create(OpenGLRenderer::create(), NULL, NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
+      OpenGLRenderer &renderer = OpenGLRenderer::create();
+      System::create(renderer, NULL, NULL, NULL, NULL, "", "../log/zot.CEGUI.log");
 #endif
 
       // set default directories for GUI elements
@@ -52,6 +53,7 @@ void GUI::init()
       SchemeManager::getSingleton().loadScheme("TaharezLook.scheme");
 #else
       SchemeManager::getSingleton().create("TaharezLook.scheme");
+      renderer.enableExtraStateSettings(true);
 #endif
 
       // set a mouse cursor

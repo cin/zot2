@@ -82,7 +82,7 @@ bool Zonsole::handleKeyDown(const EventArgs &e)
       }
       break;
    default:
-      break;
+      return false;
    }
    return true;
 }
@@ -161,9 +161,9 @@ bool Zonsole::handleTextChanged(const EventArgs &e)
 
 void Zonsole::hide()
 {
-   if (frameWnd->isVisible())
+   if (zonsoleWnd->isVisible())
    {
-      frameWnd->hide();
+      zonsoleWnd->hide();
       MouseCursor::getSingleton().hide();
    }
 }
@@ -196,29 +196,33 @@ bool Zonsole::init()
 {
    try
    {
-      // load the layout file
-      frameWnd = (FrameWindow *)WM.loadWindowLayout("zotconsole.layout");
-
-      // add the console window to the GUI
-      GUI::root()->addChildWindow(frameWnd);
-
-      // initially hide the zonsole
-      hide();
-
-      // get pointers to child windows
+      // get window objects
+      zonsoleWnd = (FrameWindow *)WM.loadWindowLayout("zotconsole.layout");
       inputWnd = (Editbox *)WM.getWindow("Zonsole/Input");
       bufferWnd = (Listbox *)WM.getWindow("Zonsole/Buffer");
       autoCompleteWnd = (Listbox *)WM.getWindow("Zonsole/Input/AutoComplete");
-      autoCompleteWnd->subscribeEvent(Listbox::EventMouseClick, Event::Subscriber(&Zonsole::handleACClick, this));
+
+      // frameWmnd
+      zonsoleWnd->setProperty("Alpha", "0.7");
+
+      // inputWnd
+      inputWnd->subscribeEvent(Editbox::EventTextAccepted,
+                                 Event::Subscriber(&Zonsole::handleInput, this));
+      inputWnd->subscribeEvent(Window::EventTextChanged,
+                                 Event::Subscriber(&Zonsole::handleTextChanged, this));
+      inputWnd->subscribeEvent(Editbox::EventKeyDown,
+                                 Event::Subscriber(&Zonsole::handleKeyDown, this));
+
+      // autoCompleteWnd
+      autoCompleteWnd->subscribeEvent(Listbox::EventMouseClick,
+                                        Event::Subscriber(&Zonsole::handleACClick, this));
       autoCompleteWnd->hide();
 
-      // make it a little transparent
-      frameWnd->setProperty("Alpha", "0.7");
+      // add the console window to the GUI
+      GUI::root()->addChildWindow(zonsoleWnd);
 
-      // hook in events
-      inputWnd->subscribeEvent(Editbox::EventTextAccepted, Event::Subscriber(&Zonsole::handleInput, this));
-      inputWnd->subscribeEvent(Window::EventTextChanged, Event::Subscriber(&Zonsole::handleTextChanged, this));
-      inputWnd->subscribeEvent(Editbox::EventKeyDown, Event::Subscriber(&Zonsole::handleKeyDown, this));
+      // initially hide the zonsole
+      hide();
 
       return true;
    }
@@ -240,14 +244,14 @@ bool Zonsole::init()
 
 bool Zonsole::isVisible()
 {
-   return frameWnd->isVisible();
+   return zonsoleWnd->isVisible();
 }
 
 void Zonsole::show()
 {
-   if (!frameWnd->isVisible())
+   if (!zonsoleWnd->isVisible())
    {
-      frameWnd->show();
+      zonsoleWnd->show();
       inputWnd->activate();
       MouseCursor::getSingleton().show();
    }

@@ -496,6 +496,7 @@
     -->
     <WidgetLook name="TaharezLook/Titlebar">
         <PropertyDefinition name="CaptionColour" initialValue="FFFFFFFF" redrawOnWrite="true" />
+        <Property name="NonClient" value="True" />
         <ImagerySection name="main">
             <ImageryComponent>
                 <Area>
@@ -632,6 +633,7 @@
         <Property name="NWSESizingCursorImage" value="set:TaharezLook image:MouseNwSeCursor" />
         <Property name="NESWSizingCursorImage" value="set:TaharezLook image:MouseNeSwCursor" />
         <Property name="UnifiedMinSize" value="{{0.1,0},{0.1,0}}" />
+        <Property name="AutoRenderingSurface" value="True" />
         <NamedArea name="ClientWithTitleWithFrame">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="WindowTopLeft" dimension="Width" /></Dim>
@@ -697,7 +699,7 @@
             </Area>
             <Property name="AlwaysOnTop" value="False" />
         </Child>
-        <Child type="TaharezLook/SystemButton" nameSuffix="__auto_closebutton__">
+        <Child type="TaharezLook/ImageButton" nameSuffix="__auto_closebutton__">
             <Area>
                 <Dim type="LeftEdge" >
                     <UnifiedDim scale="1" type="LeftEdge">
@@ -728,6 +730,7 @@
             <Property name="NormalImage" value="set:TaharezLook image:NewCloseButtonNormal" />
             <Property name="HoverImage" value="set:TaharezLook image:NewCloseButtonHover" />
             <Property name="PushedImage" value="set:TaharezLook image:NewCloseButtonPressed" />
+            <Property name="NonClient" value="True" />
         </Child>
         <ImagerySection name="withtitle_frame">
             <FrameComponent>
@@ -2136,20 +2139,12 @@
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
-                            <FontDim type="LineSpacing">
-                                <DimOperator op="Multiply">
-                                    <AbsoluteDim value="1.5" />
-                                </DimOperator>
-                            </FontDim>
+                            <FontDim type="LineSpacing" padding="10" />
                         </DimOperator>
                     </UnifiedDim>
                 </Dim>
                 <Dim type="Height" >
-                    <FontDim type="LineSpacing">
-                        <DimOperator op="Multiply">
-                            <AbsoluteDim value="1.5" />
-                        </DimOperator>
-                    </FontDim>
+                    <FontDim type="LineSpacing" padding="10" />
                 </Dim>
             </Area>
         </Child>
@@ -2952,13 +2947,7 @@
         <NamedArea name="TextArea">
             <Area>
                 <Dim type="LeftEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxLeft" dimension="Width" /></Dim>
-                <Dim type="TopEdge" >
-                   <AbsoluteDim value="-3">
-                      <DimOperator op="Subtract">
-                         <ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" />
-                      </DimOperator>
-                   </AbsoluteDim>
-                </Dim>
+                <Dim type="TopEdge" ><ImageDim imageset="TaharezLook" image="MultiLineEditboxTop" dimension="Height" /></Dim>
                 <Dim type="RightEdge" >
                     <UnifiedDim scale="1" type="RightEdge">
                         <DimOperator op="Subtract">
@@ -3258,6 +3247,7 @@
                 <Dim type="Height" ><AbsoluteDim value="12" /></Dim>
             </Area>
             <VertAlignment type="BottomAligned" />
+            <Property name="NonClient" value="True" />
         </Child>
         <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
             <Area>
@@ -3267,6 +3257,7 @@
                 <Dim type="Height" ><UnifiedDim scale="1" offset="-12" type="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
+            <Property name="NonClient" value="True" />
         </Child>
         <StateImagery name="Enabled" />
         <StateImagery name="Disabled" />
@@ -4581,6 +4572,7 @@
                 <Dim type="Height" ><AbsoluteDim value="12" /></Dim>
             </Area>
             <VertAlignment type="BottomAligned" />
+            <Property name="NonClient" value="True" />
         </Child>
         <Child  type="TaharezLook/VerticalScrollbar" nameSuffix="__auto_vscrollbar__">
             <Area>
@@ -4590,6 +4582,7 @@
                 <Dim type="Height" ><UnifiedDim scale="1" type="Height" /></Dim>
             </Area>
             <HorzAlignment type="RightAligned" />
+            <Property name="NonClient" value="True" />
         </Child>
         <ImagerySection name="main">
             <FrameComponent>

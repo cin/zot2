@@ -36,7 +36,7 @@ public:
    bool handleACClick(const EventArgs &e);
 
 protected:
-   CEGUI::FrameWindow *frameWnd;
+   CEGUI::FrameWindow *zonsoleWnd;
    CEGUI::Editbox *inputWnd;
    CEGUI::Listbox *bufferWnd;
    CEGUI::Listbox *autoCompleteWnd;

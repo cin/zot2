@@ -4,6 +4,7 @@
 namespace CEGUI
 {
    class Window;
+   class OpenGLRenderer;
 };
 
 namespace Zot
