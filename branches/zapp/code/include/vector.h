@@ -26,20 +26,20 @@ struct Point2d
    {
    }
 
-   Point2d(const Point2d &other)
+   Point2d(const Point2d<T> &other)
       : x(other.x)
       , y(other.y)
    {
    }
 
-   Point2d &init(T _x, T _y)
+   Point2d<T> &init(T _x, T _y)
    {
       x = _x;
       y = _y;
       return *this;
    }
 
-   Point2d &operator=(const Point2d &rhs)
+   Point2d<T> &operator=(const Point2d<T> &rhs)
    {
       if (this != &rhs)
       {
@@ -76,14 +76,14 @@ struct Vector
    {
    }
 
-   Vector(const Vector &other)
+   Vector(const Vector<T> &other)
       : x(other.x)
       , y(other.y)
       , z(other.z)
    {
    }
 
-   Vector &init(T _x, T _y, T _z)
+   Vector<T> &init(T _x, T _y, T _z)
    {
       x = _x;
       y = _y;
@@ -91,16 +91,16 @@ struct Vector
       return *this;
    }
 
-   Vector operator*(const Vector &rhs) const
+   Vector<T> operator*(const Vector<T> &rhs) const
    {
-      Vector r;
+      Vector<T> r;
       r.x = x * rhs.x;
       r.y = y * rhs.y;
       r.z = z * rhs.z;
       return r;
    }
 
-   Vector &operator*=(const Vector &rhs)
+   Vector<T> &operator*=(const Vector<T> &rhs)
    {
       x *= rhs.x;
       y *= rhs.y;
@@ -108,7 +108,7 @@ struct Vector
       return *this;
    }
 
-   Vector &operator*=(const T &rhs)
+   Vector<T> &operator*=(const T &rhs)
    {
       x *= rhs;
       y *= rhs;
@@ -116,7 +116,7 @@ struct Vector
       return *this;
    }
 
-   Vector &operator+=(const Vector &rhs)
+   Vector<T> &operator+=(const Vector<T> &rhs)
    {
       x += rhs.x;
       y += rhs.y;
@@ -124,7 +124,7 @@ struct Vector
       return *this;
    }
 
-   Vector &operator+=(const T &rhs)
+   Vector<T> &operator+=(const T &rhs)
    {
       x += rhs;
       y += rhs;
@@ -132,7 +132,7 @@ struct Vector
       return *this;
    }
 
-   Vector &operator=(const Vector &rhs)
+   Vector<T> &operator=(const Vector<T> &rhs)
    {
       if (this != &rhs)
       {
@@ -143,12 +143,12 @@ struct Vector
       return *this;
    }
 
-   Vector operator-()
+   Vector<T> operator-()
    {
-      return Vector(-x, -y, -z);
+      return Vector<T>(-x, -y, -z);
    }
 
-   Vector &normalize()
+   Vector<T> &normalize()
    {
       T d = length();
       if (d == 0.0f)
@@ -158,16 +158,16 @@ struct Vector
       return *this;
    }
 
-   Vector norm() const
+   Vector<T> norm() const
    {
       T d = length();
       if (d == 0.0f)
-         return Vec();
+         return Vector<T>();
       T l = 1.0f / d;
-      return Vec(x * l, y * l, z * l);
+      return Vector<T>(x * l, y * l, z * l);
    }
 
-   Vector &norm(Vector &vec) const
+   Vector<T> &norm(Vector<T> &vec) const
    {
       T d = length();
       if (d == 0.0f)
@@ -186,7 +186,7 @@ struct Vector
       return (x * x + y * y + z * z);
    }
 
-   Vector &set(const T &_x, const T &_y, const T &_z)
+   Vector<T> &set(const T &_x, const T &_y, const T &_z)
    {
       x = _x; y = _y; z = _z;
       return *this;

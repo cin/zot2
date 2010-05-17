@@ -18,7 +18,7 @@ public:
       identity();
    }
 
-   Matrix3(const Matrix3 &other)
+   Matrix3(const Matrix3<T> &other)
    {
       for (int i = 0; i < 9; i++)
          m[i] = other.m[i];
@@ -31,17 +31,17 @@ public:
       return m[i];
    }
 
-   Matrix3 &operator=(const Matrix3 &rhs)
+   Matrix3<T> &operator=(const Matrix3<T> &rhs)
    {
       if (this != &rhs)
       {
          for (int i = 0; i < 9; i++)
-            m[i] = other.m[i];
+            m[i] = rhs.m[i];
       }
       return *this;
    }
 
-   Matrix3 &identity()
+   Matrix3<T> &identity()
    {
       for (int i = 0; i < 9; i++)
          m[i] = (i % 5) == 0 ? 1.0f : 0.0f;
@@ -66,7 +66,7 @@ public:
       identity();
    }
 
-   Matrix4(const Matrix4 &other)
+   Matrix4(const Matrix4<T> &other)
    {
       for (int i = 0; i < 16; i++)
          m[i] = other.m[i];
@@ -79,12 +79,12 @@ public:
       return m[i];
    }
 
-   Matrix4 &operator=(const Matrix4 &rhs)
+   Matrix4<T> &operator=(const Matrix4<T> &rhs)
    {
       if (this != &rhs)
       {
          for (int i = 0; i < 16; i++)
-            m[i] = other.m[i];
+            m[i] = rhs.m[i];
       }
       return *this;
    }

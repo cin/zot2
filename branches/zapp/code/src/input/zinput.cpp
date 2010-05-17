@@ -5,7 +5,10 @@
 #include "zogger.h"
 #include "convar.h"
 
+#ifdef _WIN32
 #include "windows.h"
+#endif
+
 #include <SDL.h>
 
 #include <CEGUIDefaultResourceProvider.h>
@@ -76,7 +79,7 @@ bool Zinput::checkKeyBind(const char *pKey, const char *pCmd)
       // build SDLK_ string from key and convert to uppercase
       // to ease bind command syntax restrictions
       string tmpKey(pKey);
-      transform(tmpKey.begin(), tmpKey.end(), tmpKey.begin(), toupper);
+      transform(tmpKey.begin(), tmpKey.end(), tmpKey.begin(), (int(*)(int))toupper);
 
       ostringstream os;
       os << "SDLK_" << tmpKey;
@@ -93,14 +96,14 @@ bool Zinput::checkKeyBind(const char *pKey, const char *pCmd)
 bool Zinput::checkMouseButtonBind(const char *pKey, const char *pCmd)
 {
    string lowerKey(pKey);
-   transform(lowerKey.begin(), lowerKey.end(), lowerKey.begin(), tolower);
+   transform(lowerKey.begin(), lowerKey.end(), lowerKey.begin(), (int(*)(int))tolower);
 
    string mbLower;
    uint8 mb = EMbLast;
    for (int i = 1; i < EMbLast && mb == EMbLast; i++)
    {
       mbLower = MouseButtonStrings[i];
-      transform(mbLower.begin(), mbLower.end(), mbLower.begin(), tolower);
+      transform(mbLower.begin(), mbLower.end(), mbLower.begin(), (int(*)(int))tolower);
       if (lowerKey == mbLower)
          mb = i;
    }
@@ -448,7 +451,7 @@ uint16 Zinput::keyStringToUint16(const char *pKey)
 	   pair<const char *, uint16>("SDLK_GREATER", 62),
 	   pair<const char *, uint16>("SDLK_QUESTION", 63),
 	   pair<const char *, uint16>("SDLK_AT", 64),
-	   /* 
+	   /*
 	      Skip uppercase letters
 	    */
 	   pair<const char *, uint16>("SDLK_LEFTBRACKET", 91),

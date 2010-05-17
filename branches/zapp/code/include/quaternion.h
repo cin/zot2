@@ -19,11 +19,11 @@ public:
       T tmpSin(sin(angle * 0.5f));
 
       Vector<T> v;
-      a = cos(angle * 0.5f);
+      this->a = cos(angle * 0.5f);
       v = tmpv * tmpSin;
-      b = v.x;
-      c = v.y;
-      d = v.z;
+      this->b = v.x;
+      this->c = v.y;
+      this->d = v.z;
 
       return *this;
    }
@@ -35,18 +35,18 @@ public:
 
    T sqLength() const
    {
-      Vector<T> v(b, c, d);
-      return (a * a + v.squaredLength());
+      Vector<T> v(this->b, this->c, this->d);
+      return (this->a * this->a + v.squaredLength());
    }
 
    Vector<T> &getLook(Vector<T> &look) const
    {
       T w(sqLength());
       w = (w > 0.0f) ? 2.0f / w : 0.0f;
-      T wx(b * w);   T wy(c * w); T wz(d * w);
-      T sx(a * wx);  T sy(a * wy);
-      T xx(b * wx);  T xz(b * wz);
-      T yy(c * wy);  T yz(c * wz);
+      T wx(this->b * w);   T wy(this->c * w); T wz(this->d * w);
+      T sx(this->a * wx);  T sy(this->a * wy);
+      T xx(this->b * wx);  T xz(this->b * wz);
+      T yy(this->c * wy);  T yz(this->c * wz);
       return look.set(xz + sy, yz - sx, 1.0f - (xx + yy));
    }
 
@@ -55,10 +55,10 @@ public:
       T w(sqLength());
       w = (w > 0.0f) ? 2.0f / w : 0.0f;
       // double wx(b * w);
-      T wy(c * w);   T wz(d * w);
-      T sy(a * wy);  T sz(a * wz);
-      T xy(b * wy);  T xz(b * wz);
-      T yy(c * wy);  T zz(d * wz);
+      T wy(this->c * w);   T wz(this->d * w);
+      T sy(this->a * wy);  T sz(this->a * wz);
+      T xy(this->b * wy);  T xz(this->b * wz);
+      T yy(this->c * wy);  T zz(this->d * wz);
       return right.set(1.0f - (yy + zz), xy + sz, xz - sy);
    }
 
@@ -66,10 +66,10 @@ public:
    {
       T w(sqLength());
       w = (w > 0.0f) ? 2.0f / w : 0.0f;
-      T wx(b * w);   T wy(c * w);   T wz(d * w);
-      T sx(a * wx);  T sz(a * wz);
-      T xx(b * wx);  T xy(b * wy);
-      T yz(c * wz);  T zz(d * wz);
+      T wx(this->b * w);   T wy(this->c * w);   T wz(this->d * w);
+      T sx(this->a * wx);  T sz(this->a * wz);
+      T xx(this->b * wx);  T xy(this->b * wy);
+      T yz(this->c * wz);  T zz(this->d * wz);
       return up.set(xy - sz, 1.0f - (xx + zz), yz + sx);
    }
 
@@ -77,10 +77,10 @@ public:
    {
       T w(sqLength());
       w = (w > 0.0f) ? 2.0f / w : 0.0f;
-      T wx(b * w);   T wy(c * w);   T wz(d * w);
-      T sx(a * wx);  T sy(a * wy);  T sz(a * wz);
-      T xx(b * wx);  T xy(b * wy);  T xz(b * wz);
-      T yy(c * wy);  T yz(c * wz);  T zz(d * wz);
+      T wx(this->b * w);   T wy(this->c * w);   T wz(this->d * w);
+      T sx(this->a * wx);  T sy(this->a * wy);  T sz(this->a * wz);
+      T xx(this->b * wx);  T xy(this->b * wy);  T xz(this->b * wz);
+      T yy(this->c * wy);  T yz(this->c * wz);  T zz(this->d * wz);
       m[0]  = T(1.0f - (yy + zz));
       m[1]  = T(       (xy + sz));
       m[2]  = T(       (xz - sy));

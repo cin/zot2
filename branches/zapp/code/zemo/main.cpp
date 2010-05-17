@@ -1,10 +1,18 @@
 #include "sdlapp.h"
 #include "zot.h"
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
+
 #include <sstream>
 #include <iomanip>
 
-#include "gl/gl.h"
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
+#include <gl/gl.h>
+#endif
 
 using namespace std;
 using namespace Zot;

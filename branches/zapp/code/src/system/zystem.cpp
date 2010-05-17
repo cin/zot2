@@ -3,9 +3,9 @@
 #include "zthread.h"
 #include "zogger.h"
 #include <sstream>
-#include <windows.h>
 
 #ifdef _WIN32
+#include <windows.h>
 #include <time.h>
 #endif
 
@@ -96,7 +96,11 @@ int Zystem::onExit()
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zystem::onExit: id " << id << endl;
+#ifdef _WIN32
       OutputDebugString(os.str().c_str());
+#else
+      cout << os;
+#endif
    })
 
    if (m_pThread)
@@ -111,7 +115,11 @@ int Zystem::onStop(ZmsgPtr pMsg)
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zystem::onStop: id " << id << endl;
+#ifdef _WIN32
       OutputDebugString(os.str().c_str());
+#else
+      cout << os;
+#endif
    })
 
    m_bRunning = false;

@@ -20,7 +20,7 @@ public:
 
    Zthread(ZthreadProc pfn, Zystem *pSys);
    virtual ~Zthread();
-   virtual bool create(Zthread::ZthreadProc pfn, Zystem *pSys) = 0;
+   virtual bool create(Zthread::ZthreadProc pfn, Zystem *pSys);
    virtual uint32 getThreadId() const;
    virtual void kill();
 

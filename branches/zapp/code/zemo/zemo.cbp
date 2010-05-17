@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="zemo" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="zemo" prefix_auto="1" extension_auto="1" />
+				<Option object_output="debug" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-D_DEBUG" />
+					<Add directory="../include" />
+					<Add directory="../include/system" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../include" />
+					<Add directory="../include/system" />
+				</ResourceCompiler>
+				<Linker>
+					<Add library="zotd" />
+					<Add library="GL" />
+					<Add directory="../lib" />
+				</Linker>
+			</Target>
+			<Target title="Release">
+				<Option output="zemo" prefix_auto="1" extension_auto="1" />
+				<Option object_output="release" />
+				<Option type="0" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-W" />
+					<Add option="-DNDEBUG" />
+					<Add directory="../include" />
+					<Add directory="../include/system" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../include" />
+					<Add directory="../include/system" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+					<Add library="zot" />
+					<Add directory="../lib" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="main.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

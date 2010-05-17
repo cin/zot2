@@ -5,8 +5,15 @@
 #include "zogger.h"
 #include "gui.h"
 
+#ifdef _WIN32
 #include <windows.h>
+#endif
+
+#ifdef __APPLE__
+#include <OpenGL/gl.h>
+#else
 #include <gl/gl.h>
+#endif
 
 using namespace std;
 using namespace Zot;

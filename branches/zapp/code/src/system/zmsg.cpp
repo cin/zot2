@@ -100,7 +100,8 @@ ZmCfg::ZmCfg()
 }
 
 ZmCfg::ZmCfg(const ZmCfg &other)
-   : m_mask(other.m_mask)
+   : Zmsg(other)
+   , m_mask(other.m_mask)
 {
    __m_type = ZM_CFG_MSG;
    __m_priority = ZOT_PRIORITY_TOP;
@@ -169,7 +170,8 @@ ZmLog::ZmLog(const std::string &msg, int level, int dest)
 }
 
 ZmLog::ZmLog(const ZmLog &other)
-   : m_level(other.m_level)
+   : Zmsg(other)
+   , m_level(other.m_level)
    , m_dest(other.m_dest)
    , m_msg(other.m_msg)
 {

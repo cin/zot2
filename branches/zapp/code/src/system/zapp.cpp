@@ -5,7 +5,11 @@
 #include "zthread.h"
 
 #include <SDL.h>
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
+
 #include <sstream>
 #include <iomanip>
 
@@ -42,8 +46,11 @@ bool Zapp::init()
       D({
          wostringstream os;
          os << "Zapp::init: pLogger id " << pLogger->getThreadId() << endl;
+#ifdef _WIN32
          OutputDebugString(os.str().c_str());
-      })
+#else
+         cout << os;
+#endif      })
    }
 
    //for (int i = 0; i < 4; i++)
@@ -67,7 +74,11 @@ int Zapp::onExit()
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zapp::onExit: id " << id << endl;
+#ifdef _WIN32
       OutputDebugString(os.str().c_str());
+#else
+      cout << os;
+#endif
    })
 
    // send event stop event to all zystems
@@ -106,7 +117,11 @@ int Zapp::onExit()
       wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zapp::onExit: " << id << " calling base class' onExit" << endl;
-      OutputDebugString(os.str().c_str());
+#ifdef _WIN32
+         OutputDebugString(os.str().c_str());
+#else
+         cout << os;
+#endif
    })
 
    Zystem::onStop(stop);
@@ -165,6 +180,10 @@ void Zapp::addZystress()
    D({
       wostringstream os;
       os << "Zapp::addZystress: pSys id " << setw(4) << pSys->getThreadId() << "; sNumZystress: " << setw(3) << sNumZystress << endl;
+#ifdef _WIN32
       OutputDebugString(os.str().c_str());
+#else
+      cout << os;
+#endif
    })
 }

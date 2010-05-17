@@ -5,7 +5,10 @@
 #include "zogger.h"
 #include "convar.h"
 
+#ifdef _WIN32
 #include "windows.h"
+#endif
+
 #include <SDL.h>
 
 #include <CEGUIDefaultResourceProvider.h>

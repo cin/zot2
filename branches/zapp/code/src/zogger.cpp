@@ -9,6 +9,8 @@
 #include <time.h>
 #include <sys/stat.h>
 #include <windows.h>
+#else
+#include <sys/time.h>
 #endif
 
 using namespace std;
@@ -90,7 +92,11 @@ bool Zogger::init()
       wostringstream os;
       wstring wfn(filename.begin(), filename.end());
       os << "Zogger::init: failed to open log file: " << wfn << endl;
-      OutputDebugStr(os.str().c_str());
+#ifdef _WIN32
+      OutputDebugString(os.str().c_str());
+#else
+      cout << os;
+#endif
    }
 
    reg(ZM_LOG_MSG, &Zystem::onLog);
@@ -119,7 +125,11 @@ int Zogger::onLog(ZmsgPtr msg)
 
 	gettimeofday(&tv, NULL);
    time_t secs = tv.tv_sec;
+#ifdef _WIN32
 	localtime_s(&tinfo, &secs);
+#else
+	localtime_r(&secs, &tinfo);
+#endif
    strftime(date, sizeof(date), "%y%m%d_%H:%M:%S", &tinfo);
 
    ostringstream os;

@@ -60,7 +60,14 @@ public:
    ConVarPfn getPfn() const { return m_pfn; }
    void setPfn(ConVarPfn pfn) { m_pfn = pfn; }
 
-   bool getBool() const { getInt32() ? true : false; }
+   bool getBool() const
+   {
+      if (0 == getInt32())
+         return false;
+      else
+         return true;
+   }
+
    int32 getInt32() const;
    uint32 getUint32() const;
    float getFloat() const;

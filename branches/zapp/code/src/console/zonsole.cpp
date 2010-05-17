@@ -89,7 +89,7 @@ bool Zonsole::handleKeyDown(const EventArgs &e)
 
 void Zonsole::chooseAuto(bool dir)
 {
-   size_t cnt = autoCompleteWnd->getItemCount();
+   int cnt = (int)autoCompleteWnd->getItemCount();
    int osel = getSelectedIndex(), nsel = -1;
 
    if (osel >= 0)

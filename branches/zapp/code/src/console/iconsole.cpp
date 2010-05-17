@@ -42,7 +42,7 @@ void IConsole::handleCmd(const char *cmd)
    stringstream ss(cmd);
    string buf;
 
-   // this actually needs to be more complex to handle 
+   // this actually needs to be more complex to handle
    // processing double quoted strings as one argument
    while (ss >> buf)
       m_cmd.push_back(buf);
@@ -85,7 +85,7 @@ void IConsole::handleCmd(const char *cmd)
             }
             else
             {
-               // show value in console...don't like referring to the 
+               // show value in console...don't like referring to the
                ostringstream os;
                os << "\"" << cv->getName() << "\" = \"" << cv->getString()
                   << "\" (default: \"" << cv->getDefaultValue() << "\")";

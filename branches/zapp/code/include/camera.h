@@ -7,7 +7,7 @@
 namespace Zot
 {
 
-// vertex 
+// vertex
 // plane intersection methods
 class Frustum
 {
@@ -93,8 +93,8 @@ protected:
 
    CameraMoveController *m_pController;
 
-   friend CameraMoveController;
-   friend Frustum;
+   friend class CameraMoveController;
+   friend class Frustum;
 
 };
 

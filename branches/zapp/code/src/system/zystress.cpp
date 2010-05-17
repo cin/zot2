@@ -2,7 +2,11 @@
 #include "zystress.h"
 #include <limits>
 #include <sstream>
+
+#ifdef _WIN32
 #include <windows.h>
+#endif
+
 #include "zapp.h"
 #include "convar.h"
 #include "zogger.h"
@@ -54,7 +58,11 @@ int Zystress::onTest(ZmsgPtr msg)
       D(wostringstream os;
       os << "Zystress::onTest: pSys id " << getThreadId()
          << " wrapped at " << m_time.get() << endl;
-      OutputDebugString(os.str().c_str());)
+#ifdef _WIN32
+      OutputDebugString(os.str().c_str());
+#else
+      cout << os;)
+#endif
    }
 
    if (getMsgqSize() != m_lastQSz)
@@ -62,7 +70,11 @@ int Zystress::onTest(ZmsgPtr msg)
       wostringstream os;
       os << "Zystress::onTest: pSys id " << getThreadId()
          << " msgq size: " << getMsgqSize() << " at " << m_time.get() << endl;
+#ifdef _WIN32
       OutputDebugString(os.str().c_str());
+#else
+      cout << os;
+#endif
       m_lastQSz = getMsgqSize();
    }
 
