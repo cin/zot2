@@ -11,6 +11,10 @@ namespace Zot
 class Zogger :public Zystem
 {
 public:
+   static const uint8 ZOG_PRIORITY_TOP = 10;
+   static const uint8 ZOG_PRIORITY_NORMAL = 5;
+   static const uint8 ZOG_PRIORITY_BOTTOM = 0;
+
    enum ZogLevel
    {
       ZOG_DEBUG,
@@ -35,8 +39,16 @@ public:
    static Zogger *create(Zystem *pParent);
    static Zogger *get() { return zogger; }
 
-   void zog(const std::string &msg);
-   void zog(const std::string &msg, ZogLevel l, int dest);
+   void zog(const std::string &msg,
+      int level = ZOG_PRIORITY_NORMAL,
+      int dest = ZOG_STDOUT | ZOG_FILE);
+
+#ifdef UNICODE
+   void zog(const std::wstring &msg,
+      int level = ZOG_PRIORITY_NORMAL,
+      int dest = ZOG_STDOUT | ZOG_FILE);
+#endif
+
    virtual int onLog(ZmsgPtr pMsg);
 
 protected:

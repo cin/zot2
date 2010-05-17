@@ -92,16 +92,16 @@ int Zystem::onConfig(ZmsgPtr pMsg)
 
 int Zystem::onExit()
 {
-   D({
-      wostringstream os;
-      int id = m_pThread ? m_pThread->getThreadId() : -1;
-      os << "Zystem::onExit: id " << id << endl;
+#ifdef _DEBUG
+   wostringstream os;
+   int id = m_pThread ? m_pThread->getThreadId() : -1;
+   os << "Zystem::onExit: id " << id << endl;
 #ifdef _WIN32
-      OutputDebugString(os.str().c_str());
+   OutputDebugString(os.str().c_str());
 #else
-      cout << os;
+   cout << os;
 #endif
-   })
+#endif
 
    if (m_pThread)
       delete m_pThread, m_pThread = NULL;
@@ -111,16 +111,16 @@ int Zystem::onExit()
 
 int Zystem::onStop(ZmsgPtr pMsg)
 {
-   D({
-      wostringstream os;
-      int id = m_pThread ? m_pThread->getThreadId() : -1;
-      os << "Zystem::onStop: id " << id << endl;
+#ifdef _DEBUG
+   wostringstream os;
+   int id = m_pThread ? m_pThread->getThreadId() : -1;
+   os << "Zystem::onStop: id " << id << endl;
 #ifdef _WIN32
-      OutputDebugString(os.str().c_str());
+   OutputDebugString(os.str().c_str());
 #else
-      cout << os;
+   cout << os;
 #endif
-   })
+#endif
 
    m_bRunning = false;
    return 0;

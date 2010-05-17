@@ -1,15 +1,11 @@
 #include "zot.h"
 #include "zystress.h"
-#include <limits>
-#include <sstream>
-
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
 #include "zapp.h"
 #include "convar.h"
 #include "zogger.h"
+
+#include <limits>
+#include <sstream>
 
 using namespace std;
 using namespace Zot;
@@ -55,26 +51,18 @@ int Zystress::onTest(ZmsgPtr msg)
    if (++m_eventCounter >= UINT_MAX)
    {
       m_eventCounter = 0;
-      D(wostringstream os;
+      D(ostringstream os;
       os << "Zystress::onTest: pSys id " << getThreadId()
          << " wrapped at " << m_time.get() << endl;
-#ifdef _WIN32
-      OutputDebugString(os.str().c_str());
-#else
-      cout << os;)
-#endif
+      Zogger::get()->zog(os.str());)
    }
 
    if (getMsgqSize() != m_lastQSz)
    {
-      wostringstream os;
+      ostringstream os;
       os << "Zystress::onTest: pSys id " << getThreadId()
          << " msgq size: " << getMsgqSize() << " at " << m_time.get() << endl;
-#ifdef _WIN32
-      OutputDebugString(os.str().c_str());
-#else
-      cout << os;
-#endif
+      Zogger::get()->zog(os.str());
       m_lastQSz = getMsgqSize();
    }
 

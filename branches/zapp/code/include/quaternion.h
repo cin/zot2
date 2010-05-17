@@ -13,7 +13,7 @@ class Quaternion : public boost::math::quaternion<T>
 
 public:
 
-   Quaternion &set(const Vector<T> &axis, T angle)
+   Quaternion<T> &set(const Vector<T> &axis, T angle)
    {
       Vector<T>  tmpv(axis.norm());
       T tmpSin(sin(angle * 0.5f));

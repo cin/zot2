@@ -43,11 +43,6 @@ void Zemo::initGl()
 void Zemo::draw()
 {
    SDLApp::draw();
-   //D({
-   //   wostringstream os;
-   //   os << "Zemo::draw" << endl;
-   //   OutputDebugString(os.str().c_str());
-   //})
 }
 
 int main(int argc, char *argv[])

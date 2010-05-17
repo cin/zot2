@@ -89,14 +89,9 @@ bool Zogger::init()
    ofs.open(filename.c_str(), ios::trunc);
    if (!ofs)
    {
-      wostringstream os;
-      wstring wfn(filename.begin(), filename.end());
-      os << "Zogger::init: failed to open log file: " << wfn << endl;
-#ifdef _WIN32
-      OutputDebugString(os.str().c_str());
-#else
-      cout << os;
-#endif
+      ostringstream os;
+      os << "Zogger::init: failed to open log file: " << filename << endl;
+      zog(os.str(), ZOG_PRIORITY_TOP, ZOG_STDOUT);
    }
 
    reg(ZM_LOG_MSG, &Zystem::onLog);
@@ -125,18 +120,21 @@ int Zogger::onLog(ZmsgPtr msg)
 
 	gettimeofday(&tv, NULL);
    time_t secs = tv.tv_sec;
+
 #ifdef _WIN32
 	localtime_s(&tinfo, &secs);
 #else
 	localtime_r(&secs, &tinfo);
 #endif
+
    strftime(date, sizeof(date), "%y%m%d_%H:%M:%S", &tinfo);
 
    ostringstream os;
    os << date << "." << left << setw(3) << (int)(tv.tv_usec / 1000)
       << " | " << right << setw(2) << (uint16)pMsg->m_level
       << " | " << pMsg->m_msg;
-   string fullmsg(os.str()); // done this way so string won't get copied for each os call
+   // done this way so string won't get copied for each os call
+   string fullmsg(os.str());
 
 #if 0 // TODO: update this...cannot do this btwn threads...access the renderer that is
    // having to test if the Zonsole is available, sort of ugly
@@ -161,30 +159,59 @@ int Zogger::onLog(ZmsgPtr msg)
    // this is ugly. maybe have STDERR trump STDOUT if it is set?
    // MOD: now forcing users to end their own lines...may want to call this
    // multiple times w/out necessarily always ending
-   // should file already be opened and awaiting data?
-   // if so, the stream should be a memer, and we can simply
-   // write to it here.
+#ifdef _WIN32
+   if (pMsg->m_dest & ZOG_STDOUT || pMsg->m_dest & ZOG_STDERR)
+   {
+      // yes, this is redundant but the only way to get the log message
+      // into VS's output window
+      wstring wmsg(fullmsg.begin(), fullmsg.end());
+      OutputDebugString(wmsg.c_str());
+   }
+#else
    if (pMsg->m_dest & ZOG_STDOUT) cout << fullmsg;
    if (pMsg->m_dest & ZOG_STDERR) cerr << fullmsg;
+#endif
    if (pMsg->m_dest & ZOG_FILE) ofs << fullmsg, ofs.flush();
 
    return 0;
 }
 
-void Zogger::zog(const string &msg)
+void Zogger::zog(const string &msg, int level, int dest)
 {
-   if (Zmsg::ZOT_PRIORITY_NORMAL >= zotLogLevel.getInt32())
+   if (level >= zotLogLevel.getInt32())
    {
-      ZmsgPtr ptr(new ZmLog(msg, Zmsg::ZOT_PRIORITY_NORMAL, Zogger::ZOG_FILE));
-      push(ptr);
+      if (isRunning())
+      {
+         ZmsgPtr ptr(new ZmLog(msg, level, dest));
+         push(ptr);
+      }
+      else
+      {
+#ifdef _WIN32
+         if (dest & ZOG_STDOUT || dest & ZOG_STDERR)
+         {
+            // yes, this is redundant but the only way to get the log message
+            // into VS's output window
+            wstring wmsg(msg.begin(), msg.end());
+            OutputDebugString(wmsg.c_str());
+         }
+#else
+         if (dest & ZOG_STDOUT)
+            cout << msg;
+         if (dest & ZOG_STDERR)
+            cerr << msg;
+#endif
+      }
    }
 }
 
-void Zogger::zog(const string &msg, ZogLevel l, int dest)
+#ifdef UNICODE
+void Zogger::zog(const wstring &msg, int level, int dest)
 {
-   if (l >= zotLogLevel.getInt32())
+   if (level >= zotLogLevel.getInt32())
    {
-      ZmsgPtr ptr(new ZmLog(msg, l, dest));
-      push(ptr);
+      string amsg(msg.begin(), msg.end());
+      zog(amsg, level, dest);
    }
 }
+#endif

@@ -44,13 +44,10 @@ bool Zapp::init()
    {
       m_zystems.push_back(pLogger);
       D({
-         wostringstream os;
+         ostringstream os;
          os << "Zapp::init: pLogger id " << pLogger->getThreadId() << endl;
-#ifdef _WIN32
-         OutputDebugString(os.str().c_str());
-#else
-         cout << os;
-#endif      })
+         Zogger::get()->zog(os.str());
+      })
    }
 
    //for (int i = 0; i < 4; i++)
@@ -71,14 +68,10 @@ bool Zapp::init()
 int Zapp::onExit()
 {
    D({
-      wostringstream os;
+      ostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
       os << "Zapp::onExit: id " << id << endl;
-#ifdef _WIN32
-      OutputDebugString(os.str().c_str());
-#else
-      cout << os;
-#endif
+      Zogger::get()->zog(os.str());
    })
 
    // send event stop event to all zystems
@@ -113,16 +106,16 @@ int Zapp::onExit()
       it = m_zystems.erase(it);
    }
 
-   D({
-      wostringstream os;
+   {
+      D(wostringstream os;
       int id = m_pThread ? m_pThread->getThreadId() : -1;
-      os << "Zapp::onExit: " << id << " calling base class' onExit" << endl;
+      os << "Zapp::onExit: " << id << " calling base class' onExit" << endl;)
 #ifdef _WIN32
-         OutputDebugString(os.str().c_str());
+      D(OutputDebugString(os.str().c_str());)
 #else
-         cout << os;
+      D(cout << os;)
 #endif
-   })
+   }
 
    Zystem::onStop(stop);
    int ret = Zystem::onExit();
@@ -178,12 +171,9 @@ void Zapp::addZystress()
    sNumZystress++;
 
    D({
-      wostringstream os;
-      os << "Zapp::addZystress: pSys id " << setw(4) << pSys->getThreadId() << "; sNumZystress: " << setw(3) << sNumZystress << endl;
-#ifdef _WIN32
-      OutputDebugString(os.str().c_str());
-#else
-      cout << os;
-#endif
+      ostringstream os;
+      os << "Zapp::addZystress: pSys id " << setw(4) << pSys->getThreadId()
+         << "; sNumZystress: " << setw(3) << sNumZystress << endl;
+      Zogger::get()->zog(os.str());
    })
 }
