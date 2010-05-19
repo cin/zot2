@@ -4,7 +4,7 @@
 #define __ZOT_USES_MS_EVENTS__
 //#define __ZOT_USES_BOOST_EVENTS__
 #else
-#define __ZOT_USES_BOOST_EVENTS__
+//#define __ZOT_USES_BOOST_EVENTS__
 #endif
 
 #if defined(__ZOT_USES_BOOST_EVENTS__)

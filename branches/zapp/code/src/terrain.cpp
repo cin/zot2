@@ -1,5 +1,5 @@
 #include "zot.h"
-#include "Terrain.h"
+#include "terrain.h"
 
 #include <CEGUIDefaultResourceProvider.h>
 #ifdef __CEGUI_0_6_2__

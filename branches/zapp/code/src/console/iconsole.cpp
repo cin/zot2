@@ -2,6 +2,8 @@
 #include "iconsole.h"
 #include <sstream>
 
+#include <string.h>   // Linux needs this
+
 using namespace std;
 using namespace Zot;
 

@@ -7,7 +7,8 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="zemo" prefix_auto="1" extension_auto="1" />
+				<Option output="../bin/zemo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../bin" />
 				<Option object_output="debug" />
 				<Option type="0" />
 				<Option compiler="gcc" />
@@ -26,6 +27,9 @@
 				<Linker>
 					<Add library="zotd" />
 					<Add library="GL" />
+					<Add library="SDL" />
+					<Add library="CEGUIBase" />
+					<Add library="CEGUIOpenGLRenderer" />
 					<Add directory="../lib" />
 				</Linker>
 			</Target>

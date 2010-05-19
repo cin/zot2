@@ -1,7 +1,7 @@
 #include "zot.h"
 #include "zapp.h"
 #include "zogger.h"
-#include "Zystress.h"
+#include "zystress.h"
 #include "zthread.h"
 
 #include <SDL.h>

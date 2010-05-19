@@ -11,7 +11,7 @@
 #ifdef __APPLE__
 #include <OpenGL/gl.h>
 #else
-#include <gl/gl.h>
+#include <GL/gl.h>
 #endif
 
 using namespace std;
