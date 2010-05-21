@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_layout_file>
+	<ActiveTarget name="Debug" />
+	<File name="../include/camera.h" open="0" top="0" tabpos="9">
+		<Cursor position="1712" topLine="79" />
+	</File>
+	<File name="../include/console/convar.h" open="0" top="0" tabpos="1">
+		<Cursor position="1467" topLine="50" />
+	</File>
+	<File name="../include/console/zonsole.h" open="0" top="0" tabpos="3">
+		<Cursor position="46" topLine="0" />
+	</File>
+	<File name="../include/gui.h" open="0" top="0" tabpos="10">
+		<Cursor position="364" topLine="0" />
+	</File>
+	<File name="../include/input/iinput.h" open="0" top="0" tabpos="1">
+		<Cursor position="70" topLine="0" />
+	</File>
+	<File name="../include/input/zinput.h" open="0" top="0" tabpos="2">
+		<Cursor position="37" topLine="0" />
+	</File>
+	<File name="../include/matrix.h" open="0" top="0" tabpos="8">
+		<Cursor position="946" topLine="61" />
+	</File>
+	<File name="../include/quaternion.h" open="0" top="0" tabpos="6">
+		<Cursor position="2679" topLine="84" />
+	</File>
+	<File name="../include/system/sdlapp.h" open="0" top="0" tabpos="18">
+		<Cursor position="16" topLine="0" />
+	</File>
+	<File name="../include/system/zevent.h" open="0" top="0" tabpos="12">
+		<Cursor position="261" topLine="0" />
+	</File>
+	<File name="../include/system/zthread.h" open="0" top="0" tabpos="4">
+		<Cursor position="294" topLine="2" />
+	</File>
+	<File name="../include/targetver.h" open="0" top="0" tabpos="0">
+		<Cursor position="645" topLine="0" />
+	</File>
+	<File name="../include/vector.h" open="0" top="0" tabpos="7">
+		<Cursor position="414" topLine="185" />
+	</File>
+	<File name="../include/zot.h" open="0" top="0" tabpos="1">
+		<Cursor position="59" topLine="0" />
+	</File>
+	<File name="../src/camera.cpp" open="1" top="1" tabpos="1">
+		<Cursor position="580" topLine="0" />
+	</File>
+	<File name="../src/console/iconsole.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="538" topLine="0" />
+	</File>
+	<File name="../src/console/zonsole.cpp" open="0" top="0" tabpos="2">
+		<Cursor position="1958" topLine="93" />
+	</File>
+	<File name="../src/gui.cpp" open="0" top="0" tabpos="9">
+		<Cursor position="1703" topLine="45" />
+	</File>
+	<File name="../src/input/iinput.cpp" open="0" top="0" tabpos="11">
+		<Cursor position="4443" topLine="219" />
+	</File>
+	<File name="../src/input/zinput.cpp" open="0" top="0" tabpos="13">
+		<Cursor position="2217" topLine="88" />
+	</File>
+	<File name="../src/pch.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../src/system/sdlapp.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="1405" topLine="41" />
+	</File>
+	<File name="../src/system/zapp.cpp" open="0" top="0" tabpos="14">
+		<Cursor position="1525" topLine="77" />
+	</File>
+	<File name="../src/system/zmsg.cpp" open="0" top="0" tabpos="3">
+		<Cursor position="3660" topLine="159" />
+	</File>
+	<File name="../src/system/zthread.cpp" open="0" top="0" tabpos="5">
+		<Cursor position="255" topLine="8" />
+	</File>
+	<File name="../src/system/zystem.cpp" open="0" top="0" tabpos="15">
+		<Cursor position="2084" topLine="173" />
+	</File>
+	<File name="../src/system/zystress.cpp" open="0" top="0" tabpos="16">
+		<Cursor position="1322" topLine="47" />
+	</File>
+	<File name="../src/terrain.cpp" open="0" top="0" tabpos="8">
+		<Cursor position="0" topLine="0" />
+	</File>
+	<File name="../src/zogger.cpp" open="0" top="0" tabpos="17">
+		<Cursor position="2998" topLine="161" />
+	</File>
+</CodeBlocks_layout_file>

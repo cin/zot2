@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="zot" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="../lib/libzotd" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="debug" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-W" />
+					<Add option="-g" />
+					<Add option="-O0" />
+					<Add option="-D_DEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add directory="../include" />
+					<Add directory="../include/console" />
+					<Add directory="../include/system" />
+					<Add directory="../include/input" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../include" />
+					<Add directory="../include/console" />
+					<Add directory="../include/system" />
+					<Add directory="../include/input" />
+				</ResourceCompiler>
+			</Target>
+			<Target title="Release">
+				<Option output="../lib/libzot" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="" />
+				<Option object_output="release" />
+				<Option type="2" />
+				<Option compiler="gcc" />
+				<Option createDefFile="1" />
+				<Compiler>
+					<Add option="-O2" />
+					<Add option="-W" />
+					<Add option="-DNDEBUG" />
+					<Add option="-D_CONSOLE" />
+					<Add option="-D__CEGUI_0_6_2__" />
+					<Add directory="../include" />
+					<Add directory="../include/console" />
+					<Add directory="../include/system" />
+					<Add directory="../include/input" />
+				</Compiler>
+				<ResourceCompiler>
+					<Add directory="../include" />
+					<Add directory="../include/console" />
+					<Add directory="../include/system" />
+					<Add directory="../include/input" />
+				</ResourceCompiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Unit filename="../include/camera.h" />
+		<Unit filename="../include/console/convar.h" />
+		<Unit filename="../include/console/iconsole.h" />
+		<Unit filename="../include/console/zonsole.h" />
+		<Unit filename="../include/gui.h" />
+		<Unit filename="../include/input/iinput.h" />
+		<Unit filename="../include/input/zinput.h" />
+		<Unit filename="../include/matrix.h" />
+		<Unit filename="../include/quaternion.h" />
+		<Unit filename="../include/system/sdlapp.h" />
+		<Unit filename="../include/system/zapp.h" />
+		<Unit filename="../include/system/zerialize.h" />
+		<Unit filename="../include/system/zevent.h" />
+		<Unit filename="../include/system/zmsg.h" />
+		<Unit filename="../include/system/zmsgq.h" />
+		<Unit filename="../include/system/zthread.h" />
+		<Unit filename="../include/system/zystem.h" />
+		<Unit filename="../include/targetver.h" />
+		<Unit filename="../include/terrain.h" />
+		<Unit filename="../include/vector.h" />
+		<Unit filename="../include/zimtime.h" />
+		<Unit filename="../include/zobject.h" />
+		<Unit filename="../include/zogger.h" />
+		<Unit filename="../include/zot.h" />
+		<Unit filename="../include/zutil.h" />
+		<Unit filename="../include/zypes.h" />
+		<Unit filename="../src/camera.cpp" />
+		<Unit filename="../src/console/convar.cpp" />
+		<Unit filename="../src/console/iconsole.cpp" />
+		<Unit filename="../src/console/zonsole.cpp" />
+		<Unit filename="../src/gui.cpp" />
+		<Unit filename="../src/input/iinput.cpp" />
+		<Unit filename="../src/input/zinput.cpp" />
+		<Unit filename="../src/pch.cpp" />
+		<Unit filename="../src/system/sdlapp.cpp" />
+		<Unit filename="../src/system/zapp.cpp" />
+		<Unit filename="../src/system/zerialize.cpp" />
+		<Unit filename="../src/system/zevent.cpp" />
+		<Unit filename="../src/system/zmsg.cpp" />
+		<Unit filename="../src/system/zmsgq.cpp" />
+		<Unit filename="../src/system/zthread.cpp" />
+		<Unit filename="../src/system/zystem.cpp" />
+		<Unit filename="../src/system/zystress.cpp" />
+		<Unit filename="../src/system/zystress.h" />
+		<Unit filename="../src/terrain.cpp" />
+		<Unit filename="../src/zimtime.cpp" />
+		<Unit filename="../src/zobject.cpp" />
+		<Unit filename="../src/zogger.cpp" />
+		<Unit filename="../src/zutil.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

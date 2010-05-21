@@ -1,0 +1,248 @@
+# depslib dependency file v1.0
+1273631997 source:/home/brandon/zapp/code/src/camera.cpp
+	"zot.h"
+	"camera.h"
+	"zapp.h"
+	"zinput.h"
+	"convar.h"
+	<CEGUIDefaultResourceProvider.h>
+	<OpenGLGUIRenderer/openglrenderer.h>
+	<OpenGL/CEGUIOpenGLRenderer.h>
+
+1274238903 /home/brandon/zapp/code/include/zot.h
+	"targetver.h"
+	<stdio.h>
+	<tchar.h>
+	"zypes.h"
+	"zimtime.h"
+	<assert.h>
+
+1273631996 /home/brandon/zapp/code/include/targetver.h
+
+1273631996 /home/brandon/zapp/code/include/zypes.h
+
+1273631996 /home/brandon/zapp/code/include/zimtime.h
+	<iostream>
+
+1274238903 /home/brandon/zapp/code/include/camera.h
+	"zobject.h"
+	"matrix.h"
+	"quaternion.h"
+
+1273631996 /home/brandon/zapp/code/include/zobject.h
+	"vector.h"
+	"quaternion.h"
+
+1274238903 /home/brandon/zapp/code/include/vector.h
+
+1274238903 /home/brandon/zapp/code/include/quaternion.h
+	<boost/math/quaternion.hpp>
+	"vector.h"
+	"matrix.h"
+
+1274238903 /home/brandon/zapp/code/include/matrix.h
+	"vector.h"
+
+1273631996 /home/brandon/zapp/code/include/system/zapp.h
+	<vector>
+	"zystem.h"
+	"terrain.h"
+	"camera.h"
+
+1273631996 /home/brandon/zapp/code/include/system/zystem.h
+	"zmsg.h"
+	"zmsgq.h"
+	"zimtime.h"
+	<map>
+
+1273631996 /home/brandon/zapp/code/include/system/zmsg.h
+	<iostream>
+	<boost/shared_ptr.hpp>
+	"zypes.h"
+
+1273631996 /home/brandon/zapp/code/include/system/zmsgq.h
+	<queue>
+	<vector>
+	"zmsg.h"
+	"zevent.h"
+
+1273631996 /home/brandon/zapp/code/include/system/zevent.h
+
+1273631996 /home/brandon/zapp/code/include/terrain.h
+	<vector>
+	"vector.h"
+
+1273631996 /home/brandon/zapp/code/include/input/zinput.h
+	"iinput.h"
+	<CEGUIInputEvent.h>
+
+1273631996 /home/brandon/zapp/code/include/input/iinput.h
+	<boost/dynamic_bitset.hpp>
+	<map>
+	<SDL_keysym.h>
+	"vector.h"
+
+1274238903 /home/brandon/zapp/code/include/console/convar.h
+	<string>
+
+1273631997 source:/home/brandon/zapp/code/src/console/convar.cpp
+	"zot.h"
+	<sstream>
+	"convar.h"
+	"iconsole.h"
+
+1273631996 /home/brandon/zapp/code/include/console/iconsole.h
+	<vector>
+	<deque>
+	<map>
+	"convar.h"
+
+1274241994 source:/home/brandon/zapp/code/src/console/iconsole.cpp
+	"zot.h"
+	"iconsole.h"
+	<sstream>
+	<string.h>
+
+1274238904 source:/home/brandon/zapp/code/src/console/zonsole.cpp
+	"zot.h"
+	<iostream>
+	"zonsole.h"
+	"gui.h"
+
+1274238903 /home/brandon/zapp/code/include/console/zonsole.h
+	"iconsole.h"
+	<string>
+	<CEGUI.h>
+
+1274238903 /home/brandon/zapp/code/include/gui.h
+
+1274238904 source:/home/brandon/zapp/code/src/gui.cpp
+	"zot.h"
+	"gui.h"
+	<CEGUISystem.h>
+	<CEGUIDefaultResourceProvider.h>
+	<OpenGLGUIRenderer/openglrenderer.h>
+	<OpenGL/CEGUIOpenGLRenderer.h>
+	<CEGUIImageset.h>
+	<CEGUIScheme.h>
+	<CEGUIFont.h>
+	<falagard/CEGUIFalWidgetLookManager.h>
+	<CEGUIWindowManager.h>
+
+1274238903 source:/home/brandon/zapp/code/src/input/iinput.cpp
+	"zot.h"
+	"zapp.h"
+	"iinput.h"
+	"zonsole.h"
+	"zogger.h"
+	"convar.h"
+	"windows.h"
+	<SDL.h>
+	<CEGUIDefaultResourceProvider.h>
+	<OpenGLGUIRenderer/openglrenderer.h>
+	<OpenGL/CEGUIOpenGLRenderer.h>
+
+1274238903 /home/brandon/zapp/code/include/zogger.h
+	<string>
+	<fstream>
+	"zystem.h"
+
+1274238903 source:/home/brandon/zapp/code/src/input/zinput.cpp
+	"zot.h"
+	"zapp.h"
+	"zinput.h"
+	"zonsole.h"
+	"zogger.h"
+	"convar.h"
+	"windows.h"
+	<SDL.h>
+	<CEGUIDefaultResourceProvider.h>
+	<OpenGLGUIRenderer/openglrenderer.h>
+	<OpenGL/CEGUIOpenGLRenderer.h>
+
+1273631997 source:/home/brandon/zapp/code/src/pch.cpp
+	"zot.h"
+
+1274242014 source:/home/brandon/zapp/code/src/system/sdlapp.cpp
+	"zot.h"
+	"iinput.h"
+	"sdlapp.h"
+	"zonsole.h"
+	"zogger.h"
+	"gui.h"
+	<windows.h>
+	<OpenGL/gl.h>
+	<GL/gl.h>
+
+1274238903 /home/brandon/zapp/code/include/system/sdlapp.h
+	"SDL.h"
+	"zapp.h"
+
+1274242028 source:/home/brandon/zapp/code/src/system/zapp.cpp
+	"zot.h"
+	"zapp.h"
+	"zogger.h"
+	"zystress.h"
+	"zthread.h"
+	<SDL.h>
+	<windows.h>
+	<sstream>
+	<iomanip>
+
+1273631997 /home/brandon/zapp/code/src/system/zystress.h
+	"zystem.h"
+
+1274238903 /home/brandon/zapp/code/include/system/zthread.h
+	"zystem.h"
+
+1273631997 source:/home/brandon/zapp/code/src/system/zerialize.cpp
+	"zot.h"
+	"zerialize.h"
+
+1273631996 /home/brandon/zapp/code/include/system/zerialize.h
+	<iostream>
+
+1273631997 source:/home/brandon/zapp/code/src/system/zevent.cpp
+	"zot.h"
+	"zevent.h"
+	<windows.h>
+	<boost/thread/condition_variable.hpp>
+	<SDL.h>
+
+1274238904 source:/home/brandon/zapp/code/src/system/zmsg.cpp
+	"zot.h"
+	"zmsg.h"
+	"zystem.h"
+	"zogger.h"
+
+1273631997 source:/home/brandon/zapp/code/src/system/zmsgq.cpp
+	"zot.h"
+	"zmsgq.h"
+	"zevent.h"
+
+1273631997 source:/home/brandon/zapp/code/src/system/zthread.cpp
+	"zot.h"
+	"zthread.h"
+	"zevent.h"
+	"windows.h"
+	"SDL.h"
+
+1274238904 source:/home/brandon/zapp/code/src/system/zystem.cpp
+	"zot.h"
+	"zystem.h"
+	"zthread.h"
+	"zogger.h"
+	<sstream>
+	<windows.h>
+	<time.h>
+	<SDL.h>
+
+1274238904 source:/home/brandon/zapp/code/src/system/zystress.cpp
+	"zot.h"
+	"zystress.h"
+	"zapp.h"
+	"convar.h"
+	"zogger.h"
+	<limits>
+	<sstream>
+
