@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Imageset Name="ZotWindow" Imagefile="zotwindow.tga" >
+    <Image Name="Top" XPos="25" YPos="0" Width="4" Height="24" />
+    <Image Name="Left" XPos="0" YPos="25" Width="24" Height="4" />
+    <Image Name="Brush" XPos="25" YPos="25" Width="4" Height="4" />
+    <Image Name="Right" XPos="30" YPos="25" Width="24" Height="4" />
+    <Image Name="Bottom" XPos="25" YPos="30" Width="4" Height="24" />
+    <Image Name="TopLeft" XPos="0" YPos="0" Width="24" Height="24" />
+    <Image Name="TopRight" XPos="30" YPos="0" Width="24" Height="24" />
+    <Image Name="BottomLeft" XPos="0" YPos="30" Width="24" Height="24" />
+    <Image Name="BottomRight" XPos="30" YPos="30" Width="24" Height="24" />
+</Imageset>

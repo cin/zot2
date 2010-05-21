@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="Windows-1252"?>
+<VisualStudioPropertySheet
+	ProjectType="Visual C++"
+	Version="8.00"
+	Name="sdlConfig"
+	>
+	<Tool
+		Name="VCCLCompilerTool"
+		PreprocessorDefinitions=""
+		AdditionalIncludeDirectories="&quot;$(SDL_PATH)/include&quot;"
+	/>
+	<Tool
+		Name="VCLinkerTool"
+		AdditionalDependencies="SDL.lib SDLmain.lib"
+		AdditionalLibraryDirectories="&quot;$(SDL_PATH)/lib&quot;"
+	/>
+</VisualStudioPropertySheet>
