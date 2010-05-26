@@ -33,7 +33,7 @@ protected:
    void constructMbMap();
 
    CEGUI::utf32 m_keyMap[SDLK_LAST];
-   CEGUI::MouseButton m_mbMap[CEGUI::MouseButtonCount];
+   CEGUI::MouseButton m_mbMap[EMbLast];
 
 protected:
 

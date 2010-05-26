@@ -17,7 +17,7 @@ public:
       EConVarClient     = 0x04,
       EConVarReplicated = 0x08,
       EConVarArchive    = 0x10,
-   };
+   } EConVarFlags;
 
    typedef void (*ConVarPfn)();
    typedef void (*ChangePfn)(ConVar *pVar, const std::string &oldValue);

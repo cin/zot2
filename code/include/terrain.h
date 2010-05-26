@@ -21,7 +21,7 @@ public:
       EQuadNE,
       EQuadNW,
       EQuadLast,
-   };
+   } EQuad;
 
    static const int sMaxVerts = 9;
 
@@ -92,7 +92,7 @@ protected:
    Pnt2f extents[2];
 
 protected:
-   
+
    friend class Quad;
 
 };

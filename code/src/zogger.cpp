@@ -46,11 +46,15 @@ bool Zogger::init()
    if (!Zystem::init())
       return false;
 
+   m_bRunning = false;
+
+/*
    if (ofs)
    {
       ofs.close();
       ofs.clear();
    }
+*/
 
 #ifdef _WIN32
    // TODO: handle pruning logs once x backups have been made?
