@@ -13,10 +13,10 @@
 	<File name="../include/gui.h" open="0" top="0" tabpos="10">
 		<Cursor position="364" topLine="0" />
 	</File>
-	<File name="../include/input/iinput.h" open="1" top="0" tabpos="2">
+	<File name="../include/input/iinput.h" open="0" top="0" tabpos="2">
 		<Cursor position="1457" topLine="52" />
 	</File>
-	<File name="../include/input/zinput.h" open="1" top="0" tabpos="6">
+	<File name="../include/input/zinput.h" open="0" top="0" tabpos="6">
 		<Cursor position="1124" topLine="0" />
 	</File>
 	<File name="../include/matrix.h" open="0" top="0" tabpos="8">
@@ -47,13 +47,13 @@
 		<Cursor position="414" topLine="185" />
 	</File>
 	<File name="../include/zot.h" open="0" top="0" tabpos="1">
-		<Cursor position="59" topLine="0" />
+		<Cursor position="167" topLine="0" />
 	</File>
 	<File name="../src/camera.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="0" topLine="0" />
 	</File>
 	<File name="../src/console/iconsole.cpp" open="0" top="0" tabpos="2">
-		<Cursor position="538" topLine="0" />
+		<Cursor position="346" topLine="0" />
 	</File>
 	<File name="../src/console/zonsole.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="1958" topLine="93" />
@@ -61,11 +61,11 @@
 	<File name="../src/gui.cpp" open="0" top="0" tabpos="9">
 		<Cursor position="2541" topLine="30" />
 	</File>
-	<File name="../src/input/iinput.cpp" open="1" top="0" tabpos="3">
+	<File name="../src/input/iinput.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="253" topLine="3" />
 	</File>
-	<File name="../src/input/zinput.cpp" open="1" top="1" tabpos="7">
-		<Cursor position="4036" topLine="108" />
+	<File name="../src/input/zinput.cpp" open="0" top="0" tabpos="7">
+		<Cursor position="2816" topLine="108" />
 	</File>
 	<File name="../src/pch.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="0" topLine="0" />
@@ -73,7 +73,7 @@
 	<File name="../src/system/sdlapp.cpp" open="0" top="0" tabpos="7">
 		<Cursor position="2095" topLine="213" />
 	</File>
-	<File name="../src/system/zapp.cpp" open="1" top="0" tabpos="4">
+	<File name="../src/system/zapp.cpp" open="0" top="0" tabpos="4">
 		<Cursor position="685" topLine="0" />
 	</File>
 	<File name="../src/system/zmsg.cpp" open="0" top="0" tabpos="3">
@@ -82,7 +82,7 @@
 	<File name="../src/system/zthread.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="255" topLine="8" />
 	</File>
-	<File name="../src/system/zystem.cpp" open="1" top="0" tabpos="5">
+	<File name="../src/system/zystem.cpp" open="0" top="0" tabpos="5">
 		<Cursor position="2792" topLine="0" />
 	</File>
 	<File name="../src/system/zystress.cpp" open="0" top="0" tabpos="16">
@@ -91,7 +91,7 @@
 	<File name="../src/terrain.cpp" open="0" top="0" tabpos="8">
 		<Cursor position="0" topLine="0" />
 	</File>
-	<File name="../src/zogger.cpp" open="1" top="0" tabpos="1">
+	<File name="../src/zogger.cpp" open="0" top="0" tabpos="1">
 		<Cursor position="2147" topLine="53" />
 	</File>
 </CodeBlocks_layout_file>
