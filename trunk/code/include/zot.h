@@ -16,7 +16,7 @@
 //#include "convar.h"
 //#include "zapp.h"
 
-#if (!defined(_WIN32) && defined(_DEBUG))
+#ifndef _WIN32
 #include <assert.h>
 #define _ASSERT assert
 #endif

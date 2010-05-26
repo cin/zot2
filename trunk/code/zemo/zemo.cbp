@@ -35,8 +35,10 @@
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="zemo" prefix_auto="1" extension_auto="1" />
+				<Option output="../bin/zemo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../bin" />
 				<Option object_output="release" />
+				<Option external_deps="../lib/libzot.a;" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
@@ -53,6 +55,10 @@
 				<Linker>
 					<Add option="-s" />
 					<Add library="zot" />
+					<Add library="GL" />
+					<Add library="SDL" />
+					<Add library="CEGUIBase" />
+					<Add library="CEGUIOpenGLRenderer" />
 					<Add directory="../lib" />
 				</Linker>
 			</Target>
