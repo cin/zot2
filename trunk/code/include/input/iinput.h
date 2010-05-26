@@ -22,7 +22,7 @@ typedef enum EInputEvent
    EInputJoyHat,
    EInputJoyButton,
    EInputEventLast
-};
+} EInputEvent;
 
 typedef enum EInputType
 {
@@ -38,7 +38,7 @@ typedef enum EInputType
    EJoyButtonDown,
    EJoyButtonUp,
    EInputLast
-};
+} EInputType;
 
 // mimics SDL_keysym.h
 typedef enum EKeyMod
@@ -56,7 +56,7 @@ typedef enum EKeyMod
    EKmodCaps  = 0x2000,
    EKmodMode  = 0x4000,
    EKmodReserved = 0x8000
-};
+} EKeyMod;
 
 #define EKmodCtrl  (EKmodLctrl  | EKmodRctrl)
 #define EKmodShift (EKmodLshift | EKmodRshift)
@@ -75,7 +75,7 @@ typedef enum EMouseButton
    EMbX1,
    EMbX2,
    EMbLast
-};
+} EMouseButton;
 
 static const char *MouseButtonStrings[EMbLast] =
 {
@@ -146,7 +146,7 @@ struct MouseMotion : InputEvent
 struct MouseButton : InputEvent
 {
 
-   uint8 m_button; 
+   uint8 m_button;
    Pnt2ui m_abs;
 
    MouseButton();
@@ -207,7 +207,7 @@ typedef enum EInputMode
    EModeConsole = 0x2,
    EModeGame = 0x4,
    EModeLast = 0x8
-};
+} EInputMode;
 
 /////////////////////////////////////////////////////////////////////////////
 // IInput
@@ -261,7 +261,7 @@ protected:
    //   int m_idx;
    //};
 
-   //std::vector 
+   //std::vector
    InputHandlers m_handlers;
    InputState m_state;
    EInputMode m_mode;

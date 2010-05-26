@@ -43,7 +43,6 @@
 					<Add option="-W" />
 					<Add option="-DNDEBUG" />
 					<Add option="-D_CONSOLE" />
-					<Add option="-D__CEGUI_0_6_2__" />
 					<Add directory="../include" />
 					<Add directory="../include/console" />
 					<Add directory="../include/system" />

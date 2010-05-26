@@ -46,7 +46,8 @@ bool Zapp::init()
       D({
          ostringstream os;
          os << "Zapp::init: pLogger id " << pLogger->getThreadId() << endl;
-         Zogger::get()->zog(os.str());
+         //Zogger::get()->zog(os.str());
+         cout << os.str() << endl;
       })
    }
 
