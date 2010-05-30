@@ -51,11 +51,11 @@ bool Zapp::init()
       })
    }
 
-   //for (int i = 0; i < 4; i++)
-   //{
-   //   addZystress();
-   //   SDL_Delay(10);
-   //}
+//   for (int i = 0; i < 20; i++)
+//   {
+//      addZystress();
+//      SDL_Delay(10);
+//   }
 
    m_terrain.initTerrain();
    m_terrain.build();

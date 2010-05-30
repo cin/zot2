@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_workspace_file>
+	<Workspace title="Workspace">
+		<Project filename="../../zemo/linux/zemo.cbp" active="1">
+			<Depends filename="zot.cbp" />
+		</Project>
+		<Project filename="zot.cbp" />
+	</Workspace>
+</CodeBlocks_workspace_file>
