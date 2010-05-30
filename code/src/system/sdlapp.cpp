@@ -98,7 +98,7 @@ bool SDLApp::init()
    // this was taken straight outta their documentation
    int flags = IMG_INIT_JPG | IMG_INIT_PNG;
    int initted = IMG_Init(flags);
-   if (initted & flags != flags)
+   if ((initted & flags) != flags)
    {
       fprintf(stderr, "IMG_Init: Failed to init required jpg and png support!\n");
       fprintf(stderr, "IMG_Init: %s\n", IMG_GetError()); // handle error
