@@ -2,6 +2,10 @@
 
 #include <string>
 
+#ifdef __APPLE__
+#include <CoreFoundation/CFBundle.h>
+#endif
+
 #include <CEGUI.h>
 
 using CEGUI::EventArgs;

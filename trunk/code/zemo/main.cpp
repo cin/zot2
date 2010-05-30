@@ -9,6 +9,15 @@
 #include <iomanip>
 
 #ifdef __APPLE__
+// built SDLMain.m manually bc not sure exactly how to do that in here
+// i guess a prebuild step would work but dunno...just testing for now
+// anyway...moved libSDLmain.a to lib folder after running the commands
+// listed below
+//
+// gcc -I/Library/Frameworks/SDL.framework/Headers -arch i386 -c SDLMain.m
+// ar rcs libSDLmain.a SDLMain.o
+
+//#include "SDLMain.h"
 #include <OpenGL/gl.h>
 #else
 #include <GL/gl.h>
