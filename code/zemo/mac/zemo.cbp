@@ -7,25 +7,24 @@
 		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
-				<Option output="../bin/zemo" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="../bin" />
+				<Option output="../../bin/zemo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin" />
 				<Option object_output="debug" />
-				<Option external_deps="../lib/libzotd.a;" />
+				<Option external_deps="../../lib/libzotd.a;" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-march=i386" />
 					<Add option="-W" />
 					<Add option="-g" />
 					<Add option="-O0" />
+					<Add option="-march=i386" />
 					<Add option="-arch i386" />
 					<Add option="-D_DEBUG" />
-					<Add directory="../include" />
-					<Add directory="../include/system" />
+					<Add option="-D_REENTRANT" />
+					<Add directory="../../include" />
+					<Add directory="../../include/system" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="../include" />
-					<Add directory="../include/system" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-arch i386" />
@@ -33,42 +32,42 @@
 					<Add library="GL" />
 					<Add library="GLU" />
 					<Add library="SDLMain" />
-					<Add directory="../lib" />
+					<Add directory="../../lib" />
 				</Linker>
 			</Target>
 			<Target title="Release">
-				<Option output="../bin/zemo" prefix_auto="1" extension_auto="1" />
-				<Option working_dir="../bin" />
+				<Option output="../../bin/zemo" prefix_auto="1" extension_auto="1" />
+				<Option working_dir="../../bin" />
 				<Option object_output="release" />
-				<Option external_deps="../lib/libzot.a;" />
+				<Option external_deps="../../lib/libzot.a;" />
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-O2" />
 					<Add option="-W" />
 					<Add option="-DNDEBUG" />
-					<Add directory="../include" />
-					<Add directory="../include/system" />
+					<Add option="-D_REENTRANT" />
+					<Add option="-march=i386" />
+					<Add option="-arch i386" />
+					<Add directory="../../include" />
+					<Add directory="../../include/system" />
 				</Compiler>
 				<ResourceCompiler>
-					<Add directory="../include" />
-					<Add directory="../include/system" />
 				</ResourceCompiler>
 				<Linker>
 					<Add option="-s" />
+					<Add option="-arch i386" />
 					<Add library="zot" />
 					<Add library="GL" />
-					<Add library="SDL" />
-					<Add library="CEGUIBase" />
-					<Add library="CEGUIOpenGLRenderer" />
-					<Add directory="../lib" />
+					<Add library="GLU" />
+					<Add library="SDLMain" />
+					<Add directory="../../lib" />
 				</Linker>
 			</Target>
 		</Build>
 		<Compiler>
-			<Add option="-march=i386" />
 		</Compiler>
-		<Unit filename="main.cpp" />
+		<Unit filename="../main.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
