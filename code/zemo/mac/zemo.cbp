@@ -14,20 +14,24 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-march=i386" />
 					<Add option="-W" />
 					<Add option="-g" />
 					<Add option="-O0" />
-					<Add option="-march=i386" />
 					<Add option="-arch i386" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D_REENTRANT" />
 					<Add directory="../../include" />
 					<Add directory="../../include/system" />
 				</Compiler>
-				<ResourceCompiler>
-				</ResourceCompiler>
 				<Linker>
 					<Add option="-arch i386" />
+					<Add option="-framework Foundation" />
+					<Add option="-framework AppKit" />
+					<Add option="-framework SDL" />
+					<Add option="-framework CEGUIBase" />
+					<Add option="-framework CEGUIOpenGLRenderer" />
+					<Add option="-framework SDL_image" />
 					<Add library="zotd" />
 					<Add library="GL" />
 					<Add library="GLU" />
@@ -43,20 +47,23 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
+					<Add option="-march=i686" />
 					<Add option="-O2" />
 					<Add option="-W" />
+					<Add option="-arch i386" />
 					<Add option="-DNDEBUG" />
 					<Add option="-D_REENTRANT" />
-					<Add option="-march=i386" />
-					<Add option="-arch i386" />
 					<Add directory="../../include" />
 					<Add directory="../../include/system" />
 				</Compiler>
-				<ResourceCompiler>
-				</ResourceCompiler>
 				<Linker>
-					<Add option="-s" />
 					<Add option="-arch i386" />
+					<Add option="-framework Foundation" />
+					<Add option="-framework AppKit" />
+					<Add option="-framework SDL" />
+					<Add option="-framework CEGUIBase" />
+					<Add option="-framework CEGUIOpenGLRenderer" />
+					<Add option="-framework SDL_image" />
 					<Add library="zot" />
 					<Add library="GL" />
 					<Add library="GLU" />
@@ -65,8 +72,6 @@
 				</Linker>
 			</Target>
 		</Build>
-		<Compiler>
-		</Compiler>
 		<Unit filename="../main.cpp" />
 		<Extensions>
 			<code_completion />
