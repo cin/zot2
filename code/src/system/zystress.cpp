@@ -66,7 +66,7 @@ int Zystress::onTest(ZmsgPtr msg)
       m_lastQSz = getMsgqSize();
    }
 
-#if 1 // testing a whole lotta logging
+#if 0 // testing a whole lotta logging
    {
       ostringstream os;
       os << "Zystress::onTest: pSys id " << getThreadId()
