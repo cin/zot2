@@ -12,3 +12,8 @@ struct timezone;
 int gettimeofday(struct timeval *tv, struct timezone *tz);
 
 #endif
+
+// converts a c string to lowercase
+// buffer passed in must be NULL terminated
+char *tolower(char *buf);
+char *toupper(char *buf);

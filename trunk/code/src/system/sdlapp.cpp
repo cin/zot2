@@ -4,18 +4,9 @@
 #include "zonsole.h"
 #include "zogger.h"
 #include "gui.h"
-
-#ifdef _WIN32
-#include <windows.h>
-#endif
-
-#ifdef __APPLE__
-#include <OpenGL/gl.h>
-#else
-#include <GL/gl.h>
-#endif
-
-#include "SDL_image.h"
+#include "zexture.h"
+#include <SDL_opengl.h>
+#include <SDL_image.h>
 
 using namespace std;
 using namespace Zot;
@@ -102,6 +93,7 @@ bool SDLApp::init()
    {
       fprintf(stderr, "IMG_Init: Failed to init required jpg and png support!\n");
       fprintf(stderr, "IMG_Init: %s\n", IMG_GetError()); // handle error
+      return false;
    }
 
    if (!Zapp::init())
@@ -125,6 +117,7 @@ void SDLApp::initGl()
 
    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
    glEnable(GL_DEPTH_TEST);
+   glEnable(GL_TEXTURE_2D);
 }
 
 void SDLApp::postDraw()

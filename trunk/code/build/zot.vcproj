@@ -191,6 +191,10 @@
 				>
 			</File>
 			<File
+				RelativePath="..\src\zexture.cpp"
+				>
+			</File>
+			<File
 				RelativePath="..\src\zimtime.cpp"
 				>
 			</File>
@@ -398,6 +402,10 @@
 			</File>
 			<File
 				RelativePath="..\include\vector.h"
+				>
+			</File>
+			<File
+				RelativePath="..\include\zexture.h"
 				>
 			</File>
 			<File
