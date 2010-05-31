@@ -1,5 +1,7 @@
 #include "zot.h"
 #include "terrain.h"
+#include "zexture.h"
+#include "zogger.h"
 
 #include <CEGUIDefaultResourceProvider.h>
 #ifdef __CEGUI_0_6_2__
@@ -65,6 +67,7 @@ Terrain::Terrain()
    , nrms(NULL)
    , dims(8, 8)
    , spacing(1.0f, 1.0f)
+   , tex(NULL)
    //, dims(gDefExt[1].x - gDefExt[0].x, gDefExt[1].y - gDefExt[1].y)
 {
    extents[0] = gDefExt[0];
@@ -73,6 +76,12 @@ Terrain::Terrain()
 
 Terrain::~Terrain()
 {
+   if (tex)
+   {
+      tex->destroyGlTexture();
+      tex->destroySdlSurface();
+   }
+
    for (QIter it = quads.begin(); it != quads.end();)
    {
       delete *it;
@@ -96,21 +105,32 @@ void Terrain::initTerrain()
       1.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f
    };
 
+   tex = new Zexture;
+   if (!tex->load("../data/zot_test.jpg"))
+   {
+      Zogger::get()->zog("Terrain::initTerrain: unabled to initialize terrain image\n");
+      return;
+   }
+
    int sz = sizeof(hgts) / sizeof(float), idx = 0, gidx = 0;
    grid = new Vec3f[sz];
+   txtc = new Pnt2f[sz];
    dims.init(8, 8);
+   float txtcx = 0.0f, txtcy = 0.0f;
    for (float y = 8.0f, ya = 0.0f; y >= 0.0f; y -= 1.0f, ya += 1.0f)
    {
       int col = int(y * 9);
+      txtcy = y / dims.y;
       for (float x = 0.0f; x < 9.0f; x += 1.0f, gidx++)
       {
          idx = int(col + x);
+         txtcx = x / dims.x;
          grid[gidx].init(x, ya, hgts[idx]);
+         txtc[gidx].init(txtcx, txtcy);
       }
    }
 
    // initialize normals
-   // initialize texture coordinates
 #else
    // load from file
 #endif
@@ -158,6 +178,8 @@ int Terrain::buildR(Quad *q, int center)
 
 void Terrain::draw()
 {
+   glEnable(GL_TEXTURE_2D);
+   tex->bind();
    QIter it = quads.begin();
    drawR(*it);
 }
@@ -174,7 +196,11 @@ void Terrain::drawR(Quad *q)
    {
       glBegin(GL_TRIANGLE_FAN);
          for (int i = 0; i < 9; i++)
+         {
+            glTexCoord2fv((float *)&txtc[q->tind[i]]);
             glVertex3fv((float *)&grid[q->tind[i]]);
+         }
+         glTexCoord2fv((float *)&txtc[q->tind[1]]);
          glVertex3fv((float *)&grid[q->tind[1]]);
       glEnd();
    }

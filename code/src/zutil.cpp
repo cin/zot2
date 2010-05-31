@@ -79,3 +79,17 @@ int gettimeofday(struct timeval *tv, struct timezone *tz)
 }
 #endif
 #endif
+
+char *tolower(char *buf)
+{
+   for (char *p = buf; *p != '\0'; p++)
+      *p = (char)tolower(*p);
+   return buf;
+}
+
+char *toupper(char *buf)
+{
+   for (char *p = buf; *p != '\0'; p++)
+      *p = (char)toupper(*p);
+   return buf;
+}

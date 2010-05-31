@@ -8,6 +8,7 @@ namespace Zot
 
 class Terrain;
 class Quad;
+class Zexture;
 
 class Quad
 {
@@ -90,6 +91,8 @@ protected:
    // 0 is llc, 1 is urc (lower left and upper right corner)
    // global coordinate min/max
    Pnt2f extents[2];
+
+   Zexture *tex;
 
 protected:
 
