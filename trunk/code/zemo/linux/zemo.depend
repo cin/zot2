@@ -303,3 +303,77 @@
 
 1274499736 /Users/cin/code/zot2/code/include/targetver.h
 
+1275360248 source:/home/brandon/zot/code/zemo/main.cpp
+	"sdlapp.h"
+	"zot.h"
+	<sstream>
+	<iomanip>
+	<SDL_opengl.h>
+
+1275360244 /home/brandon/zot/code/include/system/sdlapp.h
+	"SDL.h"
+	"zapp.h"
+
+1275360244 /home/brandon/zot/code/include/system/zapp.h
+	<vector>
+	"zystem.h"
+	"terrain.h"
+	"camera.h"
+
+1275360244 /home/brandon/zot/code/include/system/zystem.h
+	"zmsg.h"
+	"zmsgq.h"
+	"zimtime.h"
+	<map>
+
+1275360244 /home/brandon/zot/code/include/system/zmsg.h
+	<iostream>
+	<boost/shared_ptr.hpp>
+	"zypes.h"
+
+1275360245 /home/brandon/zot/code/include/zypes.h
+
+1275360244 /home/brandon/zot/code/include/system/zmsgq.h
+	<queue>
+	<vector>
+	"zmsg.h"
+	"zevent.h"
+
+1275360244 /home/brandon/zot/code/include/system/zevent.h
+
+1275360245 /home/brandon/zot/code/include/zimtime.h
+	<iostream>
+
+1275360245 /home/brandon/zot/code/include/terrain.h
+	<vector>
+	"vector.h"
+
+1275360245 /home/brandon/zot/code/include/vector.h
+
+1275360245 /home/brandon/zot/code/include/camera.h
+	"zobject.h"
+	"matrix.h"
+	"quaternion.h"
+
+1275360245 /home/brandon/zot/code/include/zobject.h
+	"vector.h"
+	"quaternion.h"
+
+1275360245 /home/brandon/zot/code/include/quaternion.h
+	<boost/math/quaternion.hpp>
+	"vector.h"
+	"matrix.h"
+
+1275360245 /home/brandon/zot/code/include/matrix.h
+	"vector.h"
+
+1275360245 /home/brandon/zot/code/include/zot.h
+	"targetver.h"
+	<stdio.h>
+	<tchar.h>
+	"zypes.h"
+	"zimtime.h"
+	<assert.h>
+
+1275360245 /home/brandon/zot/code/include/targetver.h
+
