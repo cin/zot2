@@ -130,6 +130,9 @@ bool Zexture::load(const char *filename)
    glTexImage2D(m_target, 0, m_numColors, m_pSdlSurface->w, m_pSdlSurface->h, 0,
       m_format, GL_UNSIGNED_BYTE, m_pSdlSurface->pixels);
 
+   // clean up intermediate surface
+   destroySdlSurface();
+
    return true;
 }
 
