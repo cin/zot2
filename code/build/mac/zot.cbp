@@ -77,6 +77,7 @@
 		<Unit filename="../../include/targetver.h" />
 		<Unit filename="../../include/terrain.h" />
 		<Unit filename="../../include/vector.h" />
+		<Unit filename="../../incluce/include/zexture.h" />
 		<Unit filename="../../include/zimtime.h" />
 		<Unit filename="../../include/zobject.h" />
 		<Unit filename="../../include/zogger.h" />
@@ -102,6 +103,7 @@
 		<Unit filename="../../src/system/zystress.cpp" />
 		<Unit filename="../../src/system/zystress.h" />
 		<Unit filename="../../src/terrain.cpp" />
+		<Unit filename="../../src/zexture.cpp" />
 		<Unit filename="../../src/zimtime.cpp" />
 		<Unit filename="../../src/zobject.cpp" />
 		<Unit filename="../../src/zogger.cpp" />
