@@ -69,6 +69,7 @@
 		<Unit filename="../../include/targetver.h" />
 		<Unit filename="../../include/terrain.h" />
 		<Unit filename="../../include/vector.h" />
+		<Unit filename="../../include/zexture.cpp" />
 		<Unit filename="../../include/zimtime.h" />
 		<Unit filename="../../include/zobject.h" />
 		<Unit filename="../../include/zogger.h" />
