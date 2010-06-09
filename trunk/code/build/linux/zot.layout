@@ -5,9 +5,12 @@
 		<Cursor position="639" topLine="21" />
 	</File>
 	<File name="../../src/system/sdlapp.cpp" open="0" top="0" tabpos="1">
-		<Cursor position="457" topLine="0" />
+		<Cursor position="623" topLine="0" />
 	</File>
 	<File name="../../src/system/zapp.cpp" open="0" top="0" tabpos="2">
 		<Cursor position="804" topLine="24" />
+	</File>
+	<File name="../../src/zexture.cpp" open="0" top="0" tabpos="0">
+		<Cursor position="361" topLine="0" />
 	</File>
 </CodeBlocks_layout_file>
