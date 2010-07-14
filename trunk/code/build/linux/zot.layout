@@ -1,6 +1,15 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
 <CodeBlocks_layout_file>
 	<ActiveTarget name="Debug" />
+	<File name="../../include/system/zystem.h" open="1" top="0" tabpos="3">
+		<Cursor position="2241" topLine="39" />
+	</File>
+	<File name="../../include/zimtime.h" open="1" top="0" tabpos="1">
+		<Cursor position="1069" topLine="0" />
+	</File>
+	<File name="../../include/zutil.h" open="1" top="0" tabpos="4">
+		<Cursor position="506" topLine="0" />
+	</File>
 	<File name="../../src/camera.cpp" open="0" top="0" tabpos="3">
 		<Cursor position="639" topLine="21" />
 	</File>
@@ -12,5 +21,14 @@
 	</File>
 	<File name="../../src/zexture.cpp" open="0" top="0" tabpos="0">
 		<Cursor position="361" topLine="0" />
+	</File>
+	<File name="../../src/zimtime.cpp" open="1" top="0" tabpos="2">
+		<Cursor position="261" topLine="0" />
+	</File>
+	<File name="../../src/zogger.cpp" open="1" top="1" tabpos="6">
+		<Cursor position="1070" topLine="18" />
+	</File>
+	<File name="../../src/zutil.cpp" open="1" top="0" tabpos="5">
+		<Cursor position="893" topLine="11" />
 	</File>
 </CodeBlocks_layout_file>
