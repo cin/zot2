@@ -29,6 +29,8 @@
 					<Add library="SDL_image" />
 					<Add library="CEGUIBase" />
 					<Add library="CEGUIOpenGLRenderer" />
+					<Add library="boost_filesystem" />
+					<Add library="boost_date_time" />
 					<Add directory="../../lib" />
 				</Linker>
 			</Target>
@@ -55,6 +57,8 @@
 					<Add library="SDL_image" />
 					<Add library="CEGUIBase" />
 					<Add library="CEGUIOpenGLRenderer" />
+					<Add library="boost_filesystem" />
+					<Add library="boost_date_time" />
 					<Add directory="../../lib" />
 				</Linker>
 			</Target>
