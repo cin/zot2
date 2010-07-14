@@ -78,8 +78,8 @@ Terrain::~Terrain()
 {
    if (tex)
    {
-      tex->destroyGlTexture();
       tex->destroySdlSurface();
+      tex->destroyGlTexture();
    }
 
    for (QIter it = quads.begin(); it != quads.end();)
@@ -106,7 +106,7 @@ void Terrain::initTerrain()
    };
 
    tex = new Zexture;
-   if (!tex->load("../data/zot_test.jpg"))
+   if (!tex->load("../data/zot_test.jpg", true))
    {
       Zogger::get()->zog("Terrain::initTerrain: unabled to initialize terrain image\n");
       return;

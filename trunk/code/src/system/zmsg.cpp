@@ -25,6 +25,15 @@ Zmsg::Zmsg(uint32 _type, Zystem *sys)
    setSystem(sys);
 }
 
+Zmsg::Zmsg(uint32 _type, uint8 _priority)
+   : __m_type(_type)
+   , __m_timestamp(0.0f)
+   , __m_len(Zmsg::s_baseLen)
+   , __m_priority(_priority)
+   , __m_system(0)
+{
+}
+
 Zmsg::Zmsg(uint32 _type, float _timestamp, Zystem *sys)
    : __m_type(_type)
    , __m_timestamp(_timestamp)
@@ -93,18 +102,15 @@ istream &Zmsg::deserialize(istream &is)
 // ZmCfg
 
 ZmCfg::ZmCfg()
-   : m_mask(0)
+   : Zmsg(ZM_CFG_MSG, ZOT_PRIORITY_TOP)
+   , m_mask(0)
 {
-   __m_type = ZM_CFG_MSG;
-   __m_priority = ZOT_PRIORITY_TOP;
 }
 
 ZmCfg::ZmCfg(const ZmCfg &other)
    : Zmsg(other)
    , m_mask(other.m_mask)
 {
-   __m_type = ZM_CFG_MSG;
-   __m_priority = ZOT_PRIORITY_TOP;
 }
 
 Zmsg *ZmCfg::copy()
@@ -130,9 +136,8 @@ std::istream &ZmCfg::deserialize(std::istream &is)
 // ZmStop
 
 ZmStop::ZmStop()
+   : Zmsg(ZM_STOP_MSG, ZOT_PRIORITY_TOP)
 {
-   __m_type = ZM_STOP_MSG;
-   __m_priority = ZOT_PRIORITY_TOP;
 }
 
 Zmsg *ZmStop::copy()
@@ -144,29 +149,26 @@ Zmsg *ZmStop::copy()
 // ZmLog
 
 ZmLog::ZmLog()
-   : m_level(ZOT_PRIORITY_NORMAL)
+   : Zmsg(ZM_LOG_MSG, ZOT_PRIORITY_NORMAL)
+   , m_level(Zogger::ZOG_PRIORITY_NORMAL)
    , m_dest(Zogger::ZOG_FILE)
 {
-   __m_type = ZM_LOG_MSG;
-   __m_priority = ZOT_PRIORITY_NORMAL;
 }
 
 ZmLog::ZmLog(const string &msg)
-   : m_level(ZOT_PRIORITY_NORMAL)
+   : Zmsg(ZM_LOG_MSG, ZOT_PRIORITY_NORMAL)
+   , m_level(Zogger::ZOG_PRIORITY_NORMAL)
    , m_dest(Zogger::ZOG_FILE)
    , m_msg(msg)
 {
-   __m_type = ZM_LOG_MSG;
-   __m_priority = ZOT_PRIORITY_NORMAL;
 }
 
 ZmLog::ZmLog(const std::string &msg, int level, int dest)
-   : m_msg(msg)
+   : Zmsg(ZM_LOG_MSG, ZOT_PRIORITY_NORMAL)
+   , m_msg(msg)
 {
    m_level = (uint8)level;
    m_dest = (uint8)dest;
-   __m_type = ZM_LOG_MSG;
-   __m_priority = ZOT_PRIORITY_NORMAL;
 }
 
 ZmLog::ZmLog(const ZmLog &other)
@@ -175,8 +177,6 @@ ZmLog::ZmLog(const ZmLog &other)
    , m_dest(other.m_dest)
    , m_msg(other.m_msg)
 {
-   __m_type = ZM_LOG_MSG;
-   __m_priority = ZOT_PRIORITY_NORMAL;
 }
 
 Zmsg *ZmLog::copy()

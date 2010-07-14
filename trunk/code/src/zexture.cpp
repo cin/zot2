@@ -32,40 +32,8 @@ void Zexture::bind()
    glBindTexture(m_target, m_glTexture);
 }
 
-void Zexture::destroyGlTexture()
+bool Zexture::createSdlSurface(const char *filename)
 {
-   glDeleteTextures(1, &m_glTexture);
-}
-
-void Zexture::destroySdlSurface()
-{
-   if (m_pSdlSurface)
-   {
-      SDL_FreeSurface(m_pSdlSurface);
-      m_pSdlSurface = NULL;
-   }
-}
-
-bool Zexture::load(const char *filename)
-{
-#if 0 // wrote this before i realized sdl_image can load bmps too
-   const char *dot = strrchr(filename, '.');
-   if (dot == NULL)
-      return false;
-
-   const char *ext = ++dot;
-   char buf[16];
-   strncpy_s(buf, sizeof(buf), ext, strlen(ext));
-   tolower(buf);
-
-   // if it's a bmp, call SDL's LoadBmp
-   // otherwise, call SDL_image's load
-   if (0 == strncmp(buf, "bmp", strlen(buf)))
-      m_pSdlSurface = SDL_LoadBMP(filename);
-   else
-      m_pSdlSurface = IMG_Load(filename);
-#endif
-
    m_pSdlSurface = IMG_Load(filename);
    if (!m_pSdlSurface)
       return false;
@@ -76,7 +44,7 @@ bool Zexture::load(const char *filename)
    if ((m_pSdlSurface->w & (m_pSdlSurface->w - 1)) != 0)
    {
       ostringstream os;
-      os << "Zexture::load: unable to load " << filename
+      os << "Zexture::createSdlSurface: unable to load " << filename
          << " as its width is not a power of 2." << endl;
       Zogger::get()->zog(os.str());
       destroySdlSurface();
@@ -87,7 +55,7 @@ bool Zexture::load(const char *filename)
    if ((m_pSdlSurface->h & (m_pSdlSurface->h - 1)) != 0)
    {
       ostringstream os;
-      os << "Zexture::load: unable to load " << filename
+      os << "Zexture::createSdlSurface: unable to load " << filename
          << " as its height is not a power of 2." << endl;
       Zogger::get()->zog(os.str());
       destroySdlSurface();
@@ -113,12 +81,100 @@ bool Zexture::load(const char *filename)
    else
    {
       ostringstream os;
-      os << "Zexture::load: " << filename << " is not truecolor." << endl;
+      os << "Zexture::createSdlSurface: " << filename << " is not truecolor." << endl;
       Zogger::get()->zog(os.str());
       destroySdlSurface();
       return false;
    }
 
+#if 0
+   // the following code is from
+   // http://www.idevgames.com/forum/archive/index.php/t-9034.html
+   // although the last post in this thread does indicate that it is extremely slow
+
+   // check the format
+   switch (m_pSdlSurface->format->BitsPerPixel)
+   {
+   case 8:
+      //It's 8 bit, do whatever
+      break;
+   case 16:
+      //It's 16 bit, do whatever
+      break;
+   case 24:
+   {
+      //It's 24 bit, so always convert (someone check my pixel format for me!)
+      //Note that this scoping is used to prevent the declaration of format twice....
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+      SDL_PixelFormat format = { NULL, 32, 4, 0, 0, 0, 0, 0, 8, 16, 24, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF, 0, 255 };
+#else
+      SDL_PixelFormat format = { NULL, 32, 4, 0, 0, 0, 0, 0, 8, 16, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000, 0, 255 };
+#endif
+      SDL_Surface *temp = SDL_ConvertSurface(m_pSdlSurface, &format, SDL_SWSURFACE);
+      SDL_FreeSurface(m_pSdlSurface);
+      m_pSdlSurface = temp;
+      break;
+   }
+   case 32:
+   {
+      //It's 32 bit, so convert only if it's ABGR (and really, check this pixel format!)
+      if (m_pSdlSurface->format->Rshift > m_pSdlSurface->format->Bshift)
+      {
+#if SDL_BYTEORDER == SDL_BIG_ENDIAN
+         SDL_PixelFormat format = { NULL, 32, 4, 0, 0, 0, 0, 0, 8, 16, 24, 0xFF000000, 0x00FF0000, 0x0000FF00, 0x000000FF, 0, 255 };
+#else
+         SDL_PixelFormat format = { NULL, 32, 4, 0, 0, 0, 0, 0, 8, 16, 24, 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000, 0, 255 };
+#endif
+         SDL_Surface *temp = SDL_ConvertSurface(m_pSdlSurface, &format, SDL_SWSURFACE);
+         SDL_FreeSurface(m_pSdlSurface);
+         m_pSdlSurface = temp;
+      }
+      break;
+   }
+   default:
+      break;
+   }
+#endif
+   return true;
+}
+
+void Zexture::destroyGlTexture()
+{
+   glDeleteTextures(1, &m_glTexture);
+}
+
+void Zexture::destroySdlSurface()
+{
+   if (m_pSdlSurface)
+   {
+      SDL_FreeSurface(m_pSdlSurface);
+      m_pSdlSurface = NULL;
+   }
+}
+
+bool Zexture::load(const char *filename, bool bKeepSdlSurface)
+{
+   bool ret = createSdlSurface(filename) && setupGl();
+
+   // clean up intermediate surface
+   if (!bKeepSdlSurface)
+      destroySdlSurface();
+
+   return ret;
+}
+
+void Zexture::gen()
+{
+   glGenTextures(1, &m_glTexture);
+}
+
+GLuint Zexture::operator()()
+{
+   return m_glTexture;
+}
+
+bool Zexture::setupGl()
+{
    gen();
    bind();
 
@@ -130,18 +186,5 @@ bool Zexture::load(const char *filename)
    glTexImage2D(m_target, 0, m_numColors, m_pSdlSurface->w, m_pSdlSurface->h, 0,
       m_format, GL_UNSIGNED_BYTE, m_pSdlSurface->pixels);
 
-   // clean up intermediate surface
-   destroySdlSurface();
-
    return true;
-}
-
-void Zexture::gen()
-{
-   glGenTextures(1, &m_glTexture);
-}
-
-GLuint Zexture::operator()()
-{
-   return m_glTexture;
 }

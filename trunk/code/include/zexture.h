@@ -16,7 +16,7 @@ public:
    Zexture(const char *filename);
    virtual ~Zexture();
 
-   virtual bool load(const char *filename);
+   virtual bool load(const char *filename, bool bKeepSdlSurface = false);
 
    void destroyGlTexture();
    void destroySdlSurface();
@@ -25,6 +25,11 @@ public:
    void bind();
 
    GLuint operator()();
+
+protected:
+
+   virtual bool createSdlSurface(const char *filename);
+   virtual bool setupGl();
 
 protected:
 
