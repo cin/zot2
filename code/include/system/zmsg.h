@@ -59,6 +59,7 @@ public:
 
    Zmsg();
    Zmsg(uint32 _type, Zystem *sys = NULL);
+   Zmsg(uint32 _type, uint8 _priority);
    Zmsg(uint32 _type, float _timestamp, Zystem *sys = NULL);
    Zmsg(uint32 _type, float _timestamp, uint8 _priority, Zystem *sys = NULL);
    Zmsg(const Zmsg &other);

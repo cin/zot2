@@ -3,14 +3,12 @@
 #include "zonsole.h"
 #include <iomanip>
 
-#ifdef _WIN32
-#include "zutil.h"
+#include <boost/date_time/local_time/local_time.hpp>
+#include <boost/date_time/posix_time/posix_time.hpp>
+#include <boost/filesystem.hpp>
 
-#include <time.h>
-#include <sys/stat.h>
-#include <windows.h>
-#else
-#include <sys/time.h>
+#ifdef _WIN32
+#include "windows.h"
 #endif
 
 using namespace std;
@@ -56,19 +54,19 @@ bool Zogger::init()
    }
 */
 
-#ifdef _WIN32
-   // TODO: handle pruning logs once x backups have been made?
-   // would help tidy up the log directory a bit but may also
-   // remove files that the user wants to keep around
-   struct _stat finfo;
-   if (0 == _stat(filename.c_str(), &finfo) && 0 < finfo.st_size)
+   namespace fs = boost::filesystem;
+   fs::path f(filename.c_str(), fs::native);
+   if (fs::exists(f) && fs::file_size(f) > 0)
    {
-      tm tinfo;
-      char buf[16];
+      std::time_t t = fs::last_write_time(f);
 
-      // convert the file's last modified time to something more useful
-      localtime_s(&tinfo, &finfo.st_mtime);
-      strftime(buf, sizeof(buf), "%y%m%d_%H%M%S", &tinfo);
+      using namespace boost::posix_time;
+
+      stringstream ss;
+      ptime pt = from_time_t(t);
+      time_facet*const f = new time_facet("%y%m%d_%H%M%S");
+      ss.imbue(locale(ss.getloc(), f));
+      ss << pt;
 
       // strip off and save extension for use when putting
       // filename back together
@@ -85,10 +83,9 @@ bool Zogger::init()
 
       // construct the new filename and rename
       ostringstream fns;
-      fns << filebase << "_" << buf << "." << ext;
+      fns << filebase << "_" << ss.str() << "." << ext;
       rename(filename.c_str(), fns.str().c_str());
    }
-#endif
 
    ofs.open(filename.c_str(), ios::trunc);
    if (!ofs)
@@ -118,23 +115,12 @@ int Zogger::onLog(ZmsgPtr msg)
    if (!pMsg)
       return -1;
 
-   timeval tv;
-   tm tinfo;
-   char date[16];
-
-	gettimeofday(&tv, NULL);
-   time_t secs = tv.tv_sec;
-
-#ifdef _WIN32
-	localtime_s(&tinfo, &secs);
-#else
-	localtime_r(&secs, &tinfo);
-#endif
-
-   strftime(date, sizeof(date), "%y%m%d_%H:%M:%S", &tinfo);
+   using namespace boost::local_time;
 
    ostringstream os;
-   os << date << "." << left << setw(3) << (int)(tv.tv_usec / 1000)
+   local_time_facet*const f = new local_time_facet("%y%m%d_%H:%M:%S.%f");
+   os.imbue(std::locale(os.getloc(), f));
+   os << local_microsec_clock::local_time(time_zone_ptr())
       << " | " << right << setw(2) << (uint16)pMsg->m_level
       << " | " << pMsg->m_msg;
    // done this way so string won't get copied for each os call
