@@ -83,7 +83,9 @@ bool Zogger::init()
 
       // construct the new filename and rename
       ostringstream fns;
-      fns << filebase << "_" << ss.str() << "." << ext;
+      fns << filebase << "_" << ss.str();
+      if (ext.length())
+         fns << "." << ext;
       rename(filename.c_str(), fns.str().c_str());
    }
 
