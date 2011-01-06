@@ -109,6 +109,8 @@ void Terrain::initTerrain()
    if (!tex->load("../data/zot_test.jpg", true))
    {
       Zogger::get()->zog("Terrain::initTerrain: unabled to initialize terrain image\n");
+      delete tex;
+      tex = NULL;
       return;
    }
 
@@ -178,6 +180,8 @@ int Terrain::buildR(Quad *q, int center)
 
 void Terrain::draw()
 {
+   if (!tex)
+       return;
    glEnable(GL_TEXTURE_2D);
    tex->bind();
    QIter it = quads.begin();

@@ -26,7 +26,7 @@ Zystress::~Zystress()
 bool Zystress::init()
 {
    bool ret = Zystem::init();
-   reg(ZM_TEST_MSG, &Zystem::onTest);
+   reg(ZM_TEST_MSG, reinterpret_cast<Zystem::ZmsgHandler>(&Zystress::onTest));
    m_startTime = ZimTime(true);
    m_nextTime = m_startTime + stressDelay.getInt32();
    ZmsgPtr ptr(new Zmsg(ZM_TEST_MSG, this));

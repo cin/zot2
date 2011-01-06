@@ -97,7 +97,7 @@ bool Zogger::init()
       zog(os.str(), ZOG_PRIORITY_TOP, ZOG_STDOUT);
    }
 
-   reg(ZM_LOG_MSG, &Zystem::onLog);
+   reg(ZM_LOG_MSG, reinterpret_cast<Zystem::ZmsgHandler>(&Zogger::onLog));
    m_bRunning = true;
    return true;
 }
