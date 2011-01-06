@@ -126,16 +126,6 @@ int Zystem::onStop(ZmsgPtr pMsg)
    return 0;
 }
 
-int Zystem::onLog(ZmsgPtr pMsg)
-{
-   return 0;
-}
-
-int Zystem::onTest(ZmsgPtr pMsg)
-{
-   return 0;
-}
-
 void Zystem::reg(uint32 msgType, ZmsgHandler pmf)
 {
    m_handlers[msgType] = pmf;

@@ -49,7 +49,7 @@ public:
       int dest = ZOG_STDOUT | ZOG_FILE);
 #endif
 
-   virtual int onLog(ZmsgPtr pMsg);
+   int onLog(ZmsgPtr pMsg);
 
 protected:
    virtual bool init();

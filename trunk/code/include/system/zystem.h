@@ -46,9 +46,6 @@ public:
    void toggleMask(uint32 mask) { m_mask ^= mask; }
    void removeMask(uint32 mask) { m_mask &= ~mask; }
 
-   virtual int onLog(ZmsgPtr pMsg);
-   virtual int onTest(ZmsgPtr pMsg);
-
    Zystem *getParent() const { return m_pParent; }
 
    size_t getMsgqSize() const { return m_msgq.m_zmsgs.size(); }
