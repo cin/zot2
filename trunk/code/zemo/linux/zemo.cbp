@@ -14,8 +14,8 @@
 				<Option type="0" />
 				<Option compiler="gcc" />
 				<Compiler>
-					<Add option="-W" />
 					<Add option="-g" />
+					<Add option="-W" />
 					<Add option="-O0" />
 					<Add option="-D_DEBUG" />
 					<Add option="-D_REENTRANT" />
@@ -25,12 +25,14 @@
 				<Linker>
 					<Add library="zotd" />
 					<Add library="GL" />
+					<Add library="GLU" />
 					<Add library="SDL" />
 					<Add library="SDL_image" />
 					<Add library="CEGUIBase" />
 					<Add library="CEGUIOpenGLRenderer" />
 					<Add library="boost_filesystem" />
 					<Add library="boost_date_time" />
+					<Add library="boost_system" />
 					<Add directory="../../lib" />
 				</Linker>
 			</Target>
@@ -53,12 +55,14 @@
 					<Add option="-s" />
 					<Add library="zot" />
 					<Add library="GL" />
+					<Add library="GLU" />
 					<Add library="SDL" />
 					<Add library="SDL_image" />
 					<Add library="CEGUIBase" />
 					<Add library="CEGUIOpenGLRenderer" />
 					<Add library="boost_filesystem" />
 					<Add library="boost_date_time" />
+					<Add library="boost_system" />
 					<Add directory="../../lib" />
 				</Linker>
 			</Target>
