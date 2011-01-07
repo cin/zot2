@@ -58,13 +58,13 @@ public:
 protected:
 
    // method by which other systems push msgs to this system
-   virtual void push(ZmsgPtr );
+   virtual void push(ZmsgPtr pMsg);
 
    virtual int onConfig(ZmsgPtr pMsg);
    virtual int onStop(ZmsgPtr pMsg);
 
    // define the mfp typedef
-   typedef int (Zystem::*ZmsgHandler)(ZmsgPtr );
+   typedef int (Zystem::*ZmsgHandler)(ZmsgPtr);
    typedef std::map<uint32, ZmsgHandler> ZmsgHandlers;
    typedef ZmsgHandlers::iterator ZmhIter;
 
