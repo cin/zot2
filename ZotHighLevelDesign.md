@@ -1,0 +1,66 @@
+# Introduction #
+The Zot framework provides a portable, robust interface for managing complex applications. An event driven system that allows for customization, Zot's versatility is like a fly Liu Kang kick in Mortal Combat -- ty for that SA. <insert proper analogy back there <<<<<======| >.
+
+The hierarchy used in Zot allows the user to override Zystem behaviors to support virtually anything desired. A Zystem in Zot provides an abstraction layer used to run user defined methods, such as init and tick. If the Zystem is creating a thread, the init method is run at the start of the thread, before the Zystem's run is called. This is done to prevent the Zapp from having to wait on each Zystem's initialization. A Zystem can be a singleton or have many instances running. The Zogger is an example of a singleton Zystem. The Zogger is a singleton because it only manages access to a log file, which in turn free callers from waiting on file access.
+
+Zmsgs are used to communicate between Zystems. Each Zystem contains a message queue that checks an event handler to check for incoming Zmsgs. The message queue is a priority queue, Zmsgq, so Zmsgs can use priority to move around in the queue appropriately.
+
+Zystems can specify which Zmsgs it is interested of receiving. An experiment using member function pointers to serve as message handlers is currently ongoing. MFPs are working but curiosity about the virtual function pointer overhead associated with heavy subclass usage lurks. Further investigation is required here, in addition to implementing another method of message handling and comparing the two. When posting messages, Zystems are simply pushing a message onto their parent's message queue. Zystems do not directly communicate with each other, by default. All communication goes through the parent, Zapp. However, this type of behavior could be defined by overriding the Zystem's post method,  creating a Zystem whose parent isn't Zapp, or creating multiple Zapps. Be aware that doing so will not send the exit message to the altered Zystem and sending of this message or other means by which to terminate the Zystem will need to take place.
+
+Zot's ConVar class is very similar to many other engine's console variables, Zot's is mostly like ValVe's. Its purpose is to provide a means by which the developer can allow a users to dynamically change the state of the simulation. ConVars are particularly useful when debugging something in game -- changing their value can result in different side effects in game. They are also used to save settings for future use. It is possible to register a change handler that will be invoked when the ConVar changes values. This is nearly identical to ValVe's CON\_COMMAND setup.
+
+The Console Interface within Zot is also very familiar. With functional influences from ValVe to UNIX, the console provides a comfortable place from which to alter ConVars. The IConsole interface provides basic features such as command history and autocompletion. The debug, info, warn and error methods can be used to output messages in different colors to the console. The base console class also manages all of the ConVars, command line, and command line arguments. Zonsole is the Zot specific console interface. Zonsole is derived off of IConsole and implements a CEGUI specific display mechanism. This was Zot first working UI panel!!
+
+The Input Interface is far from complete at this stage -- support for additional/multiple devices needs to be added. The base input class for Zot currently handles keyboard and mouse input. The input interface is currently using SDL to handle input. IInput uses an input binding method that takes advantage of ConVars. The user can assign a binding to call a ConVar. For example, the user can type "bind w +forward" in the console or "Zinput::get()->bind("w", "+forward")" in the SDK.
+
+# Details #
+  * Zot
+    * Base Component
+    * Base Object
+    * Base Singleton Interface
+    * Zystem
+      * State based tick methods
+      * Can be a singleton
+      * Event driven - generated from SDL events or other Zystems
+      * Zystem::init() is called within the thread for the Zystem.
+        * This ensures that the init occurs inside the thread.
+      * All events are Zmsgs
+        * Controlled by the Zmsgq
+          * Keeps one Zevent around to manage access to Zmsgq
+        * Prioritized queue
+        * Map of msgid to handlers
+      * post/push methods are used to send and recv msg
+    * Zapp : Zystem
+      * Maintains and manages list of Zystems
+      * OnExit cleans up all Zystems
+      * Initializes GL, Renderer
+    * SDLApp : Zapp
+      * Initializes SDL, CEGUI, IConsole, IInput
+    * Zemo : SDLApp
+    * Zogger : Zystem
+      * Zogger is only Zystem that uses Zmsgs at the moment.
+      * Zogger is running in another thread in order to prevent file corruption.
+  * ConVar
+    * Console Variables used to save/load game settings.
+  * Console Interface
+    * Base console interface that manages all of the convars, command line, and command line arguments.
+    * Zonsole uses IConsole and CEGUI interface, first working panel!!
+  * Input Interface
+    * Handles key, mouse, and misc input bindings and their callbacks.
+    * Keeps an array of the last x (128) mouse motions.
+  * Coordinate Conventions
+  * MathLib
+  * ZimTime
+  * Renderer
+    * Generic class for handling other platforms.
+  * Data File Access
+    * Model loading
+      * Setup Textures and mesh data
+  * Camera
+    * width, height
+    * frustum
+    * fov
+    * near, far
+    * Camera Controllers
+      * Flying/noclip, FPS, WoW
+  * Terrain
